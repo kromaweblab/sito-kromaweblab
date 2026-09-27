@@ -97,13 +97,13 @@ export function ModuloNuovaPrenotazione({ attivita: a, giornoProposto, onAggiung
 
   return (
     <details className={stili.modulo}>
-      <summary>
+      <summary className={stili.apriModulo}>
         Aggiungi {a.evento.femminile ? 'una' : 'un'} {a.evento.singolare}
       </summary>
 
       {/* noValidate: i messaggi d'errore sono i nostri, uguali su ogni browser. */}
-      <form onSubmit={invia} noValidate>
-        <div className={stili.campo}>
+      <form className={stili.campi} onSubmit={invia} noValidate>
+        <div className={`${stili.campo} ${stili.campoLargo}`}>
           <label htmlFor={id('nome')}>
             Nome {a.chi === 'ospite' ? "dell'ospite" : `del ${a.chi}`}
           </label>
@@ -120,13 +120,15 @@ export function ModuloNuovaPrenotazione({ attivita: a, giornoProposto, onAggiung
 
         <div className={stili.campo}>
           <label htmlFor={id('giorno')}>Giorno</label>
-          <select id={id('giorno')} value={campi.giorno} onChange={cambia('giorno')}>
-            {giorni.map((g) => (
-              <option key={g} value={g}>
-                {nomiGiorni[g]}
-              </option>
-            ))}
-          </select>
+          <span className={stili.tendina}>
+            <select id={id('giorno')} value={campi.giorno} onChange={cambia('giorno')}>
+              {giorni.map((g) => (
+                <option key={g} value={g}>
+                  {nomiGiorni[g]}
+                </option>
+              ))}
+            </select>
+          </span>
         </div>
 
         <div className={stili.campo}>
@@ -154,12 +156,14 @@ export function ModuloNuovaPrenotazione({ attivita: a, giornoProposto, onAggiung
         {a.dove && (
           <div className={stili.campo}>
             <label htmlFor={id('dove')}>{a.dove.etichetta}</label>
-            <select value={campi.dove} onChange={cambia('dove')} {...collegaErrore('dove')}>
-              <option value="">Scegli…</option>
-              {a.dove.scelte.map((s) => (
-                <option key={s}>{s}</option>
-              ))}
-            </select>
+            <span className={stili.tendina}>
+              <select value={campi.dove} onChange={cambia('dove')} {...collegaErrore('dove')}>
+                <option value="">Scegli…</option>
+                {a.dove.scelte.map((s) => (
+                  <option key={s}>{s}</option>
+                ))}
+              </select>
+            </span>
             {messaggioErrore('dove')}
           </div>
         )}
@@ -167,17 +171,21 @@ export function ModuloNuovaPrenotazione({ attivita: a, giornoProposto, onAggiung
         {a.cosa && (
           <div className={stili.campo}>
             <label htmlFor={id('cosa')}>{a.cosa.etichetta}</label>
-            <select value={campi.cosa} onChange={cambia('cosa')} {...collegaErrore('cosa')}>
-              <option value="">Scegli…</option>
-              {a.cosa.scelte.map((s) => (
-                <option key={s}>{s}</option>
-              ))}
-            </select>
+            <span className={stili.tendina}>
+              <select value={campi.cosa} onChange={cambia('cosa')} {...collegaErrore('cosa')}>
+                <option value="">Scegli…</option>
+                {a.cosa.scelte.map((s) => (
+                  <option key={s}>{s}</option>
+                ))}
+              </select>
+            </span>
             {messaggioErrore('cosa')}
           </div>
         )}
 
-        <button type="submit">Aggiungi</button>
+        <button type="submit" className={stili.aggiungi}>
+          Aggiungi
+        </button>
       </form>
     </details>
   );

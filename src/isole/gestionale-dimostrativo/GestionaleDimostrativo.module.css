@@ -1,7 +1,478 @@
 /*
- * Stili del gestionale dimostrativo (CSS Modules: le classi valgono solo
- * qui). Per ora solo l'indispensabile; lo stile vero arriva al passo 6.
+ * Stili del gestionale dimostrativo. CSS Modules: le classi valgono solo
+ * qui (DECISIONI.md). Solo variabili --kroma-*; le misure in ch seguono
+ * la larghezza dei caratteri, non sono spaziature.
+ *
+ * Telefono prima: tutto in colonna. Da 60rem di spazio in su (misurato
+ * sull'isola, non sulla finestra: vedi container-type) due colonne.
  */
+
+/* ---------------------------------------------------------------- impianto */
+
+.gestionale {
+  /* L'isola misura sé stessa: funziona in qualunque colonna la metta Giovanni. */
+  container-type: inline-size;
+}
+
+.impianto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kroma-spazio-3);
+}
+
+@container (min-width: 60rem) {
+  .impianto {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    /* La spiegazione sta sopra la lista anche qui, come sul telefono:
+       l'ordine resta quello del codice, e chi preme un pulsante legge
+       la frase lì vicino. L'ultima riga (1fr) assorbe l'altezza delle
+       attività, così tra lista e modulo non restano buchi. */
+    grid-template-areas:
+      'avviso giorni'
+      'attivita spiegazione'
+      'attivita lista'
+      'attivita modulo';
+    grid-template-rows: auto auto auto 1fr;
+    column-gap: var(--kroma-spazio-4);
+    row-gap: var(--kroma-spazio-3);
+    align-items: start;
+  }
+
+  .avviso {
+    grid-area: avviso;
+    align-self: end;
+  }
+  .attivita {
+    grid-area: attivita;
+  }
+  .giorni {
+    grid-area: giorni;
+  }
+  .spiegazione {
+    grid-area: spiegazione;
+  }
+  .lista {
+    grid-area: lista;
+  }
+  .modulo {
+    grid-area: modulo;
+  }
+}
+
+/* -------------------------------------------------------------- intestazione */
+
+.avviso {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--kroma-spazio-1);
+  font-family: var(--kroma-font-mono);
+  font-size: var(--kroma-testo-s);
+  color: var(--kroma-testo-tenue);
+}
+
+/* Il quadretto giallo del marchio: segna la cosa da sapere subito. */
+.avviso::before {
+  content: '';
+  width: var(--kroma-spazio-1);
+  height: var(--kroma-spazio-1);
+  box-sizing: border-box;
+  background: var(--kroma-evidenzia);
+  border: var(--kroma-linea-sottile) solid var(--kroma-linea);
+}
+
+fieldset.attivita,
+fieldset.giorni {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.attivita legend,
+.giorni legend {
+  padding: 0;
+  margin-bottom: var(--kroma-spazio-1);
+  font-size: var(--kroma-testo-s);
+  color: var(--kroma-testo-tenue);
+}
+
+/* ------------------------------------------------------ scelte (radio) */
+
+/*
+ * Il radio vero resta nella pagina, invisibile ma raggiungibile da
+ * tastiera (frecce per cambiare scelta). Si vede il riquadro che lo segue.
+ * Serve anche perché base.css toglie l'aspetto nativo ai campi.
+ */
+.radio {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+}
+
+.scelte label,
+.sceltaGiorno label {
+  /* Tiene il radio invisibile al suo posto: senza, il browser scorrerebbe
+     in cima alla pagina quando riceve il fuoco. */
+  position: relative;
+}
+
+.scelta {
+  display: flex;
+  align-items: center;
+  min-height: var(--kroma-spazio-6);
+  box-sizing: border-box;
+  padding: 0 var(--kroma-spazio-2);
+  border: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  cursor: pointer;
+}
+
+.radio:checked + .scelta {
+  background: var(--kroma-nero);
+  color: var(--kroma-carta);
+}
+
+.radio:not(:checked) + .scelta:hover {
+  background: var(--kroma-bianco);
+}
+
+.radio:focus-visible + .scelta {
+  outline: var(--kroma-linea-spessa) solid var(--kroma-arancione-testo);
+  outline-offset: var(--kroma-linea-spessa);
+}
+
+.scelte {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kroma-spazio-1);
+}
+
+/* I tre giorni: una striscia unica divisa da linee, non tre riquadri. */
+.sceltaGiorno {
+  display: grid;
+  /* auto, non colonne uguali: "Dopodomani" su un telefono stretto non ci starebbe. */
+  grid-template-columns: repeat(3, auto);
+}
+
+.sceltaGiorno .scelta {
+  height: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--kroma-spazio-1);
+}
+
+/* Le linee tra i giorni si sovrappongono invece di raddoppiare. */
+.sceltaGiorno label + label .scelta {
+  border-left: 0;
+}
+
+.nomeGiorno {
+  font-weight: 700;
+}
+
+/* Spazio riservato alla data: quando arriva, nel browser, non sposta niente. */
+.data {
+  min-height: 1.5em;
+  font-family: var(--kroma-font-mono);
+  font-size: var(--kroma-testo-s);
+  color: var(--kroma-testo-tenue);
+}
+
+.radio:checked + .scelta .data {
+  color: inherit;
+}
+
+@container (min-width: 60rem) {
+  .sceltaGiorno .scelta {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: flex-start;
+    gap: var(--kroma-spazio-2);
+    padding: var(--kroma-spazio-1) var(--kroma-spazio-2);
+  }
+}
+
+/* ------------------------------------------------------------ spiegazione */
+
+.spiegazione {
+  margin: 0;
+  padding-top: var(--kroma-spazio-2);
+  border-top: var(--kroma-linea-spessa) solid var(--kroma-linea);
+}
+
+/* ------------------------------------------------------------------ lista */
+
+.lista:focus-visible {
+  outline: var(--kroma-linea-spessa) solid var(--kroma-arancione-testo);
+  outline-offset: var(--kroma-spazio-1);
+}
+
+.lista ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+}
+
+.vuota {
+  margin: 0;
+  padding: var(--kroma-spazio-2) 0;
+  border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  color: var(--kroma-testo-tenue);
+}
+
+/* Telefono: tre righe allineate sotto l'orario. */
+.prenotazione {
+  display: grid;
+  grid-template-columns: 6ch minmax(0, 1fr) max-content;
+  grid-template-areas:
+    'ora nome stato'
+    '. dettagli dettagli'
+    '. azioni azioni';
+  column-gap: var(--kroma-spazio-2);
+  row-gap: var(--kroma-spazio-1);
+  align-items: baseline;
+  padding: var(--kroma-spazio-2) 0;
+  border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
+}
+
+@container (min-width: 60rem) {
+  .prenotazione {
+    grid-template-columns: 6ch minmax(0, 1fr) minmax(0, 1.5fr) max-content max-content;
+    grid-template-areas: 'ora nome dettagli stato azioni';
+    align-items: center;
+    padding: var(--kroma-spazio-1) 0;
+  }
+}
+
+.ora {
+  grid-area: ora;
+  font-family: var(--kroma-font-mono);
+  font-weight: 600;
+}
+
+.nome {
+  grid-area: nome;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.dettagli {
+  grid-area: dettagli;
+  font-family: var(--kroma-font-mono);
+  font-size: var(--kroma-testo-s);
+  color: var(--kroma-testo-tenue);
+}
+
+.stato {
+  grid-area: stato;
+  display: flex;
+  align-items: center;
+  gap: var(--kroma-spazio-1);
+  font-size: var(--kroma-testo-s);
+}
+
+/* Un pixel del marchio accanto alla parola: il colore aiuta, la parola informa. */
+.quadretto {
+  width: var(--kroma-pixel-cella);
+  height: var(--kroma-pixel-cella);
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+[data-stato='richiesta'] .quadretto {
+  background: var(--kroma-evidenzia);
+  /* Il giallo su carta quasi non si vede (1,41:1): serve il bordo. */
+  border: var(--kroma-linea-sottile) solid var(--kroma-linea);
+}
+
+[data-stato='confermata'] .quadretto {
+  background: var(--kroma-verde-scuro);
+}
+
+[data-stato='completata'] {
+  color: var(--kroma-testo-tenue);
+}
+
+[data-stato='completata'] .quadretto {
+  border: var(--kroma-linea-sottile) solid var(--kroma-testo-tenue);
+}
+
+.azioni {
+  grid-area: azioni;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--kroma-spazio-2);
+}
+
+@container (min-width: 60rem) {
+  .azioni {
+    justify-content: flex-end;
+  }
+}
+
+/* ---------------------------------------------------------------- pulsanti */
+
+.primario,
+.secondario,
+.aggiungi {
+  min-height: var(--kroma-spazio-6);
+  padding: 0 var(--kroma-spazio-2);
+  border: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  background: none;
+  cursor: pointer;
+}
+
+/* L'azione da provare: arancione, testo sempre nero (bianco = 3,33:1). */
+.primario,
+.aggiungi {
+  background: var(--kroma-arancione);
+  border-color: var(--kroma-arancione);
+  color: var(--kroma-su-arancione);
+  font-weight: 700;
+}
+
+/* Eliminare è l'azione meno importante: sembra un link, ma è un <button>. */
+.elimina {
+  min-height: var(--kroma-spazio-6);
+  padding: 0;
+  border: 0;
+  background: none;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+/* ------------------------------------------------------------------ modulo */
+
+.modulo {
+  border: var(--kroma-linea-sottile) solid var(--kroma-linea);
+}
+
+.apriModulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--kroma-spazio-6);
+  padding: 0 var(--kroma-spazio-2);
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.apriModulo::-webkit-details-marker {
+  display: none;
+}
+
+/* + e − solo per l'occhio: dopo la barra, il testo per i lettori è vuoto. */
+.apriModulo::after {
+  content: '+' / '';
+  font-family: var(--kroma-font-mono);
+  font-size: var(--kroma-testo-l);
+  font-weight: 400;
+}
+
+.modulo[open] .apriModulo {
+  border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
+}
+
+.modulo[open] .apriModulo::after {
+  content: '−' / '';
+}
+
+.campi {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--kroma-spazio-3) var(--kroma-spazio-2);
+  padding: var(--kroma-spazio-3) var(--kroma-spazio-2);
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kroma-spazio-1);
+  min-width: 0;
+}
+
+.campoLargo,
+.aggiungi {
+  grid-column: 1 / -1;
+}
+
+.aggiungi {
+  justify-self: start;
+  padding: 0 var(--kroma-spazio-3);
+}
+
+.campo label {
+  font-weight: 500;
+}
+
+.campo input,
+.campo select {
+  width: 100%;
+  min-height: var(--kroma-spazio-6);
+  box-sizing: border-box;
+  padding: 0 var(--kroma-spazio-2);
+  background: var(--kroma-bianco);
+  border: var(--kroma-linea-sottile) solid var(--kroma-linea);
+}
+
+.campo input[type='time'],
+.campo input[type='number'] {
+  font-family: var(--kroma-font-mono);
+}
+
+/* Campo sbagliato: bordo più spesso senza spostare il layout. */
+.campo [aria-invalid='true'] {
+  border-color: var(--kroma-arancione-testo);
+  box-shadow: inset 0 0 0 var(--kroma-linea-sottile) var(--kroma-arancione-testo);
+}
+
+/* base.css toglie la freccia nativa alle tendine: la rimettiamo, in testo. */
+.tendina {
+  position: relative;
+  display: block;
+}
+
+.tendina select {
+  padding-right: var(--kroma-spazio-5);
+  cursor: pointer;
+}
+
+.tendina::after {
+  content: '▾' / '';
+  position: absolute;
+  top: 50%;
+  right: var(--kroma-spazio-2);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.errore {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--kroma-spazio-1);
+  color: var(--kroma-arancione-testo);
+  font-size: var(--kroma-testo-s);
+}
+
+.errore::before {
+  content: '';
+  width: var(--kroma-spazio-1);
+  height: var(--kroma-spazio-1);
+  flex-shrink: 0;
+  background: var(--kroma-arancione-testo);
+}
+
+/* --------------------------------------------------------------- utilità */
 
 /* Testo letto dai lettori di schermo ma invisibile sullo schermo. */
 .soloLettori {
@@ -11,12 +482,4 @@
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
-}
-
-/* Spazio riservato alla data, così quando arriva non sposta niente. */
-.data {
-  display: inline-block;
-  min-width: 9ch;
-  margin-left: var(--kroma-spazio-1);
-  font-family: var(--kroma-font-mono);
 }
