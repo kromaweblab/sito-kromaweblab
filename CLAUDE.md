@@ -186,8 +186,8 @@ lo si dice nella pull request.
 ## Mappa del sito
 
 ```
-/                        Home: apertura, il problema, i tre servizi in breve,
-                         gestionale dimostrativo, un lavoro, contatto
+/                        Home: apertura, il problema, gestionale dimostrativo,
+                         cosa facciamo, un lavoro, contatto
 /servizi                 I tre servizi spiegati, ognuno porta alla sua pagina
 /gestionali              Mini gestionali (servizio principale)
 /web-app                 Web app su misura

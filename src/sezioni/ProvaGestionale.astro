@@ -1,0 +1,50 @@
+---
+// Cornice della sezione "Provalo adesso": titolo, riga d'introduzione e
+// spazio per l'isola di Andrea, che la pagina inserisce nello <slot />.
+//
+//   <ProvaGestionale>
+//     <GestionaleDimostrativo client:visible />
+//   </ProvaGestionale>
+//
+// La cornice è di Giovanni, il gestionale di Andrea: così nessuno dei due
+// tocca il file dell'altro.
+
+import TitoloSezione from '../componenti/TitoloSezione.astro';
+---
+
+<section class="prova" aria-labelledby="prova-titolo">
+  <div class="testa">
+    <TitoloSezione id="prova-titolo">Provalo adesso</TitoloSezione>
+    <p>
+      Una lavagna di prenotazioni vera, con dati di esempio. Scegli la tua attività e usala:
+      aggiungi, conferma, sposta.
+    </p>
+  </div>
+  <slot />
+</section>
+
+<style>
+  .prova {
+    max-width: var(--kroma-larghezza);
+    margin: 0 auto;
+    padding: var(--kroma-spazio-8) var(--kroma-spazio-2);
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .testa {
+    margin-bottom: var(--kroma-spazio-5);
+  }
+
+  .testa p {
+    max-width: 52ch;
+    margin: var(--kroma-spazio-2) 0 0;
+    font-size: var(--kroma-testo-l);
+    line-height: 1.35;
+  }
+
+  @media (min-width: 960px) {
+    .prova {
+      padding: var(--kroma-spazio-12) var(--kroma-spazio-4);
+    }
+  }
+</style>

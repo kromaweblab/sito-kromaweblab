@@ -304,3 +304,16 @@ versione di main e risolve i conflitti. Dettagli in `CLAUDE.md`.
 si capiva perché il lavoro non comparisse su main.
 **Alternativa scartata per ora:** un file per decisione (cartella
 `decisioni/`). Si riprende se i conflitti si ripetono.
+
+## 2026-09-27 — Home: "Cosa facciamo" dopo il gestionale dimostrativo
+
+**Scelta:** ordine apertura → il problema → gestionale dimostrativo → cosa
+facciamo → un lavoro → contatto. "Cosa facciamo" elenca i lavori di tutti i
+giorni (prenotazioni, ordini, magazzino, turni, la squadra, farti trovare),
+ognuno collegato al suo servizio, sotto il titolo "Non solo prenotazioni".
+**Perché:** dopo la giornata tipo il titolare prova subito la lavagna, che
+risponde al primo problema; poi vede che lo stesso vale per il resto del
+suo lavoro. Così non si ripete l'apertura, che presenta già i tre servizi.
+**Nota:** il gestionale sta dentro `ProvaGestionale.astro` (titolo e
+introduzione di Giovanni, isola di Andrea nello slot): spostata la riga
+dell'isola in `index.astro`.
