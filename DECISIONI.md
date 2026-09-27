@@ -180,3 +180,16 @@ e un errore di idratazione. I giorni relativi sono uguali ovunque; la data
 vera, aggiunta in un `useEffect`, rende la lavagna credibile.
 **Alternative scartate:** solo giorni relativi (meno credibile); date fisse
 nei dati (dopo qualche settimana la demo sembra abbandonata).
+
+## 2026-09-27 — Stati delle prenotazioni: parola + quadretto del marchio
+
+**Scelta:** lo stato è sempre scritto a parole; accanto, un quadretto:
+richiesta = giallo (`--kroma-giallo`) con bordo nero sottile, confermata =
+verde (`--kroma-verde-scuro`), completata = quadretto vuoto e riga in
+`--kroma-testo-tenue`.
+**Perché:** le richieste sono le cose da fare, e i quadretti gialli servono
+proprio a marcare le cose importanti; le completate si "spengono". Il
+bordo serve perché il giallo su carta (1,41:1) quasi non si vede.
+L'informazione sta comunque nella parola, non solo nel colore.
+**Alternativa scartata:** solo la parola, senza colore (più sobria, ma le
+richieste non si trovano a colpo d'occhio).
