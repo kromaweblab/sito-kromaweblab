@@ -1,0 +1,177 @@
+---
+// "Il problema": una giornata tipo, ora per ora, con lo strumento usato e
+// cosa succede. Le frasi sono fatti veri (vivaio, agriturismo, un vecchio
+// sito); gli orari sono indicativi e il sottotitolo lo dice.
+// Nessun nome di cliente qui: i nomi stanno nei lavori, con il "dopo".
+//
+// È un elenco ordinato (<ol>) perché l'ordine conta: è una giornata.
+
+import TitoloSezione from '../componenti/TitoloSezione.astro';
+
+const giornata = [
+  {
+    ora: '07:30',
+    strumento: 'WhatsApp',
+    testo: 'Le prenotazioni della notte sono in chat. Vanno ricopiate nel calendario.',
+  },
+  {
+    ora: '12:00',
+    strumento: 'Messaggi',
+    testo: 'Chi è in permesso domani? Si cerca tra le conversazioni.',
+  },
+  {
+    ora: '17:30',
+    strumento: 'A voce',
+    testo: 'Finito il turno, la squadra passa in ufficio a dettare cosa ha fatto.',
+  },
+  {
+    ora: '18:30',
+    strumento: 'Calcolatrice',
+    testo: 'Le ore di lavoro si sommano a mano, una per una.',
+  },
+  {
+    ora: '19:00',
+    strumento: 'Excel',
+    testo:
+      'Il programma di domani si fa a memoria: chi è in permesso, quale mezzo è fermo, chi è già impegnato altrove.',
+  },
+  {
+    ora: '21:00',
+    strumento: 'Il sito',
+    testo: 'Un cliente cerca la tua attività su internet e trova una pagina sola, confusa.',
+  },
+];
+---
+
+<section class="problema" aria-labelledby="problema-titolo">
+  <div class="testa">
+    <TitoloSezione id="problema-titolo">Una giornata tipo</TitoloSezione>
+    <p class="sotto">Messa insieme da quello che vediamo nelle attività della zona.</p>
+  </div>
+
+  <ol>
+    {giornata.map((momento) => (
+      <li>
+        <time datetime={momento.ora}>{momento.ora}</time>
+        <span class="strumento">{momento.strumento}</span>
+        <p>{momento.testo}</p>
+      </li>
+    ))}
+  </ol>
+
+  <p class="chiusura">
+    Ti riconosci in almeno una di queste?
+    <a href="/contatti">
+      Raccontaci la tua <span aria-hidden="true">→</span>
+    </a>
+  </p>
+</section>
+
+<style>
+  .problema {
+    max-width: var(--kroma-larghezza);
+    margin: 0 auto;
+    padding: var(--kroma-spazio-8) var(--kroma-spazio-2);
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .sotto {
+    margin: var(--kroma-spazio-2) 0 0;
+    color: var(--kroma-testo-tenue);
+  }
+
+  ol {
+    list-style: none;
+    margin: var(--kroma-spazio-5) 0 0;
+    padding: 0;
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  /* Da telefono: ora e strumento sulla stessa riga, il testo sotto. */
+  li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--kroma-spazio-1) var(--kroma-spazio-2);
+    padding-block: var(--kroma-spazio-3);
+    border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  time,
+  .strumento {
+    font-family: var(--kroma-font-mono);
+    font-size: var(--kroma-testo-s);
+  }
+
+  time {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .strumento {
+    color: var(--kroma-testo-tenue);
+  }
+
+  li p {
+    grid-column: 1 / -1;
+    margin: 0;
+    font-size: var(--kroma-testo-m);
+    line-height: 1.4;
+  }
+
+  .chiusura {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--kroma-spazio-1) var(--kroma-spazio-2);
+    margin: var(--kroma-spazio-5) 0 0;
+    font-size: var(--kroma-testo-l);
+    line-height: 1.3;
+  }
+
+  /* Il link si deve vedere cliccabile: grassetto, sottolineato spesso in
+     arancione, freccia che si sposta al passaggio del mouse. */
+  .chiusura a {
+    display: inline-flex;
+    gap: var(--kroma-spazio-1);
+    font-weight: 700;
+    text-decoration-line: underline;
+    text-decoration-color: var(--kroma-arancione-scuro);
+    text-decoration-thickness: var(--kroma-linea-spessa);
+    text-underline-offset: 0.25em;
+    transition:
+      color var(--kroma-durata),
+      text-decoration-color var(--kroma-durata);
+  }
+
+  .chiusura a span {
+    transition: transform var(--kroma-durata);
+  }
+
+  .chiusura a:hover {
+    color: var(--kroma-arancione-testo);
+    text-decoration-color: var(--kroma-arancione-testo);
+  }
+
+  .chiusura a:hover span {
+    transform: translateX(4px);
+  }
+
+  /* Da computer: ora | strumento | testo, in tre colonne. */
+  @media (min-width: 960px) {
+    .problema {
+      padding: var(--kroma-spazio-12) var(--kroma-spazio-4);
+    }
+
+    li {
+      grid-template-columns: var(--kroma-spazio-10) var(--kroma-spazio-16) 1fr;
+      gap: var(--kroma-spazio-3);
+      align-items: baseline;
+    }
+
+    li p {
+      grid-column: auto;
+      max-width: 56ch;
+      font-size: var(--kroma-testo-l);
+    }
+  }
+</style>

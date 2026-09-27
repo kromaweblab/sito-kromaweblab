@@ -199,3 +199,13 @@ arancione, secondario col bordo) con gli effetti al passaggio del mouse e al
 clic in CSS. I testi dei tre servizi stanno in `src/dati/servizi.ts` e li
 usano apertura, "Cosa facciamo" e `/servizi`.
 **Perché:** stesso aspetto ovunque e testi da correggere in un posto solo.
+
+## 2026-09-27 — "Il problema": una giornata tipo, senza nomi
+
+**Scelta:** ibrido tra elenco e giornata: ogni riga ha ora, strumento e cosa
+succede. Frasi vere (vivaio, agriturismo, vecchio sito), orari indicativi
+(il sottotitolo lo dice). Chiude con il link "Raccontaci la tua →" verso
+`/contatti`, ben visibile come link.
+**Perché senza nomi:** il "prima" di un cliente, da solo, può metterlo in
+imbarazzo. I nomi stanno nei lavori, insieme al "dopo".
+I fatti raccolti per i casi completi sono in `appunti/lavori.md`.
