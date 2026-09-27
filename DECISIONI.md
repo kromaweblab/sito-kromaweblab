@@ -275,3 +275,11 @@ spuntata, cioè "da fare": il contrario di "completata". Giallo → verde →
 grigio pieno si legge come da fare → a posto → chiuso. Il grigio è molto
 più scuro del verde, quindi i due si distinguono anche per chiarezza, non
 solo per tinta.
+
+## 2026-09-27 — Componente Pulsante e dati dei servizi in un solo file
+
+**Scelta:** `src/componenti/Pulsante.astro` (sempre un link; primario
+arancione, secondario col bordo) con gli effetti al passaggio del mouse e al
+clic in CSS. I testi dei tre servizi stanno in `src/dati/servizi.ts` e li
+usano apertura, "Cosa facciamo" e `/servizi`.
+**Perché:** stesso aspetto ovunque e testi da correggere in un posto solo.
