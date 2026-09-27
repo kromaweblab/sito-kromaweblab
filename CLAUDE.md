@@ -303,6 +303,22 @@ un modulo disegnato solo da React non lo vede. Quindi:
   l'altro approva guardando anche l'anteprima Netlify. Nessun push diretto.
 - Prima di aprire una PR: `npm run verifica` (formattazione, lint, test, build).
 
+### Pull request: ordine e conflitti
+
+- **Ordine:** le PR si uniscono nell'ordine in cui sono state aperte.
+  Se una PR parte dal branch di un'altra (PR "a catena"), nella descrizione
+  si scrive "da unire dopo la #N" e si aspetta che quella sia unita.
+- **Main aggiornato prima di ogni PR:** prima di aprire una PR, e di nuovo
+  prima di chiedere l'approvazione, l'assistente porta nel branch l'ultima
+  versione di main (`git fetch` e `git merge origin/main`), risolve i
+  conflitti e rilancia `npm run verifica`.
+- **Conflitti dopo l'apertura:** se nel frattempo viene unita un'altra PR e
+  GitHub segnala un conflitto, lo risolve l'assistente di chi ha aperto la
+  PR, con lo stesso procedimento. Chi approva non risolve conflitti.
+- **Come si risolvono:** nei file di documentazione (`DECISIONI.md`,
+  `CLAUDE.md`, `appunti/`) si tengono le parti di tutti e due, in ordine di
+  data. Nel codice dell'altro non si sceglie da soli: si chiede.
+
 ## Istruzioni per l'assistente
 
 - Prima domande su ciò che non è chiaro, poi un piano, poi fermarsi.
