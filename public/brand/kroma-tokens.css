@@ -28,6 +28,11 @@
   /* Testo secondario su carta */
   --kroma-testo-tenue: #5e5a55;
 
+  /* Su fondo nero */
+  --kroma-testo-tenue-su-scuro: #b8b3ac; /* testo secondario, contrasto 9,14 */
+  --kroma-linea-su-scuro: #3a3835; /* solo separatori, non testo */
+  --kroma-carta-hover: #ebe7e1; /* fondo al passaggio del mouse su carta */
+
   /* Ruoli (usare questi nei componenti quando possibile) */
   --kroma-fondo: var(--kroma-carta);
   --kroma-testo: var(--kroma-nero);
@@ -75,6 +80,13 @@
   /* Griglia del marchio: passo 16, cella 14 */
   --kroma-pixel-passo: 16px;
   --kroma-pixel-cella: 14px;
+
+  /* Trama di fondo: punti del passo della griglia (scelta del 27/09/2026) */
+  --kroma-trama-passo: 32px;
+  --kroma-trama-intensita: 0.09;
+
+  /* Movimento: solo in risposta a un gesto dell'utente */
+  --kroma-durata: 150ms;
 
   /* Angoli vivi, come i pixel del marchio */
   --kroma-raggio: 0;
