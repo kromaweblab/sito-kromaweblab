@@ -183,8 +183,18 @@ lo si dice nella pull request.
 Sta in home. Lavagna di prenotazioni funzionante con dati finti.
 
 - In cima si sceglie il tipo di attività: ristorante, parrucchiere, centro
-  estetico, agriturismo, studio. La scelta cambia le etichette ("coperti" →
-  "clienti", "tavolo" → "postazione") e i dati di esempio.
+  estetico, agriturismo, studio medico, studio professionale. La scelta
+  cambia le etichette e i dati di esempio:
+
+  | Attività             | Chi      | Quanti  | Dove / con chi | Cosa         |
+  | -------------------- | -------- | ------- | -------------- | ------------ |
+  | Ristorante           | cliente  | coperti | tavolo         | —            |
+  | Parrucchiere         | cliente  | —       | postazione     | servizio     |
+  | Centro estetico      | cliente  | —       | estetista      | trattamento  |
+  | Agriturismo          | ospite   | persone | camera         | notti        |
+  | Studio medico        | paziente | —       | —              | visita       |
+  | Studio professionale | cliente  | —       | —              | appuntamento |
+
 - Si può: aggiungere una prenotazione, spostarla di stato (richiesta →
   confermata → completata), eliminarla, filtrare per giorno.
 - Tutto in memoria: nessun database, nessun salvataggio.

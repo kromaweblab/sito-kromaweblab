@@ -204,3 +204,14 @@ test proteggono gli errori silenziosi (stati, filtri, calcolo delle fasce
 del configuratore) e girano in meno di un secondo. Per due isole piccole,
 i test dell'interfaccia costerebbero più di quanto rendono.
 **Nota:** tocca `package.json`, file condiviso: segnalato nella PR.
+
+## 2026-09-27 — Gestionale: sei attività e le loro etichette
+
+**Scelta:** "studio" diventa due voci, studio medico (paziente, visita) e
+studio professionale (commercialista, avvocato: cliente, appuntamento),
+senza colonna "dove". Nel centro estetico si prenota "con" l'estetista, non
+in una cabina. Tabella completa in `CLAUDE.md`.
+**Perché:** medico e commercialista usano parole diverse, e il titolare
+deve riconoscere le sue; una voce sola con una sottoscelta aggiungeva un
+passaggio. "Cabina" suonava poco naturale: nei centri estetici si prenota
+con una persona.
