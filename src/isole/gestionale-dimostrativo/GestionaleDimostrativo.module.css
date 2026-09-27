@@ -136,7 +136,7 @@ fieldset.giorni {
 }
 
 .radio:not(:checked) + .scelta:hover {
-  background: var(--kroma-bianco);
+  background: var(--kroma-carta-hover);
 }
 
 .radio:focus-visible + .scelta {

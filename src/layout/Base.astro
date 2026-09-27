@@ -8,6 +8,8 @@
 
 import { Font } from 'astro:assets';
 import { sito } from '../dati/sito';
+import Intestazione from '../componenti/Intestazione.astro';
+import Piede from '../componenti/Piede.astro';
 import '../stili/tokens.css';
 import '../stili/base.css';
 
@@ -86,10 +88,10 @@ const datiStrutturati = {
     <a class="salta-al-contenuto" href="#contenuto">
       Salta al contenuto
     </a>
-    <slot name="intestazione" />
+    <Intestazione />
     <main id="contenuto">
       <slot />
     </main>
-    <slot name="piede" />
+    <Piede />
   </body>
 </html>

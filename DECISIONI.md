@@ -144,6 +144,54 @@ aggiunge solo l'import e la riga dell'isola, segnalandolo nella PR.
 **Perché:** i due lavori possono andare avanti in parallelo anche quando le
 pagine non sono ancora pronte, senza pestarsi i piedi.
 
+## 2026-09-27 — Trama di fondo: punti, 9%, passo 32px
+
+**Scelta:** provata nella demo "Trama a pixel" tra celle, punti, reticolo e
+celle sparse. Punti su tutto il sito, intensità 9%, passo 32px.
+**Come:** `body::before` con il colore `--kroma-nero` e una maschera SVG che
+dice solo dove stanno i punti: nessun colore scritto a mano.
+
+## 2026-09-27 — Menu: barra da computer, pulsante a quadretti da telefono
+
+**Scelta:** opzione C. Da telefono un `<details>` (funziona senza JS) con uno
+script di comodità per Esc e tocco fuori; da computer (≥960px) barra con
+tutte le voci, "Contatti" come pulsante arancione, linea che compare sotto la
+voce al passaggio del mouse (CSS). Pagina attuale segnata in giallo.
+**Regola cambiata:** fuori dalle isole è ammesso JS di sola comodità, mai
+indispensabile.
+
+## 2026-09-27 — Apertura: frase forte + "Cosa ti serve?"
+
+**Scelta:** frase D, "Strumenti digitali cuciti sulla tua attività.", una
+riga che nomina tutti e tre i servizi, poi il selettore "Cosa ti serve?" con
+un pannello per servizio (gestionali selezionato all'apertura).
+**Perché:** chi cerca solo un sito deve capire subito che lo facciamo, senza
+togliere il primo piano ai gestionali. Scartato lo slider automatico:
+movimento decorativo, e quasi nessuno vede oltre la prima slide.
+
+## 2026-09-27 — Pagina /servizi
+
+**Scelta:** una pagina che spiega i tre servizi, ognuno col link alla sua
+pagina dedicata (`/gestionali`, `/web-app`, `/siti`).
+
+## 2026-09-27 — Lavori: tre progetti veri, con i nomi
+
+Vivai Cintoli (gestionale in uso da un mese), Casale Allibrio (sito
+agriturismo rifatto da zero), Estrò Atelier (sito abiti da sposa). Consenso
+per tutti; per Vivai Cintoli niente dati sensibili (nomi dei dipendenti,
+prodotti dei trattamenti, dati reali del vivaio). Il sito si pubblica insieme
+ai due siti in sviluppo. Sostituisce "due progetti in corso".
+
+## 2026-09-27 — Pagine segnaposto per le voci del menu
+
+**Perché:** niente link rotti nelle anteprime. Si sostituiscono man mano con
+le pagine vere.
+
+## 2026-09-27 — Da decidere più avanti
+
+Come far provare il gestionale di Vivai Cintoli, che ha accesso con utente e
+PIN e ruoli diversi (Ufficio/Admin, Operatore).
+
 ## 2026-09-27 — CSS delle isole React: CSS Modules
 
 **Scelta:** ogni isola ha il suo `NomeComponente.module.css`, con le classi
