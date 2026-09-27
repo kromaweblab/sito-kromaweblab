@@ -191,3 +191,87 @@ le pagine vere.
 
 Come far provare il gestionale di Vivai Cintoli, che ha accesso con utente e
 PIN e ruoli diversi (Ufficio/Admin, Operatore).
+
+## 2026-09-27 — CSS delle isole React: CSS Modules
+
+**Scelta:** ogni isola ha il suo `NomeComponente.module.css`, con le classi
+in camelCase (eccezione al kebab-case delle convenzioni).
+**Perché:** in React Astro non confina gli stili come fa `<style>` nei
+`.astro`; i CSS Modules sì (Vite li supporta senza configurazione), quindi
+le classi delle isole e quelle delle sezioni non possono mescolarsi.
+**Alternativa scartata:** un `.css` normale con prefisso (`.gestionale-…`):
+più semplice da scrivere, ma globale, e protetto solo dalla disciplina.
+**Costo accettato:** `className={stili.nome}` al posto della stringa, e
+nessun controllo sui nomi: una classe scritta male dà `undefined` senza
+errori (i tipi di Astro accettano qualunque nome).
+
+## 2026-09-27 — Dati di esempio del gestionale dimostrativo
+
+**Scelta:** cognomi comuni e dati plausibili, con la scritta "Dati di
+esempio" sempre visibile sopra la lavagna.
+**Perché:** il titolare deve riconoscere il suo quaderno; con "Cliente A"
+la lavagna sembra finta e convince meno. La scritta fissa evita che qualcuno
+li scambi per clienti veri di Kroma Web Lab.
+**Alternative scartate:** segnaposto ("Cliente A"), solo nomi di battesimo.
+**Nota:** "mai testo finto verosimile" resta valido per i dati mancanti del
+sito; questa è un'eccezione solo per la demo.
+
+## 2026-09-27 — Giorni del gestionale: relativi, con la data vera nel browser
+
+**Scelta:** i dati di esempio usano giorni relativi (0, 1, 2) e il filtro
+mostra `Oggi · Domani · Dopodomani`. Dopo il caricamento, nel browser, si
+aggiunge la data vera accanto a ciascun giorno (`Oggi · dom 27/9`), in uno
+spazio già riservato.
+**Perché:** l'isola viene disegnata due volte, alla build (in Node) e nel
+browser. Una data calcolata con `new Date()` darebbe due risultati diversi
+e un errore di idratazione. I giorni relativi sono uguali ovunque; la data
+vera, aggiunta in un `useEffect`, rende la lavagna credibile.
+**Alternative scartate:** solo giorni relativi (meno credibile); date fisse
+nei dati (dopo qualche settimana la demo sembra abbandonata).
+
+## 2026-09-27 — Stati delle prenotazioni: parola + quadretto del marchio
+
+**Scelta:** lo stato è sempre scritto a parole; accanto, un quadretto:
+richiesta = giallo (`--kroma-giallo`) con bordo nero sottile, confermata =
+verde (`--kroma-verde-scuro`), completata = quadretto vuoto e riga in
+`--kroma-testo-tenue`.
+**Perché:** le richieste sono le cose da fare, e i quadretti gialli servono
+proprio a marcare le cose importanti; le completate si "spengono". Il
+bordo serve perché il giallo su carta (1,41:1) quasi non si vede.
+L'informazione sta comunque nella parola, non solo nel colore.
+**Alternativa scartata:** solo la parola, senza colore (più sobria, ma le
+richieste non si trovano a colpo d'occhio).
+
+## 2026-09-27 — Vitest per la logica pura delle isole
+
+**Scelta:** la logica delle isole sta in file di sole funzioni pure (per
+es. `logica.ts`), controllati da test Vitest (`logica.test.ts`) accanto al
+file. Niente test dell'interfaccia. `npm run test` è dentro `verifica`.
+**Perché:** Vitest usa Vite come Astro, quindi non serve configurazione; i
+test proteggono gli errori silenziosi (stati, filtri, calcolo delle fasce
+del configuratore) e girano in meno di un secondo. Per due isole piccole,
+i test dell'interfaccia costerebbero più di quanto rendono.
+**Nota:** tocca `package.json`, file condiviso: segnalato nella PR.
+
+## 2026-09-27 — Gestionale: sei attività e le loro etichette
+
+**Scelta:** "studio" diventa due voci, studio medico (paziente, visita) e
+studio professionale (commercialista, avvocato: cliente, appuntamento),
+senza colonna "dove". Nel centro estetico si prenota "con" l'estetista, non
+in una cabina. Tabella completa in `CLAUDE.md`.
+**Perché:** medico e commercialista usano parole diverse, e il titolare
+deve riconoscere le sue; una voce sola con una sottoscelta aggiungeva un
+passaggio. "Cabina" suonava poco naturale: nei centri estetici si prenota
+con una persona.
+
+## 2026-09-27 — Stato "completata": quadretto grigio pieno
+
+**Sostituisce** la parte "completata = quadretto vuoto" della voce sugli
+stati delle prenotazioni.
+**Scelta:** quadretto pieno in `--kroma-testo-tenue`, lo stesso grigio
+della riga completata.
+**Perché:** un quadretto vuoto si legge come una casella non ancora
+spuntata, cioè "da fare": il contrario di "completata". Giallo → verde →
+grigio pieno si legge come da fare → a posto → chiuso. Il grigio è molto
+più scuro del verde, quindi i due si distinguono anche per chiarezza, non
+solo per tinta.

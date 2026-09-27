@@ -204,14 +204,29 @@ lo si dice nella pull request.
 Sta in home. Lavagna di prenotazioni funzionante con dati finti.
 
 - In cima si sceglie il tipo di attività: ristorante, parrucchiere, centro
-  estetico, agriturismo, studio. La scelta cambia le etichette ("coperti" →
-  "clienti", "tavolo" → "postazione") e i dati di esempio.
+  estetico, agriturismo, studio medico, studio professionale. La scelta
+  cambia le etichette e i dati di esempio:
+
+  | Attività             | Chi      | Quanti  | Dove / con chi | Cosa         |
+  | -------------------- | -------- | ------- | -------------- | ------------ |
+  | Ristorante           | cliente  | coperti | tavolo         | —            |
+  | Parrucchiere         | cliente  | —       | postazione     | servizio     |
+  | Centro estetico      | cliente  | —       | estetista      | trattamento  |
+  | Agriturismo          | ospite   | persone | camera         | notti        |
+  | Studio medico        | paziente | —       | —              | visita       |
+  | Studio professionale | cliente  | —       | —              | appuntamento |
+
 - Si può: aggiungere una prenotazione, spostarla di stato (richiesta →
   confermata → completata), eliminarla, filtrare per giorno.
 - Tutto in memoria: nessun database, nessun salvataggio.
 - Deve funzionare bene da telefono.
 - Accanto, una riga che spiega in italiano semplice cosa sta succedendo.
 - Sobria: deve convincere, non stupire.
+- **Dati di esempio**: cognomi comuni e dati plausibili ("20:30 · Bianchi ·
+  4 coperti · Tavolo 7"), con la scritta "Dati di esempio" sempre visibile
+  sopra la lavagna. È l'unica eccezione a "mai testo finto verosimile":
+  quella regola vale per i dati mancanti del sito (email, telefono, prezzi),
+  che restano `[DA SCRIVERE]` / `[DA DEFINIRE]`.
 
 ## Isola 2 — Configuratore (Andrea)
 
@@ -272,6 +287,12 @@ un modulo disegnato solo da React non lo vede. Quindi:
 - Componenti React e .astro in PascalCase; classi CSS in kebab-case.
 - Gli stili di una sezione stanno nel suo `.astro` (`<style>` vale solo
   per quel file); in `base.css` solo le regole globali.
+- Le isole React usano i **CSS Modules**: un file `NomeComponente.module.css`
+  accanto al componente, importato con `import stili from '...'` e usato
+  con `className={stili.nome}`. Le classi restano confinate al componente,
+  come `<style>` nei `.astro`. Eccezione al kebab-case: nei CSS Modules le
+  classi sono in camelCase (`.rigaVuota`), perché in JavaScript si leggono
+  come `stili.rigaVuota`.
 - Commenti in italiano, solo dove spiegano il perché.
 
 ## Come si lavora in due
@@ -280,7 +301,7 @@ un modulo disegnato solo da React non lo vede. Quindi:
 - Andrea: le due isole React ed eventuale parte serverless.
 - `main` è protetto: si lavora su branch `feat/nome-sezione`, pull request,
   l'altro approva guardando anche l'anteprima Netlify. Nessun push diretto.
-- Prima di aprire una PR: `npm run verifica` (formattazione, lint, build).
+- Prima di aprire una PR: `npm run verifica` (formattazione, lint, test, build).
 
 ## Istruzioni per l'assistente
 
