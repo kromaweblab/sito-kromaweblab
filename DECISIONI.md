@@ -143,3 +143,16 @@ cancellare prima della PR) e, per montarle nelle pagine di Giovanni,
 aggiunge solo l'import e la riga dell'isola, segnalandolo nella PR.
 **Perché:** i due lavori possono andare avanti in parallelo anche quando le
 pagine non sono ancora pronte, senza pestarsi i piedi.
+
+## 2026-09-27 — CSS delle isole React: CSS Modules
+
+**Scelta:** ogni isola ha il suo `NomeComponente.module.css`, con le classi
+in camelCase (eccezione al kebab-case delle convenzioni).
+**Perché:** in React Astro non confina gli stili come fa `<style>` nei
+`.astro`; i CSS Modules sì (Vite li supporta senza configurazione), quindi
+le classi delle isole e quelle delle sezioni non possono mescolarsi.
+**Alternativa scartata:** un `.css` normale con prefisso (`.gestionale-…`):
+più semplice da scrivere, ma globale, e protetto solo dalla disciplina.
+**Costo accettato:** `className={stili.nome}` al posto della stringa, e
+nessun controllo sui nomi: una classe scritta male dà `undefined` senza
+errori (i tipi di Astro accettano qualunque nome).

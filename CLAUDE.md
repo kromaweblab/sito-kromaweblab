@@ -246,6 +246,12 @@ un modulo disegnato solo da React non lo vede. Quindi:
 - Componenti React e .astro in PascalCase; classi CSS in kebab-case.
 - Gli stili di una sezione stanno nel suo `.astro` (`<style>` vale solo
   per quel file); in `base.css` solo le regole globali.
+- Le isole React usano i **CSS Modules**: un file `NomeComponente.module.css`
+  accanto al componente, importato con `import stili from '...'` e usato
+  con `className={stili.nome}`. Le classi restano confinate al componente,
+  come `<style>` nei `.astro`. Eccezione al kebab-case: nei CSS Modules le
+  classi sono in camelCase (`.rigaVuota`), perché in JavaScript si leggono
+  come `stili.rigaVuota`.
 - Commenti in italiano, solo dove spiegano il perché.
 
 ## Come si lavora in due
