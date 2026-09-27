@@ -215,3 +215,15 @@ in una cabina. Tabella completa in `CLAUDE.md`.
 deve riconoscere le sue; una voce sola con una sottoscelta aggiungeva un
 passaggio. "Cabina" suonava poco naturale: nei centri estetici si prenota
 con una persona.
+
+## 2026-09-27 — Stato "completata": quadretto grigio pieno
+
+**Sostituisce** la parte "completata = quadretto vuoto" della voce sugli
+stati delle prenotazioni.
+**Scelta:** quadretto pieno in `--kroma-testo-tenue`, lo stesso grigio
+della riga completata.
+**Perché:** un quadretto vuoto si legge come una casella non ancora
+spuntata, cioè "da fare": il contrario di "completata". Giallo → verde →
+grigio pieno si legge come da fare → a posto → chiuso. Il grigio è molto
+più scuro del verde, quindi i due si distinguono anche per chiarezza, non
+solo per tinta.

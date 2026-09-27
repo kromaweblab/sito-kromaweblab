@@ -299,8 +299,10 @@ fieldset.giorni {
   color: var(--kroma-testo-tenue);
 }
 
+/* Pieno, non vuoto: un quadretto vuoto sembra una casella ancora da
+   spuntare. Grigio come la riga: la prenotazione è chiusa, si "spegne". */
 [data-stato='completata'] .quadretto {
-  border: var(--kroma-linea-sottile) solid var(--kroma-testo-tenue);
+  background: var(--kroma-testo-tenue);
 }
 
 .azioni {
