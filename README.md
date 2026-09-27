@@ -21,15 +21,16 @@ Il sito gira su http://localhost:4321 e si aggiorna a ogni salvataggio.
 
 ## Comandi
 
-| Comando            | Cosa fa                                                   |
-| ------------------ | --------------------------------------------------------- |
-| `npm run dev`      | sito in locale, con aggiornamento automatico              |
-| `npm run build`    | controllo dei tipi + sito finale in `dist/`               |
-| `npm run preview`  | mostra in locale il contenuto di `dist/`                  |
-| `npm run lint`     | ESLint: errori e problemi di accessibilità                |
-| `npm run format`   | Prettier: formatta tutti i file                           |
-| `npm run verifica` | formattazione + lint + build: da lanciare prima di una PR |
-| `npm run marchio`  | rigenera logo, favicon e immagine Open Graph              |
+| Comando            | Cosa fa                                               |
+| ------------------ | ----------------------------------------------------- |
+| `npm run dev`      | sito in locale, con aggiornamento automatico          |
+| `npm run build`    | controllo dei tipi + sito finale in `dist/`           |
+| `npm run preview`  | mostra in locale il contenuto di `dist/`              |
+| `npm run lint`     | ESLint: errori e problemi di accessibilità            |
+| `npm run format`   | Prettier: formatta tutti i file                       |
+| `npm run test`     | Vitest: controlla la logica delle isole (`*.test.ts`) |
+| `npm run verifica` | formattazione + lint + test + build: prima di una PR  |
+| `npm run marchio`  | rigenera logo, favicon e immagine Open Graph          |
 
 ## Come si lavora
 
