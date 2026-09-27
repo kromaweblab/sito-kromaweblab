@@ -1,0 +1,267 @@
+---
+// Intestazione di tutte le pagine: marchio + menu.
+//
+// Due menu, generati dagli stessi dati (src/dati/navigazione.ts):
+// - da computer una barra con tutte le voci;
+// - da telefono un pulsante a quadretti che apre il menu.
+// Il CSS mostra l'uno o l'altro; quello nascosto con display:none sparisce
+// anche per gli screen reader, quindi nessuno sente le voci due volte.
+//
+// Il menu da telefono è un <details>: si apre e si chiude senza
+// JavaScript. Lo script in fondo aggiunge solo comodità (chiusura con Esc
+// e toccando fuori). Se lo script non parte, il menu funziona lo stesso.
+
+import { vociMenu, voceContatti } from '../dati/navigazione';
+
+const percorso = Astro.url.pathname;
+/** La voce è "attiva" se siamo sulla sua pagina o in una sotto-pagina. */
+const attiva = (href: string) => percorso === href || percorso.startsWith(`${href}/`);
+const tutteLeVoci = [...vociMenu, voceContatti];
+---
+
+<header class="intestazione">
+  <a href="/" class="marchio" aria-label="Kroma Web Lab, torna alla home">
+    <img src="/brand/kwl-su-chiaro.svg" width="143" height="39" alt="" />
+  </a>
+
+  <nav class="menu-computer" aria-label="Menu principale">
+    <ul>
+      {vociMenu.map((voce) => (
+        <li>
+          <a href={voce.href} aria-current={attiva(voce.href) ? 'page' : undefined}>
+            {voce.testo}
+          </a>
+        </li>
+      ))}
+      <li>
+        <a
+          href={voceContatti.href}
+          class="voce-contatti"
+          aria-current={attiva(voceContatti.href) ? 'page' : undefined}
+        >
+          {voceContatti.testo}
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <details class="menu-telefono">
+    <summary>
+      <span class="solo-lettori">Menu</span>
+      <span class="icona" aria-hidden="true">
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+      </span>
+    </summary>
+    <nav aria-label="Menu principale">
+      <ul>
+        {tutteLeVoci.map((voce) => (
+          <li>
+            <a href={voce.href} aria-current={attiva(voce.href) ? 'page' : undefined}>
+              {voce.testo}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </details>
+</header>
+
+<script>
+  // Solo comodità: Esc chiude il menu e riporta il focus sul pulsante;
+  // un tocco fuori dal menu lo chiude.
+  const menu = document.querySelector<HTMLDetailsElement>('.menu-telefono');
+  if (menu) {
+    document.addEventListener('keydown', (evento) => {
+      if (evento.key === 'Escape' && menu.open) {
+        menu.open = false;
+        menu.querySelector('summary')?.focus();
+      }
+    });
+    document.addEventListener('click', (evento) => {
+      if (menu.open && !menu.contains(evento.target as Node)) menu.open = false;
+    });
+  }
+</script>
+
+<style>
+  .intestazione {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--kroma-spazio-3);
+    max-width: var(--kroma-larghezza);
+    margin: 0 auto;
+    padding: var(--kroma-spazio-2);
+    border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .marchio {
+    display: block;
+    /* Area di rispetto del marchio: il link ha margine attorno al logo. */
+    padding-block: var(--kroma-spazio-1);
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  /* ---------- Menu da computer ---------- */
+
+  .menu-computer {
+    display: none;
+  }
+
+  .menu-computer ul {
+    display: flex;
+    align-items: center;
+    gap: var(--kroma-spazio-4);
+  }
+
+  .menu-computer a {
+    position: relative;
+    display: block;
+    padding-block: var(--kroma-spazio-1);
+    font-weight: 500;
+  }
+
+  /* La linea che compare sotto la voce al passaggio del mouse. */
+  .menu-computer a:not(.voce-contatti)::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--kroma-linea-spessa);
+    background: var(--kroma-nero);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--kroma-durata) ease-out;
+  }
+
+  .menu-computer a:hover::after,
+  .menu-computer a:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  /* Pagina in cui ci si trova: linea sempre visibile, in giallo. */
+  .menu-computer a[aria-current='page']::after {
+    transform: scaleX(1);
+    background: var(--kroma-giallo);
+    height: var(--kroma-spazio-1);
+  }
+
+  .voce-contatti {
+    padding-inline: var(--kroma-spazio-3);
+    background: var(--kroma-arancione);
+    color: var(--kroma-su-arancione);
+    font-weight: 700;
+    transition:
+      background-color var(--kroma-durata),
+      color var(--kroma-durata);
+  }
+
+  .menu-computer .voce-contatti {
+    padding-block: var(--kroma-spazio-1);
+  }
+
+  .voce-contatti:hover,
+  .voce-contatti:focus-visible,
+  .voce-contatti[aria-current='page'] {
+    background: var(--kroma-nero);
+    color: var(--kroma-arancione);
+  }
+
+  /* ---------- Menu da telefono ---------- */
+
+  .menu-telefono summary {
+    display: block;
+    list-style: none;
+    padding: var(--kroma-spazio-1);
+    cursor: pointer;
+  }
+
+  .menu-telefono summary::-webkit-details-marker {
+    display: none;
+  }
+
+  /* Icona: 9 quadretti come la griglia del marchio. Aperto diventa una X. */
+  .icona {
+    display: grid;
+    grid-template-columns: repeat(3, 6px);
+    gap: 3px;
+  }
+
+  .icona i {
+    width: 6px;
+    height: 6px;
+    background: var(--kroma-nero);
+  }
+
+  .menu-telefono[open] .icona i:nth-child(even) {
+    visibility: hidden;
+  }
+
+  .menu-telefono[open] .icona i:nth-child(5) {
+    background: var(--kroma-giallo);
+  }
+
+  .menu-telefono nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    /* Copre tutto lo schermo, così il menu non si confonde con la pagina sotto. */
+    min-height: 100dvh;
+    padding: var(--kroma-spazio-1) var(--kroma-spazio-2) var(--kroma-spazio-4);
+    background: var(--kroma-nero);
+    color: var(--kroma-carta);
+  }
+
+  .menu-telefono nav a {
+    display: flex;
+    align-items: center;
+    gap: var(--kroma-spazio-2);
+    padding-block: var(--kroma-spazio-2);
+    border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea-su-scuro);
+    font-size: var(--kroma-testo-l);
+    font-weight: 700;
+  }
+
+  .menu-telefono nav a[aria-current='page']::before {
+    content: '';
+    width: var(--kroma-spazio-2);
+    height: var(--kroma-spazio-2);
+    background: var(--kroma-giallo);
+  }
+
+  /* Da 960px in su: barra completa, niente pulsante. */
+  @media (min-width: 960px) {
+    .menu-computer {
+      display: block;
+    }
+
+    .menu-telefono {
+      display: none;
+    }
+
+    .intestazione {
+      padding-inline: var(--kroma-spazio-4);
+    }
+  }
+</style>

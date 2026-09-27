@@ -92,6 +92,21 @@ Al loro posto:
 
 **Se una richiesta contraddice questi divieti, segnalarlo invece di eseguire.**
 
+### Scelte già fatte (dettagli in DECISIONI.md)
+
+- **Trama di fondo**: punti su tutto il sito, intensità 9%, passo 32px
+  (`--kroma-trama-*`, in `base.css`). Le sezioni a fondo pieno la coprono.
+- **Quadretti gialli** per marcare le cose importanti (sì).
+- **Menu**: da computer barra completa con tutte le voci e "Contatti" come
+  pulsante arancione; da telefono pulsante a 9 quadretti che diventa una X.
+- **Apertura della home**: frase forte ("Strumenti digitali cuciti sulla tua
+  attività.") + riga con i tre servizi e la zona + domanda "Cosa ti serve?"
+  con tre scelte (radio + CSS `:has()`, niente JS), un pannello per scelta.
+  All'apertura della pagina è selezionato "gestionali". Pulsanti: "Raccontaci
+  la tua attività" → `/contatti`, secondo pulsante → pagina del servizio,
+  link "Tutti i servizi" → `/servizi`. Niente slider automatici.
+- **WhatsApp**: nella sezione contatti in fondo alla home e nel piè di pagina.
+
 ## Il marchio: griglia a pixel
 
 Celle quadrate con passo 16 unità, disegnate come quadrati 14×14 (2 unità
@@ -119,7 +134,12 @@ vanno committati. Si rilancia solo se cambia il marchio.
 - **Astro 7** con TypeScript (strict). Le pagine sono `.astro`: HTML e CSS
   statici, nessun JavaScript inviato al browser.
 - **React 19 solo come isole interattive** (`client:visible`), solo per il
-  gestionale dimostrativo e il configuratore. Nessun altro JS nel sito.
+  gestionale dimostrativo e il configuratore.
+- Fuori dalle isole, JavaScript solo **per comodità e mai indispensabile**:
+  piccoli script senza librerie, e la pagina deve funzionare anche se non
+  partono (es. il menu da telefono è un `<details>`; lo script aggiunge solo
+  la chiusura con Esc e toccando fuori). Effetti al passaggio del mouse e al
+  clic si fanno in CSS.
 - **CSS scritto a mano** con i token. NIENTE Tailwind, librerie di
   componenti o framework CSS.
 - **Netlify Forms** per i moduli; funzione serverless solo se serve.
@@ -166,13 +186,14 @@ lo si dice nella pull request.
 ## Mappa del sito
 
 ```
-/                        Home: frase d'apertura, il problema, i tre servizi
-                         in breve, gestionale dimostrativo, un lavoro, contatto
+/                        Home: apertura, il problema, i tre servizi in breve,
+                         gestionale dimostrativo, un lavoro, contatto
+/servizi                 I tre servizi spiegati, ognuno porta alla sua pagina
 /gestionali              Mini gestionali (servizio principale)
 /web-app                 Web app su misura
 /siti                    Siti web
 /lavori                  Elenco lavori
-/lavori/vivai-cintoli    Caso completo
+/lavori/vivai-cintoli    Caso completo (e una pagina per ogni lavoro)
 /come-lavoriamo          Dal primo incontro alla consegna
 /chi-siamo               Giovanni e Andrea (foto vere, segnaposto per ora)
 /contatti                Configuratore + modulo di contatto
@@ -224,7 +245,12 @@ un modulo disegnato solo da React non lo vede. Quindi:
   cliente **a patto che non si vedano dati sensibili dell'azienda**:
   schermate solo con dati finti o oscurati (clienti, prezzi, fatturato,
   fornitori, quantità).
-- Due progetti in corso, indicati chiaramente come "in corso".
+- **Casale Allibrio**: sito di un agriturismo, rifatto da zero (nessun
+  sistema di prenotazione avanzato).
+- **Estrò Atelier**: sito di un negozio di abiti da sposa.
+- Tutti e tre con il nome vero: abbiamo il consenso. Casale Allibrio ed
+  Estrò Atelier vanno online **insieme al nostro sito**: fino ad allora i
+  loro indirizzi restano `[DA SCRIVERE]`.
 
 ## Qualità richiesta
 
