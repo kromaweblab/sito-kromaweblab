@@ -17,6 +17,25 @@ export default defineConfig({
   // e non manda JavaScript al browser.
   integrations: [react()],
 
+  // Solo per `npm run dev`. Senza questo, Vite scopre React la prima volta
+  // che una pagina con un'isola viene aperta, lo prepara di nuovo a server
+  // avviato e cambia i nomi dei file: una scheda aperta prima resta con i
+  // file vecchi e l'isola si rompe ("_jsxDEV is not a function").
+  // Elencandoli qui, Vite li prepara una volta sola all'avvio.
+  // Non cambia niente nella build pubblicata.
+  vite: {
+    optimizeDeps: {
+      include: [
+        'react',
+        'react/jsx-runtime',
+        'react/jsx-dev-runtime',
+        'react-dom',
+        'react-dom/client',
+        '@astrojs/react/client.js',
+      ],
+    },
+  },
+
   // Caratteri: i file vengono dai pacchetti npm @fontsource-variable
   // (versione fissata in package-lock.json) e Astro li copia nel sito.
   // Nessuna richiesta a Google o ad altri server. Astro crea anche un
