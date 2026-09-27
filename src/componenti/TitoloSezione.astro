@@ -1,0 +1,39 @@
+---
+// Titolo di sezione con il quadretto giallo davanti: i quadretti gialli
+// marcano le cose importanti (CLAUDE.md). Stesso aspetto della domanda
+// "Cosa ti serve?" nell'apertura.
+//
+//   <TitoloSezione id="problema-titolo">Una giornata tipo</TitoloSezione>
+
+interface Props {
+  /** Serve per collegare il titolo alla sua <section> con aria-labelledby. */
+  id: string;
+}
+
+const { id } = Astro.props;
+---
+
+<h2 id={id}>
+  <slot />
+</h2>
+
+<style>
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: var(--kroma-spazio-2);
+    margin: 0;
+    font-size: var(--kroma-testo-xl);
+    font-weight: 700;
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  h2::before {
+    content: '';
+    flex: none;
+    width: var(--kroma-pixel-cella);
+    height: var(--kroma-pixel-cella);
+    background: var(--kroma-giallo);
+  }
+</style>
