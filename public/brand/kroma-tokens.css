@@ -1,0 +1,81 @@
+/*
+ * Kroma Web Lab — token dell'identità visiva.
+ *
+ * QUESTO è il file originale. public/brand/kroma-tokens.css è una copia
+ * generata in automatico (npm run dev / npm run build): non modificarla.
+ *
+ * Regola: nel resto del codice nessun colore, carattere o spaziatura
+ * scritto a mano. Sempre var(--kroma-...).
+ */
+
+:root {
+  /* Colori di base */
+  --kroma-nero: #101010;
+  --kroma-carta: #f5f2ee;
+  --kroma-bianco: #ffffff;
+  --kroma-arancione: #f25c05; /* primario, su fondo scuro */
+  --kroma-verde: #12b3a8; /* secondario, su fondo scuro */
+  --kroma-giallo: #ffc53d; /* solo evidenziazioni e pixel del marchio, MAI testo */
+
+  /* Su fondo chiaro — solo titoli grandi (≥24px, o ≥19px grassetto) e grafica */
+  --kroma-arancione-scuro: #d24f03; /* contrasto su carta 3,87 */
+  --kroma-verde-scuro: #0e8f86; /* contrasto su carta 3,56 */
+
+  /* Su fondo chiaro — testo piccolo e link */
+  --kroma-arancione-testo: #b84503; /* contrasto su carta 4,84 */
+  --kroma-verde-testo: #0c776f; /* contrasto su carta 4,85 */
+
+  /* Testo secondario su carta */
+  --kroma-testo-tenue: #5e5a55;
+
+  /* Ruoli (usare questi nei componenti quando possibile) */
+  --kroma-fondo: var(--kroma-carta);
+  --kroma-testo: var(--kroma-nero);
+  --kroma-linea: var(--kroma-nero);
+  --kroma-evidenzia: var(--kroma-giallo);
+  /* Testo sopra l'arancione: sempre nero (bianco su arancione = 3,33, non basta) */
+  --kroma-su-arancione: var(--kroma-nero);
+
+  /*
+   * Caratteri. Sul sito --font-space-grotesk e --font-jetbrains-mono
+   * li crea Astro (vedi astro.config.mjs); fuori dal sito vale il nome
+   * del carattere scritto dopo la virgola.
+   */
+  --kroma-font-testo: var(--font-space-grotesk, 'Space Grotesk'), system-ui, sans-serif;
+  --kroma-font-mono: var(--font-jetbrains-mono, 'JetBrains Mono'), ui-monospace, monospace;
+
+  /* Dimensioni del testo */
+  --kroma-testo-s: 0.875rem; /* 14px — note, dettagli */
+  --kroma-testo-m: 1.125rem; /* 18px — testo corrente */
+  --kroma-testo-l: 1.5rem; /* 24px — sottotitoli */
+  --kroma-testo-xl: clamp(2rem, 5vw, 3rem); /* 32–48px — titoli di sezione */
+  --kroma-testo-xxl: clamp(3rem, 10vw, 6rem); /* 48–96px — titoli d'apertura */
+
+  /* Spaziature: tutte multiple di 8px */
+  --kroma-spazio: 8px;
+  --kroma-spazio-1: 8px;
+  --kroma-spazio-2: 16px;
+  --kroma-spazio-3: 24px;
+  --kroma-spazio-4: 32px;
+  --kroma-spazio-5: 40px;
+  --kroma-spazio-6: 48px;
+  --kroma-spazio-8: 64px;
+  --kroma-spazio-10: 80px;
+  --kroma-spazio-12: 96px;
+  --kroma-spazio-16: 128px;
+
+  /* Larghezza massima dei contenuti */
+  --kroma-larghezza: 1200px;
+  --kroma-larghezza-testo: 64ch;
+
+  /* Linee: separatori sottili (unica misura non multipla di 8) */
+  --kroma-linea-sottile: 1px;
+  --kroma-linea-spessa: 2px;
+
+  /* Griglia del marchio: passo 16, cella 14 */
+  --kroma-pixel-passo: 16px;
+  --kroma-pixel-cella: 14px;
+
+  /* Angoli vivi, come i pixel del marchio */
+  --kroma-raggio: 0;
+}

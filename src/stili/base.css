@@ -1,0 +1,94 @@
+/*
+ * Regole di base valide su tutto il sito.
+ * Solo l'essenziale: gli stili delle sezioni stanno nei rispettivi .astro.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Angoli vivi ovunque, anche sui controlli nativi (iOS li arrotonda). */
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+  border-radius: var(--kroma-raggio);
+}
+
+input,
+select,
+textarea {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--kroma-fondo);
+  color: var(--kroma-testo);
+  font-family: var(--kroma-font-testo);
+  font-size: var(--kroma-testo-m);
+  line-height: 1.5;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-underline-offset: 0.2em;
+}
+
+/* Focus sempre visibile per chi naviga da tastiera. */
+:focus-visible {
+  outline: var(--kroma-linea-spessa) solid var(--kroma-arancione-testo);
+  outline-offset: var(--kroma-linea-spessa);
+}
+
+/* Link "Salta al contenuto": invisibile finché non riceve il focus. */
+.salta-al-contenuto {
+  position: absolute;
+  left: var(--kroma-spazio-2);
+  top: calc(-1 * var(--kroma-spazio-8));
+  padding: var(--kroma-spazio-1) var(--kroma-spazio-2);
+  background: var(--kroma-nero);
+  color: var(--kroma-carta);
+}
+
+.salta-al-contenuto:focus {
+  top: var(--kroma-spazio-2);
+}
+
+/* Testo leggibile solo dagli screen reader. */
+.solo-lettori {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Nessun movimento per chi lo ha disattivato nel sistema. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

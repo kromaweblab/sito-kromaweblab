@@ -1,0 +1,95 @@
+---
+// Guscio comune a tutte le pagine: <head> con SEO, Open Graph, JSON-LD,
+// caratteri e favicon. Ogni pagina lo usa così:
+//   <Base titolo="..." descrizione="..."> contenuto </Base>
+//
+// Il codice tra i due "---" gira solo durante la build, sul computer:
+// al browser arriva soltanto l'HTML che ne risulta.
+
+import { Font } from 'astro:assets';
+import { sito } from '../dati/sito';
+import '../stili/tokens.css';
+import '../stili/base.css';
+
+interface Props {
+  /** Titolo della pagina. In home si mostra da solo, altrove seguito da "— Kroma Web Lab". */
+  titolo: string;
+  /** Frase che Google mostra sotto il titolo. Max ~155 caratteri. */
+  descrizione: string;
+  /** Immagine per le anteprime dei link condivisi, da /public. */
+  immagine?: string;
+}
+
+const { titolo, descrizione, immagine = '/og-immagine.png' } = Astro.props;
+
+const inHome = Astro.url.pathname === '/';
+const titoloCompleto = inHome ? titolo : `${titolo} — ${sito.nome}`;
+const urlCanonico = new URL(Astro.url.pathname, Astro.site);
+const urlImmagine = new URL(immagine, Astro.site);
+
+// Dati strutturati per Google (schema.org). I campi ancora vuoti
+// vengono omessi invece di pubblicare un segnaposto.
+const datiStrutturati = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: sito.nome,
+  url: sito.url,
+  image: new URL('/og-immagine.png', Astro.site).href,
+  logo: new URL('/brand/k-su-chiaro.svg', Astro.site).href,
+  address: {
+    '@type': 'PostalAddress',
+    ...(sito.indirizzo && { streetAddress: sito.indirizzo }),
+    addressLocality: sito.comune,
+    postalCode: sito.cap,
+    addressRegion: sito.siglaProvincia,
+    addressCountry: 'IT',
+  },
+  areaServed: [
+    { '@type': 'City', name: sito.comune },
+    { '@type': 'AdministrativeArea', name: `Provincia di ${sito.provincia}` },
+  ],
+  ...(sito.email && { email: sito.email }),
+  ...(sito.telefono && { telephone: sito.telefono }),
+};
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titoloCompleto}</title>
+    <meta name="description" content={descrizione} />
+    <link rel="canonical" href={urlCanonico} />
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="it_IT" />
+    <meta property="og:site_name" content={sito.nome} />
+    <meta property="og:title" content={titoloCompleto} />
+    <meta property="og:description" content={descrizione} />
+    <meta property="og:url" content={urlCanonico} />
+    <meta property="og:image" content={urlImmagine} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <Font cssVariable="--font-space-grotesk" preload />
+    <Font cssVariable="--font-jetbrains-mono" />
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(datiStrutturati)} />
+  </head>
+  <body>
+    <a class="salta-al-contenuto" href="#contenuto">
+      Salta al contenuto
+    </a>
+    <slot name="intestazione" />
+    <main id="contenuto">
+      <slot />
+    </main>
+    <slot name="piede" />
+  </body>
+</html>
