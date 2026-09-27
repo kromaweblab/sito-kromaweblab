@@ -135,3 +135,11 @@ commercialista prima della pubblicazione.
 **Scelta:** Giovanni ha chiesto che commit e push li faccia Claude Code (il
 brief iniziale diceva il contrario). Sempre su branch e con pull request:
 `main` resta protetto e l'approvazione resta umana.
+
+## 2026-09-27 — Pagina di prova per le isole e montaggio nelle pagine
+
+**Scelta:** Andrea sviluppa le isole in `src/pages/prova-isole.astro` (da
+cancellare prima della PR) e, per montarle nelle pagine di Giovanni,
+aggiunge solo l'import e la riga dell'isola, segnalandolo nella PR.
+**Perché:** i due lavori possono andare avanti in parallelo anche quando le
+pagine non sono ancora pronte, senza pestarsi i piedi.

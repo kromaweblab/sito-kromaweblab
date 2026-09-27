@@ -149,6 +149,20 @@ scripts/        genera-marchio.mjs, copia-token.mjs
 Ciascuno lavora nelle sue cartelle. Se serve toccare la cartella dell'altro,
 lo si dice nella pull request.
 
+### Come le isole entrano nelle pagine
+
+- Mentre sviluppa, Andrea prova le isole in una pagina sua,
+  `src/pages/prova-isole.astro`, da **cancellare prima della pull request**
+  (non deve finire su `main`).
+- Per montare un'isola nella pagina vera, Andrea aggiunge **solo** l'import
+  e la riga che la inserisce (es. `<Configuratore client:visible />`) nella
+  pagina di Giovanni, e lo scrive nella descrizione della pull request.
+  Il resto della pagina non si tocca.
+- Eccezione: `src/isole/configuratore/ModuloRichiestaNascosto.astro` è di
+  Andrea anche se è un `.astro`.
+- Le isole non importano i token: le variabili `--kroma-*` sono già
+  caricate dal layout.
+
 ## Mappa del sito
 
 ```
