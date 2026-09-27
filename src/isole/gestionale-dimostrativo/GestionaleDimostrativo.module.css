@@ -1,0 +1,22 @@
+/*
+ * Stili del gestionale dimostrativo (CSS Modules: le classi valgono solo
+ * qui). Per ora solo l'indispensabile; lo stile vero arriva al passo 6.
+ */
+
+/* Testo letto dai lettori di schermo ma invisibile sullo schermo. */
+.soloLettori {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Spazio riservato alla data, così quando arriva non sposta niente. */
+.data {
+  display: inline-block;
+  min-width: 9ch;
+  margin-left: var(--kroma-spazio-1);
+  font-family: var(--kroma-font-mono);
+}

@@ -16,6 +16,8 @@ export type IdAttivita =
 export interface CampoAScelta {
   /** Etichetta del campo nel modulo: "Tavolo", "Estetista". */
   etichetta: string;
+  /** Per il messaggio d'errore: "Scegli il tavolo." */
+  conArticolo: string;
   scelte: string[];
   /** Parola davanti al valore nella lavagna: "con Giulia". */
   prefisso?: string;
@@ -54,7 +56,7 @@ export const attivita: Record<IdAttivita, Attivita> = {
       femminile: true,
     },
     quanti: { singolare: 'coperto', plurale: 'coperti', massimo: 20 },
-    dove: { etichetta: 'Tavolo', scelte: numerati('Tavolo', 12) },
+    dove: { etichetta: 'Tavolo', conArticolo: 'il tavolo', scelte: numerati('Tavolo', 12) },
     esempi: [
       {
         id: 'e1',
@@ -133,9 +135,14 @@ export const attivita: Record<IdAttivita, Attivita> = {
       articolo: "l'",
       femminile: false,
     },
-    dove: { etichetta: 'Postazione', scelte: numerati('Postazione', 4) },
+    dove: {
+      etichetta: 'Postazione',
+      conArticolo: 'la postazione',
+      scelte: numerati('Postazione', 4),
+    },
     cosa: {
       etichetta: 'Servizio',
+      conArticolo: 'il servizio',
       scelte: ['Taglio', 'Piega', 'Taglio e piega', 'Colore', 'Barba'],
     },
     esempi: [
@@ -207,9 +214,15 @@ export const attivita: Record<IdAttivita, Attivita> = {
       articolo: "l'",
       femminile: false,
     },
-    dove: { etichetta: 'Estetista', scelte: ['Giulia', 'Sara', 'Marta'], prefisso: 'con' },
+    dove: {
+      etichetta: 'Estetista',
+      conArticolo: "l'estetista",
+      scelte: ['Giulia', 'Sara', 'Marta'],
+      prefisso: 'con',
+    },
     cosa: {
       etichetta: 'Trattamento',
+      conArticolo: 'il trattamento',
       scelte: ['Pulizia del viso', 'Manicure', 'Pedicure', 'Ceretta', 'Massaggio'],
     },
     esempi: [
@@ -284,10 +297,12 @@ export const attivita: Record<IdAttivita, Attivita> = {
     quanti: { singolare: 'persona', plurale: 'persone', massimo: 8 },
     dove: {
       etichetta: 'Camera',
+      conArticolo: 'la camera',
       scelte: ['Camera Carrubo', 'Camera Ulivo', 'Camera Mandorlo', 'Camera Fico'],
     },
     cosa: {
       etichetta: 'Notti',
+      conArticolo: 'quante notti',
       scelte: ['1 notte', '2 notti', '3 notti', '4 notti', '5 notti', '6 notti', '7 notti'],
     },
     esempi: [
@@ -342,6 +357,7 @@ export const attivita: Record<IdAttivita, Attivita> = {
     evento: { singolare: 'visita', plurale: 'visite', articolo: 'la ', femminile: true },
     cosa: {
       etichetta: 'Visita',
+      conArticolo: 'il tipo di visita',
       scelte: ['Prima visita', 'Controllo', 'Pulizia dei denti', 'Certificato', 'Medicazione'],
     },
     esempi: [
@@ -395,6 +411,7 @@ export const attivita: Record<IdAttivita, Attivita> = {
     },
     cosa: {
       etichetta: 'Appuntamento',
+      conArticolo: 'il tipo di appuntamento',
       scelte: [
         'Prima consulenza',
         'Dichiarazione dei redditi',

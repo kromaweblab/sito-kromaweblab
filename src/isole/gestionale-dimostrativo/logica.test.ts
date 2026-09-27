@@ -5,9 +5,11 @@ import {
   controllaNuova,
   descriviDove,
   descriviQuanti,
+  etichettaData,
   prenotazioniDelGiorno,
   statoIniziale,
   statoSuccessivo,
+  testoPulsanteAvanza,
   type DatiNuova,
 } from './logica';
 
@@ -153,7 +155,7 @@ describe('controlli del modulo', () => {
       nome: 'Scrivi il nome del cliente.',
       ora: 'Scegli un orario.',
       quanti: 'Da 1 a 20 coperti.',
-      dove: 'Scegli tavolo.',
+      dove: 'Scegli il tavolo.',
     });
   });
 
@@ -212,6 +214,12 @@ describe('come si mostra', () => {
     expect(descriviQuanti(4, ristorante)).toBe('4 coperti');
   });
 
+  it('pulsante: accorda il genere di "completato"', () => {
+    expect(testoPulsanteAvanza('richiesta', ristorante)).toBe('Conferma');
+    expect(testoPulsanteAvanza('confermata', ristorante)).toBe('Segna come completata');
+    expect(testoPulsanteAvanza('confermata', attivita.parrucchiere)).toBe('Segna come completato');
+  });
+
   it('"con" davanti all\'estetista, niente davanti al tavolo', () => {
     expect(descriviDove('Giulia', attivita['centro-estetico'])).toBe('con Giulia');
     expect(descriviDove('Tavolo 7', ristorante)).toBe('Tavolo 7');
@@ -252,5 +260,19 @@ describe('riga di spiegazione', () => {
 
   it.each(ordineAttivita)("%s: la frase iniziale nomina l'attività", (id) => {
     expect(statoIniziale(id).spiegazione).toContain(attivita[id].conArticolo);
+  });
+});
+
+describe('data vera accanto al giorno', () => {
+  it('oggi, domani, dopodomani', () => {
+    const domenica = new Date(2026, 8, 27, 18, 30);
+    expect(etichettaData(domenica, 0)).toBe('dom 27/9');
+    expect(etichettaData(domenica, 1)).toBe('lun 28/9');
+    expect(etichettaData(domenica, 2)).toBe('mar 29/9');
+  });
+
+  it('cambio di mese e di anno', () => {
+    expect(etichettaData(new Date(2026, 8, 30), 2)).toBe('ven 2/10');
+    expect(etichettaData(new Date(2026, 11, 31), 1)).toBe('ven 1/1');
   });
 });

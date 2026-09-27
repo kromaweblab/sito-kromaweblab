@@ -1,9 +1,10 @@
 // Logica del gestionale dimostrativo: solo funzioni pure, senza React.
 // Il componente la usa con useReducer; i test stanno in logica.test.ts.
 //
-// Niente date vere qui dentro: i giorni sono relativi (0 = oggi) perché
-// il componente viene disegnato sia alla build sia nel browser, e i due
-// disegni devono coincidere (vedi DECISIONI.md).
+// I giorni sono relativi (0 = oggi) perché il componente viene disegnato
+// sia alla build sia nel browser, e i due disegni devono coincidere (vedi
+// DECISIONI.md). L'unica data vera è in etichettaData, che il componente
+// chiama solo nel browser.
 
 import { attivita, type Attivita, type IdAttivita } from './attivita';
 
@@ -12,6 +13,17 @@ export type Stato = 'richiesta' | 'confermata' | 'completata';
 export type Giorno = 0 | 1 | 2;
 export const giorni: Giorno[] = [0, 1, 2];
 export const nomiGiorni: Record<Giorno, string> = { 0: 'Oggi', 1: 'Domani', 2: 'Dopodomani' };
+
+// Scritti a mano invece di Intl: ogni browser formatta le date a modo suo,
+// e qui serve sempre la stessa forma, corta, per il monospazio.
+const giorniSettimana = ['dom', 'lun', 'mar', 'mer', 'gio', 'ven', 'sab'];
+
+/** "dom 27/9": la data vera di un giorno relativo, partendo da oggi. */
+export function etichettaData(oggi: Date, giorno: Giorno): string {
+  // new Date(anno, mese, 32) passa da solo al mese dopo.
+  const data = new Date(oggi.getFullYear(), oggi.getMonth(), oggi.getDate() + giorno);
+  return `${giorniSettimana[data.getDay()]} ${data.getDate()}/${data.getMonth() + 1}`;
+}
 
 export interface Prenotazione {
   id: string;
@@ -155,10 +167,10 @@ export function controllaNuova(dati: DatiNuova, a: Attivita): ErroriModulo {
     }
   }
   if (a.dove && !a.dove.scelte.includes(dati.dove ?? '')) {
-    errori.dove = `Scegli ${a.dove.etichetta.toLowerCase()}.`;
+    errori.dove = `Scegli ${a.dove.conArticolo}.`;
   }
   if (a.cosa && !a.cosa.scelte.includes(dati.cosa ?? '')) {
-    errori.cosa = `Scegli ${a.cosa.etichetta.toLowerCase()}.`;
+    errori.cosa = `Scegli ${a.cosa.conArticolo}.`;
   }
   return errori;
 }
@@ -189,6 +201,11 @@ export function descriviQuanti(n: number, a: Attivita): string {
 /** "Tavolo 7", "con Giulia". */
 export function descriviDove(valore: string, a: Attivita): string {
   return a.dove?.prefisso ? `${a.dove.prefisso} ${valore}` : valore;
+}
+
+/** Il pulsante che fa avanzare lo stato: "Conferma", "Segna come completato". */
+export function testoPulsanteAvanza(stato: 'richiesta' | 'confermata', a: Attivita): string {
+  return stato === 'richiesta' ? 'Conferma' : `Segna come completat${fin(a)}`;
 }
 
 // ---------------------------------------------------------------------------
