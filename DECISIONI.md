@@ -193,3 +193,14 @@ bordo serve perché il giallo su carta (1,41:1) quasi non si vede.
 L'informazione sta comunque nella parola, non solo nel colore.
 **Alternativa scartata:** solo la parola, senza colore (più sobria, ma le
 richieste non si trovano a colpo d'occhio).
+
+## 2026-09-27 — Vitest per la logica pura delle isole
+
+**Scelta:** la logica delle isole sta in file di sole funzioni pure (per
+es. `logica.ts`), controllati da test Vitest (`logica.test.ts`) accanto al
+file. Niente test dell'interfaccia. `npm run test` è dentro `verifica`.
+**Perché:** Vitest usa Vite come Astro, quindi non serve configurazione; i
+test proteggono gli errori silenziosi (stati, filtri, calcolo delle fasce
+del configuratore) e girano in meno di un secondo. Per due isole piccole,
+i test dell'interfaccia costerebbero più di quanto rendono.
+**Nota:** tocca `package.json`, file condiviso: segnalato nella PR.

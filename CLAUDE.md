@@ -265,7 +265,7 @@ un modulo disegnato solo da React non lo vede. Quindi:
 - Andrea: le due isole React ed eventuale parte serverless.
 - `main` è protetto: si lavora su branch `feat/nome-sezione`, pull request,
   l'altro approva guardando anche l'anteprima Netlify. Nessun push diretto.
-- Prima di aprire una PR: `npm run verifica` (formattazione, lint, build).
+- Prima di aprire una PR: `npm run verifica` (formattazione, lint, test, build).
 
 ## Istruzioni per l'assistente
 

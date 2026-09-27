@@ -17,7 +17,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "verifica": "npm run format:check && npm run lint && npm run build"
+    "test": "vitest run",
+    "verifica": "npm run format:check && npm run lint && npm run test && npm run build"
   },
   "allowScripts": {
     "esbuild": true
@@ -49,6 +50,7 @@
     "prettier-plugin-astro": "^1.1.0",
     "sharp": "^0.35.4",
     "typescript": "~6.0.3",
-    "typescript-eslint": "^8.70.1"
+    "typescript-eslint": "^8.70.1",
+    "vitest": "^5.0.2"
   }
 }
