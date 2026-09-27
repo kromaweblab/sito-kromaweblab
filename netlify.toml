@@ -1,0 +1,25 @@
+# Impostazioni di Netlify scritte nel repository: valgono al posto di
+# quelle del pannello, e ogni modifica passa da una pull request.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # Stessa versione di Node usata in locale (.nvmrc)
+  NODE_VERSION = "24"
+
+# Intestazioni di sicurezza per tutte le pagine
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "DENY"
+
+# I file in /_astro/ hanno un nome che cambia a ogni modifica:
+# il browser può tenerli in memoria per un anno.
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
