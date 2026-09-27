@@ -293,3 +293,14 @@ succede. Frasi vere (vivaio, agriturismo, vecchio sito), orari indicativi
 **Perché senza nomi:** il "prima" di un cliente, da solo, può metterlo in
 imbarazzo. I nomi stanno nei lavori, insieme al "dopo".
 I fatti raccolti per i casi completi sono in `appunti/lavori.md`.
+
+## 2026-09-27 — Pull request: ordine e main aggiornato
+
+**Scelta:** le PR si uniscono nell'ordine di apertura; prima di aprirle e
+prima di chiedere l'approvazione l'assistente unisce nel branch l'ultima
+versione di main e risolve i conflitti. Dettagli in `CLAUDE.md`.
+**Perché:** due PR aperte in parallelo avevano aggiunto voci in fondo a
+`DECISIONI.md`: dopo il merge della prima, la seconda era in conflitto e non
+si capiva perché il lavoro non comparisse su main.
+**Alternativa scartata per ora:** un file per decisione (cartella
+`decisioni/`). Si riprende se i conflitti si ripetono.
