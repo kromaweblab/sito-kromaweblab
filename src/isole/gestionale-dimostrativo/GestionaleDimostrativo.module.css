@@ -127,6 +127,8 @@ fieldset.giorni {
   box-sizing: border-box;
   padding: 0 var(--kroma-spazio-2);
   border: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  /* Fondo pieno: copre la trama di base.css, che dietro al testo disturba. */
+  background: var(--kroma-fondo);
   cursor: pointer;
 }
 
@@ -355,6 +357,7 @@ fieldset.giorni {
 
 .modulo {
   border: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  background: var(--kroma-fondo);
 }
 
 .apriModulo {
