@@ -1,34 +1,22 @@
 ---
-// Home provvisoria della Fase 0: serve solo a verificare che build,
-// caratteri, token e marchio funzionino. Le sezioni vere arrivano dopo.
+// Home. Le sezioni si aggiungono qui una alla volta, nell'ordine della
+// mappa in CLAUDE.md.
 import Base from '../layout/Base.astro';
+import Apertura from '../sezioni/Apertura.astro';
 import { DA_SCRIVERE } from '../dati/sito';
 ---
 
 <Base titolo="Kroma Web Lab — Scicli" descrizione={DA_SCRIVERE}>
-  <div class="provvisoria">
-    <h1>{DA_SCRIVERE}</h1>
-    <p class="dato">home in costruzione · la prossima sezione è l'apertura</p>
-  </div>
+  <Apertura />
+  <p class="provvisoria">home in costruzione · prossima sezione: il problema</p>
 </Base>
 
 <style>
-  /* Gli stili scritti in un .astro valgono solo per questo file. */
   .provvisoria {
     max-width: var(--kroma-larghezza);
     margin: 0 auto;
-    padding: var(--kroma-spazio-8) var(--kroma-spazio-2);
-  }
-
-  h1 {
-    margin: 0 0 var(--kroma-spazio-2);
-    font-size: var(--kroma-testo-xxl);
-    line-height: 1;
+    padding: var(--kroma-spazio-4) var(--kroma-spazio-2) var(--kroma-spazio-8);
     border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
-    padding-top: var(--kroma-spazio-3);
-  }
-
-  .dato {
     font-family: var(--kroma-font-mono);
     font-size: var(--kroma-testo-s);
     color: var(--kroma-testo-tenue);

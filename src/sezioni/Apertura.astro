@@ -1,0 +1,269 @@
+---
+// Apertura della home: frase forte, riga con i tre servizi, poi la domanda
+// "Cosa ti serve?" con una scelta per servizio.
+//
+// Il selettore funziona SENZA JavaScript:
+// - le tre scelte sono pulsanti radio veri (da tastiera si usano le frecce);
+// - il CSS, con :has(), mostra solo il pannello della scelta attiva.
+// Nei browser che non conoscono :has() si vedono tutti e tre i pannelli,
+// uno sotto l'altro: il contenuto resta comunque tutto leggibile.
+
+import Pulsante from '../componenti/Pulsante.astro';
+import { servizi } from '../dati/servizi';
+
+/** Scelta attiva quando si apre la pagina (decisione del 27/09/2026). */
+const sceltaIniziale = 'gestionali';
+---
+
+<section class="apertura" aria-labelledby="apertura-titolo">
+  <h1 id="apertura-titolo">Strumenti digitali cuciti sulla tua attività.</h1>
+  <p class="sotto">
+    Siti, gestionali e app su misura per le attività della provincia di Ragusa e del Val di Noto.
+  </p>
+
+  <fieldset class="domanda">
+    <legend>Cosa ti serve?</legend>
+    <div class="scelte">
+      {servizi.map((s) => (
+        <>
+          <input
+            type="radio"
+            name="cosa-ti-serve"
+            id={`scelta-${s.id}`}
+            value={s.id}
+            checked={s.id === sceltaIniziale}
+          />
+          <label for={`scelta-${s.id}`}>
+            <span class="quadretto" aria-hidden="true" />
+            {s.scelta}
+          </label>
+        </>
+      ))}
+    </div>
+  </fieldset>
+
+  <div class="pannelli">
+    {servizi.map((s) => (
+      <div class={`pannello pannello-${s.id}`}>
+        <h2>{s.titolo}</h2>
+        <p>{s.testo}</p>
+        <div class="azioni">
+          <Pulsante href="/contatti">Raccontaci la tua attività</Pulsante>
+          <Pulsante href={s.href} variante="secondario" freccia>
+            {s.invito}
+          </Pulsante>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <a href="/servizi" class="tutti">
+    Tutti i servizi <span aria-hidden="true">→</span>
+  </a>
+</section>
+
+<style>
+  .apertura {
+    max-width: var(--kroma-larghezza);
+    margin: 0 auto;
+    padding: var(--kroma-spazio-6) var(--kroma-spazio-2) var(--kroma-spazio-8);
+  }
+
+  h1 {
+    max-width: 13ch;
+    margin: 0;
+    font-size: var(--kroma-testo-xxl);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+
+  .sotto {
+    max-width: 44ch;
+    margin: var(--kroma-spazio-3) 0 0;
+    font-size: var(--kroma-testo-l);
+    line-height: 1.35;
+  }
+
+  /* ---------- La domanda e le tre scelte ---------- */
+
+  .domanda {
+    min-width: 0;
+    margin: var(--kroma-spazio-8) 0 0;
+    padding: var(--kroma-spazio-3) 0 0;
+    border: 0;
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  legend {
+    display: flex;
+    align-items: center;
+    gap: var(--kroma-spazio-2);
+    float: left; /* fa stare la legenda dentro il riquadro, sopra le scelte */
+    width: 100%;
+    margin-bottom: var(--kroma-spazio-2);
+    padding: 0;
+    font-size: var(--kroma-testo-xl);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  legend::before {
+    content: '';
+    flex: none;
+    width: var(--kroma-pixel-cella);
+    height: var(--kroma-pixel-cella);
+    background: var(--kroma-giallo);
+  }
+
+  .scelte {
+    clear: both;
+    display: grid;
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  /* Il pallino del radio non si vede: lo sostituisce il quadretto. */
+  input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: var(--kroma-spazio-2);
+    padding: var(--kroma-spazio-2);
+    border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
+    background: var(--kroma-carta);
+    font-size: var(--kroma-testo-m);
+    font-weight: 500;
+    line-height: 1.25;
+    cursor: pointer;
+    transition:
+      background-color var(--kroma-durata),
+      color var(--kroma-durata);
+  }
+
+  .quadretto {
+    flex: none;
+    width: var(--kroma-pixel-cella);
+    height: var(--kroma-pixel-cella);
+    border: var(--kroma-linea-spessa) solid currentColor;
+  }
+
+  label:hover {
+    background: var(--kroma-carta-hover);
+  }
+
+  input:checked + label {
+    background: var(--kroma-nero);
+    color: var(--kroma-carta);
+  }
+
+  input:checked + label .quadretto {
+    background: var(--kroma-giallo);
+    border-color: var(--kroma-giallo);
+  }
+
+  input:focus-visible + label {
+    outline: var(--kroma-linea-spessa) solid var(--kroma-arancione-testo);
+    outline-offset: calc(-1 * var(--kroma-spazio-1));
+  }
+
+  input:checked:focus-visible + label {
+    outline-color: var(--kroma-giallo);
+  }
+
+  /* ---------- I pannelli ---------- */
+
+  .pannelli {
+    margin-top: var(--kroma-spazio-4);
+  }
+
+  .pannello + .pannello {
+    margin-top: var(--kroma-spazio-6);
+  }
+
+  /* Solo se il browser conosce :has(): si vede il pannello della scelta attiva. */
+  @supports selector(:has(a)) {
+    .pannello {
+      display: none;
+    }
+
+    .pannello + .pannello {
+      margin-top: 0;
+    }
+
+    .apertura:has(#scelta-gestionali:checked) .pannello-gestionali,
+    .apertura:has(#scelta-web-app:checked) .pannello-web-app,
+    .apertura:has(#scelta-siti:checked) .pannello-siti {
+      display: block;
+    }
+  }
+
+  h2 {
+    max-width: 22ch;
+    margin: 0 0 var(--kroma-spazio-2);
+    font-size: var(--kroma-testo-xl);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  .pannello p {
+    max-width: 52ch;
+    margin: 0 0 var(--kroma-spazio-4);
+  }
+
+  .azioni {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kroma-spazio-1);
+  }
+
+  .tutti {
+    display: inline-flex;
+    gap: var(--kroma-spazio-1);
+    margin-top: var(--kroma-spazio-4);
+    font-weight: 500;
+    text-decoration-thickness: var(--kroma-linea-sottile);
+    transition: text-decoration-thickness var(--kroma-durata);
+  }
+
+  .tutti:hover {
+    text-decoration-thickness: var(--kroma-linea-spessa);
+  }
+
+  /* ---------- Da computer ---------- */
+
+  @media (min-width: 960px) {
+    .apertura {
+      padding: var(--kroma-spazio-10) var(--kroma-spazio-4) var(--kroma-spazio-12);
+    }
+
+    .domanda {
+      margin-top: var(--kroma-spazio-10);
+    }
+
+    /* Le tre scelte affiancate, come colonne di una tabella. */
+    .scelte {
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 0;
+    }
+
+    label {
+      height: 100%;
+      padding: var(--kroma-spazio-3);
+      border: var(--kroma-linea-sottile) solid var(--kroma-linea);
+      border-left-width: 0;
+      font-size: var(--kroma-testo-l);
+    }
+
+    input:first-of-type + label {
+      border-left-width: var(--kroma-linea-sottile);
+    }
+  }
+</style>

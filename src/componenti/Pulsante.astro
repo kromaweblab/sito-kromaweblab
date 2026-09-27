@@ -1,0 +1,76 @@
+---
+// Pulsante del sito. È sempre un link (<a>): porta a un'altra pagina.
+// Per le azioni dentro la pagina (es. inviare un modulo) si usa <button>.
+//
+//   <Pulsante href="/contatti">Raccontaci la tua attività</Pulsante>
+//   <Pulsante href="/siti" variante="secondario" freccia>Scopri i siti</Pulsante>
+
+interface Props {
+  href: string;
+  /** primario = arancione, per l'azione principale; secondario = bordo nero. */
+  variante?: 'primario' | 'secondario';
+  /** Aggiunge "→" dopo il testo (gli screen reader non la leggono). */
+  freccia?: boolean;
+}
+
+const { href, variante = 'primario', freccia = false } = Astro.props;
+---
+
+<a href={href} class:list={['pulsante', variante]}>
+  <slot />
+  {freccia && <span aria-hidden="true">→</span>}
+</a>
+
+<style>
+  .pulsante {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--kroma-spazio-1);
+    padding: var(--kroma-spazio-2) var(--kroma-spazio-3);
+    border: var(--kroma-linea-spessa) solid var(--kroma-nero);
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    transition:
+      background-color var(--kroma-durata),
+      color var(--kroma-durata),
+      border-color var(--kroma-durata),
+      transform var(--kroma-durata);
+  }
+
+  .primario {
+    background: var(--kroma-arancione);
+    border-color: var(--kroma-arancione);
+    color: var(--kroma-su-arancione);
+  }
+
+  .primario:hover {
+    background: var(--kroma-nero);
+    border-color: var(--kroma-nero);
+    color: var(--kroma-arancione);
+  }
+
+  .secondario {
+    background: var(--kroma-carta);
+    color: var(--kroma-nero);
+  }
+
+  .secondario:hover {
+    background: var(--kroma-nero);
+    color: var(--kroma-carta);
+  }
+
+  /* Al passaggio del mouse la freccia si sposta di un passo. */
+  span {
+    transition: transform var(--kroma-durata);
+  }
+
+  .pulsante:hover span {
+    transform: translateX(4px);
+  }
+
+  /* Al clic il pulsante "scende" di un pixel, come un tasto. */
+  .pulsante:active {
+    transform: translateY(2px);
+  }
+</style>

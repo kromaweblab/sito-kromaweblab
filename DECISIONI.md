@@ -191,3 +191,11 @@ le pagine vere.
 
 Come far provare il gestionale di Vivai Cintoli, che ha accesso con utente e
 PIN e ruoli diversi (Ufficio/Admin, Operatore).
+
+## 2026-09-27 — Componente Pulsante e dati dei servizi in un solo file
+
+**Scelta:** `src/componenti/Pulsante.astro` (sempre un link; primario
+arancione, secondario col bordo) con gli effetti al passaggio del mouse e al
+clic in CSS. I testi dei tre servizi stanno in `src/dati/servizi.ts` e li
+usano apertura, "Cosa facciamo" e `/servizi`.
+**Perché:** stesso aspetto ovunque e testi da correggere in un posto solo.
