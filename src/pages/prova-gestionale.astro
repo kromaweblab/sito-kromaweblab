@@ -1,0 +1,35 @@
+---
+// ANTEPRIMA DA NON UNIRE: serve solo perché Giovanni provi il gestionale
+// dimostrativo sull'anteprima di Netlify, prima che sia montato in home.
+// La pull request che contiene questa pagina si chiude senza unirla.
+import Base from '../layout/Base.astro';
+import { GestionaleDimostrativo } from '../isole/gestionale-dimostrativo/GestionaleDimostrativo';
+---
+
+<Base titolo="Anteprima gestionale" descrizione="Pagina di anteprima, non pubblicare.">
+  <div class="anteprima">
+    <h1>Gestionale dimostrativo</h1>
+    <p class="nota">Anteprima: in home andrà dopo apertura, problema e servizi.</p>
+    <GestionaleDimostrativo client:visible />
+  </div>
+</Base>
+
+<style>
+  .anteprima {
+    max-width: var(--kroma-larghezza);
+    margin: 0 auto;
+    padding: var(--kroma-spazio-6) var(--kroma-spazio-2);
+  }
+
+  h1 {
+    margin: 0 0 var(--kroma-spazio-1);
+    font-size: var(--kroma-testo-xl);
+  }
+
+  .nota {
+    margin: 0 0 var(--kroma-spazio-4);
+    font-family: var(--kroma-font-mono);
+    font-size: var(--kroma-testo-s);
+    color: var(--kroma-testo-tenue);
+  }
+</style>
