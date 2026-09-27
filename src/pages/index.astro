@@ -4,6 +4,7 @@
 import Base from '../layout/Base.astro';
 import Apertura from '../sezioni/Apertura.astro';
 import Problema from '../sezioni/Problema.astro';
+import { GestionaleDimostrativo } from '../isole/gestionale-dimostrativo/GestionaleDimostrativo';
 import { DA_SCRIVERE } from '../dati/sito';
 ---
 
@@ -11,6 +12,7 @@ import { DA_SCRIVERE } from '../dati/sito';
   <Apertura />
   <Problema />
   <p class="provvisoria">home in costruzione · prossima sezione: cosa facciamo</p>
+  <GestionaleDimostrativo client:visible />
 </Base>
 
 <style>
