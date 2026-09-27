@@ -10,8 +10,21 @@
 /* ---------------------------------------------------------------- impianto */
 
 .gestionale {
-  /* L'isola misura sé stessa: funziona in qualunque colonna la metta Giovanni. */
+  /* Stesso contenitore delle sezioni di Giovanni (Apertura, Problema):
+     larghezza massima, centrata, spazio sopra, sotto e ai lati. */
+  max-width: var(--kroma-larghezza);
+  margin: 0 auto;
+  padding: var(--kroma-spazio-8) var(--kroma-spazio-2);
+  /* L'isola misura il proprio spazio interno (container query), non la
+     finestra: le due colonne compaiono solo se c'è posto davvero. */
   container-type: inline-size;
+}
+
+/* Stesso passaggio e stesse misure di Problema.astro da computer. */
+@media (min-width: 960px) {
+  .gestionale {
+    padding: var(--kroma-spazio-12) var(--kroma-spazio-4);
+  }
 }
 
 .impianto {
