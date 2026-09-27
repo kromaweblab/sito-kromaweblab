@@ -191,6 +191,11 @@ Sta in home. Lavagna di prenotazioni funzionante con dati finti.
 - Deve funzionare bene da telefono.
 - Accanto, una riga che spiega in italiano semplice cosa sta succedendo.
 - Sobria: deve convincere, non stupire.
+- **Dati di esempio**: cognomi comuni e dati plausibili ("20:30 · Bianchi ·
+  4 coperti · Tavolo 7"), con la scritta "Dati di esempio" sempre visibile
+  sopra la lavagna. È l'unica eccezione a "mai testo finto verosimile":
+  quella regola vale per i dati mancanti del sito (email, telefono, prezzi),
+  che restano `[DA SCRIVERE]` / `[DA DEFINIRE]`.
 
 ## Isola 2 — Configuratore (Andrea)
 

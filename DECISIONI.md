@@ -156,3 +156,14 @@ più semplice da scrivere, ma globale, e protetto solo dalla disciplina.
 **Costo accettato:** `className={stili.nome}` al posto della stringa, e
 nessun controllo sui nomi: una classe scritta male dà `undefined` senza
 errori (i tipi di Astro accettano qualunque nome).
+
+## 2026-09-27 — Dati di esempio del gestionale dimostrativo
+
+**Scelta:** cognomi comuni e dati plausibili, con la scritta "Dati di
+esempio" sempre visibile sopra la lavagna.
+**Perché:** il titolare deve riconoscere il suo quaderno; con "Cliente A"
+la lavagna sembra finta e convince meno. La scritta fissa evita che qualcuno
+li scambi per clienti veri di Kroma Web Lab.
+**Alternative scartate:** segnaposto ("Cliente A"), solo nomi di battesimo.
+**Nota:** "mai testo finto verosimile" resta valido per i dati mancanti del
+sito; questa è un'eccezione solo per la demo.
