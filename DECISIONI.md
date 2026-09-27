@@ -167,3 +167,16 @@ li scambi per clienti veri di Kroma Web Lab.
 **Alternative scartate:** segnaposto ("Cliente A"), solo nomi di battesimo.
 **Nota:** "mai testo finto verosimile" resta valido per i dati mancanti del
 sito; questa è un'eccezione solo per la demo.
+
+## 2026-09-27 — Giorni del gestionale: relativi, con la data vera nel browser
+
+**Scelta:** i dati di esempio usano giorni relativi (0, 1, 2) e il filtro
+mostra `Oggi · Domani · Dopodomani`. Dopo il caricamento, nel browser, si
+aggiunge la data vera accanto a ciascun giorno (`Oggi · dom 27/9`), in uno
+spazio già riservato.
+**Perché:** l'isola viene disegnata due volte, alla build (in Node) e nel
+browser. Una data calcolata con `new Date()` darebbe due risultati diversi
+e un errore di idratazione. I giorni relativi sono uguali ovunque; la data
+vera, aggiunta in un `useEffect`, rende la lavagna credibile.
+**Alternative scartate:** solo giorni relativi (meno credibile); date fisse
+nei dati (dopo qualche settimana la demo sembra abbandonata).
