@@ -106,6 +106,13 @@ Al loro posto:
   la tua attività" → `/contatti`, secondo pulsante → pagina del servizio,
   link "Tutti i servizi" → `/servizi`. Niente slider automatici.
 - **WhatsApp**: nella sezione contatti in fondo alla home e nel piè di pagina.
+- **Ricostruzioni delle app dei clienti** (es. Vivai Cintoli in "I nostri lavori"):
+  disegnate in HTML con dati di esempio, nei colori dell'app del cliente
+  (token `--kroma-vivai-*`) e con i suoi angoli tondi. È l'unica eccezione
+  ad angoli vivi e palette Kroma, e vale solo dentro la ricostruzione.
+  Sempre marcate "ricostruzione con dati di esempio". Niente emoji.
+  **Niente cognomi, nemmeno inventati** ("Operatore 1", "Squadra B"): quelli
+  comuni rischiano di essere di dipendenti veri.
 
 ## Il marchio: griglia a pixel
 
@@ -187,7 +194,7 @@ lo si dice nella pull request.
 
 ```
 /                        Home: apertura, il problema, gestionale dimostrativo,
-                         cosa facciamo, un lavoro, contatto
+                         cosa facciamo, i nostri lavori, contatto
 /servizi                 I tre servizi spiegati, ognuno porta alla sua pagina
 /gestionali              Mini gestionali (servizio principale)
 /web-app                 Web app su misura
@@ -266,6 +273,12 @@ un modulo disegnato solo da React non lo vede. Quindi:
 - Tutti e tre con il nome vero: abbiamo il consenso. Casale Allibrio ed
   Estrò Atelier vanno online **insieme al nostro sito**: fino ad allora i
   loro indirizzi restano `[DA SCRIVERE]`.
+- **Loghi dei clienti** al posto dei nomi, su fondo trasparente, in
+  `src/assets/lavori/` (Astro li ottimizza). Il nome resta nel testo
+  alternativo. Estrò Atelier: logo bianco su nero convertito in nero su
+  trasparente (stesso logo, colori invertiti) per stare su carta. Vivai
+  Cintoli: dalla versione bianca su trasparente dell'app, colorata in nero
+  (quella a colori aveva il fondo bianco).
 
 ## Qualità richiesta
 

@@ -31,6 +31,16 @@ trattamenti, dati reali del vivaio). Schermate solo con dati finti.
     compare come "già usato in riga N", con un avviso di conferma se lo si
     vuole aggiungere anche lì.
 
+**Chi la usa** (28/09/2026): in uso da inizio settembre 2026. 3 account
+Admin, 2 Ufficio, circa 20-25 Operatore. Ufficio e Admin vedono la stessa
+dashboard completa; solo Admin crea gli account. Gli operatori hanno una
+dashboard personale con i moduli per inviare dati all'ufficio, e l'ufficio
+sceglie per ogni operatore quali moduli mostrare.
+
+**Negli esempi niente cognomi, nemmeno inventati** (decisione del
+28/09/2026): "Operatore 1", "Squadra B". Greco, Colombo e Russo sono
+dipendenti veri, e i cognomi comuni rischiano sempre di esserlo.
+
 **Altro** (dal README dell'app): giacenze (prima su carta), trattamenti e
 cantieri (prima su Excel), funziona anche senza rete sul campo, installabile
 sul telefono, esporta PDF ed Excel, ruoli Operatore / Ufficio / Admin.
@@ -43,9 +53,10 @@ ruoli diversi).
 - Prima: sito esportato da Canva, una pagina sola con tutto messo a caso,
   visivamente brutto.
 - La titolare, Jessica, ha voluto una svolta: un sito professionale.
-- Direzione nuova: l'attività punta sempre di più a essere una location per
-  eventi personalizzabili (matrimoni, battesimi, compleanni, addii al
-  celibato/nubilato…).
+- In futuro l'attività vorrebbe diventare anche una location per eventi
+  personalizzabili (matrimoni, battesimi, compleanni, addii al
+  celibato/nubilato…). **Non lo è ancora**: sul sito si dice solo che è il
+  sito di prima rifatto da capo (correzione di Giovanni, 28/09/2026).
 - Nessun sistema di prenotazione: solo il sito.
 - Attenzione: il "prima" non va raccontato in modo da mettere in imbarazzo
   la titolare.
