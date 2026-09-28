@@ -273,10 +273,12 @@ un modulo disegnato solo da React non lo vede. Quindi:
 - Tutti e tre con il nome vero: abbiamo il consenso. Casale Allibrio ed
   Estrò Atelier vanno online **insieme al nostro sito**: fino ad allora i
   loro indirizzi restano `[DA SCRIVERE]`.
-- **Loghi dei clienti** al posto dei nomi, nei colori originali, in
+- **Loghi dei clienti** al posto dei nomi, su fondo trasparente, in
   `src/assets/lavori/` (Astro li ottimizza). Il nome resta nel testo
   alternativo. Estrò Atelier: logo bianco su nero convertito in nero su
-  trasparente (stesso logo, colori invertiti) per stare su carta.
+  trasparente (stesso logo, colori invertiti) per stare su carta. Vivai
+  Cintoli: dalla versione bianca su trasparente dell'app, colorata in nero
+  (quella a colori aveva il fondo bianco).
 
 ## Qualità richiesta
 

@@ -347,3 +347,11 @@ i loghi veri sono una prova più forte dei nomi scritti.
 **Nota:** il logo di Estrò Atelier esiste solo bianco su nero: ricavata la
 versione nera su trasparente, ritagliata. Il logo di Vivai Cintoli c'è solo
 in PNG (494×129): se arriva un SVG, va sostituito.
+
+## 2026-09-28 — Logo di Vivai Cintoli in nero, righe dei lavori centrate
+
+**Sostituisce** "colori originali" per Vivai Cintoli nella voce sui loghi.
+**Scelta:** il logo a colori dell'app ha il fondo bianco; si usa la sua
+versione bianca su trasparente (`logo-white.png`), colorata in
+`--kroma-nero` e ritagliata. Nelle righe di Casale Allibrio ed Estrò Atelier
+logo, descrizione e link sono centrati in verticale.
