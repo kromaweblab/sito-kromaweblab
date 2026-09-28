@@ -8,7 +8,7 @@
 // conferma compare qui, senza cambiare pagina.
 
 import { useId, useRef, useState, type ChangeEvent, type SubmitEvent } from 'react';
-import { DA_SCRIVERE } from '../../dati/sito';
+import { linkChat, numeriWhatsapp, sito } from '../../dati/sito';
 import { preferenze, type Domanda } from './domande';
 import {
   campoEsca,
@@ -28,6 +28,9 @@ import {
 import stili from './Configuratore.module.css';
 
 type StatoInvio = 'modifica' | 'invio' | 'inviata' | 'errore';
+
+/** Il WhatsApp principale (quello dei pulsanti), dai dati condivisi. */
+const whatsapp = numeriWhatsapp[0];
 
 /** In che ordine portare il cursore sul primo errore. */
 const ordineErrori = ['nome', 'telefono', 'email', 'recapito', 'messaggio'] as const;
@@ -254,11 +257,8 @@ export function Configuratore() {
           <div className={stili.dopo}>
             <p className={stili.titoloDopo}>Cosa succede dopo</p>
             <ol>
-              <li>Ti ricontattiamo entro {DA_SCRIVERE}, nel modo che hai scelto.</li>
-              <li>
-                Ci racconti come lavori oggi. [DA SCRIVERE: di persona o al telefono, quanto dura,
-                se è gratuito e senza impegno]
-              </li>
+              <li>Ti ricontattiamo entro {sito.tempoRisposta}, nel modo che hai scelto.</li>
+              <li>Ci incontriamo {sito.colloquio}, e ci racconti come lavori oggi.</li>
               <li>Ti diciamo cosa faremmo, quanto costa e in quanto tempo.</li>
             </ol>
           </div>
@@ -271,8 +271,16 @@ export function Configuratore() {
               <div className={stili.nonPartita} role="alert">
                 <p className={stili.titoloNonPartita}>La richiesta non è partita</p>
                 <p>
-                  Le tue risposte sono ancora qui. Riprova tra poco, oppure scrivici su WhatsApp:{' '}
-                  {DA_SCRIVERE}.
+                  Le tue risposte sono ancora qui. Riprova tra poco
+                  {whatsapp && (
+                    <>
+                      , oppure scrivici su WhatsApp:{' '}
+                      <a href={linkChat(whatsapp.numero)}>
+                        {whatsapp.nome} {whatsapp.visibile}
+                      </a>
+                    </>
+                  )}
+                  .
                 </p>
               </div>
             )}
@@ -285,8 +293,8 @@ export function Configuratore() {
                   : 'Fissiamo un colloquio'}
             </button>
             <p className={stili.privacy}>
-              Usiamo i tuoi dati solo per ricontattarti. [DA SCRIVERE: link all&apos;informativa
-              privacy]
+              Usiamo i tuoi dati solo per ricontattarti.{' '}
+              <a href={sito.privacy}>Informativa privacy</a>
             </p>
           </div>
         </div>

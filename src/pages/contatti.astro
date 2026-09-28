@@ -3,11 +3,16 @@
 // (vedi il commento in cima a quel file).
 import Base from '../layout/Base.astro';
 import PaginaContatti from '../sezioni/PaginaContatti.astro';
+import { Configuratore } from '../isole/configuratore/Configuratore';
+import ModuloRichiestaNascosto from '../isole/configuratore/ModuloRichiestaNascosto.astro';
 ---
 
 <Base
   titolo="Contatti"
   descrizione="Raccontaci la tua attività: ti ricontattiamo entro 24 ore. Di persona a Scicli e in provincia di Ragusa, in videochiamata da tutta Italia."
 >
-  <PaginaContatti />
+  <PaginaContatti>
+    <Configuratore client:visible />
+    <ModuloRichiestaNascosto />
+  </PaginaContatti>
 </Base>
