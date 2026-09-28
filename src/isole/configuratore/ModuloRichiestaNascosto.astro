@@ -1,0 +1,20 @@
+---
+// Copia nascosta del modulo "richiesta" (di Andrea, anche se è un .astro).
+//
+// Netlify riconosce i moduli leggendo l'HTML della build: il modulo del
+// configuratore lo disegna React, quindi Netlify non lo vedrebbe. Questa
+// copia gli dice nome e campi. Va inclusa nella pagina /contatti, accanto
+// all'isola: <ModuloRichiestaNascosto />
+//
+// I campi vengono dallo STESSO elenco usato dal componente React
+// (logica.ts): i due lati non possono diventare diversi.
+import { campiModulo, campoEsca, nomeModulo } from './logica';
+---
+
+<form name={nomeModulo} method="post" data-netlify="true" netlify-honeypot={campoEsca} hidden>
+  <input type="hidden" name="form-name" value={nomeModulo} />
+  {campiModulo.map((campo) => (
+    <input type="hidden" name={campo} />
+  ))}
+  <input type="hidden" name={campoEsca} />
+</form>
