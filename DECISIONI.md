@@ -517,3 +517,23 @@ servita è Scicli, provincia di Ragusa e Italia.
 **Perché:** l'obiettivo è crescere anche fuori zona, ma per farsi trovare
 all'inizio il locale è il vantaggio più forte (ricerche tipo "gestionale
 Ragusa"); dire che si lavora a distanza non esclude nessuno.
+
+## 2026-09-28 — Pagina /contatti e dati di contatto condivisi
+
+**Scelta:** `/contatti` ha titolo, due righe (risposta entro 24 ore, primo
+colloquio di persona o in videochiamata), poi lo spazio per il
+configuratore di Andrea (slot, con testo di riserva finché è vuoto) e a
+destra i contatti diretti. Un solo modulo, `richiesta`: niente modulo
+`contatto` separato, per non confondere il cliente con due moduli.
+"Cosa succede dopo" sta solo dentro il configuratore.
+Dati in `src/dati/sito.ts`: email, due numeri WhatsApp con il nome
+(Giovanni principale), tempo di risposta, colloquio, link alla privacy.
+**Perché:** i dati si scrivono una volta sola e li usano home, piè di
+pagina, contatti e configuratore.
+
+## 2026-09-28 — Informativa privacy: la scriviamo noi (strada C)
+
+Pagina `/privacy` segnaposto, linkata nel piè di pagina. Da scrivere prima
+del lancio partendo da un modello; il titolare del trattamento va chiarito
+col commercialista. Niente banner cookie: il sito non usa statistiche né
+servizi di terze parti.
