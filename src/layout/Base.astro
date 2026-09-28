@@ -49,6 +49,7 @@ const datiStrutturati = {
   areaServed: [
     { '@type': 'City', name: sito.comune },
     { '@type': 'AdministrativeArea', name: `Provincia di ${sito.provincia}` },
+    { '@type': 'Country', name: 'Italia' },
   ],
   ...(sito.email && { email: sito.email }),
   ...(sito.telefono && { telephone: sito.telefono }),

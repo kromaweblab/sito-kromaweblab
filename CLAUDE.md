@@ -7,7 +7,8 @@ decisione cambia, si aggiornano tutti e due i file.
 ## Chi siamo e cosa vendiamo
 
 Kroma Web Lab, Scicli (RG), Sicilia. Due sviluppatori: Giovanni e Andrea.
-Clienti: attività della provincia di Ragusa e del Val di Noto (ristoranti,
+Clienti: attività della provincia di Ragusa, dove siamo; a distanza, in
+tutta Italia (ristoranti,
 agriturismi, negozi, artigiani, aziende agricole).
 
 In ordine di importanza:
@@ -106,6 +107,11 @@ Al loro posto:
   la tua attività" → `/contatti`, secondo pulsante → pagina del servizio,
   link "Tutti i servizi" → `/servizi`. Niente slider automatici.
 - **WhatsApp**: nella sezione contatti in fondo alla home e nel piè di pagina.
+- **Contatto in fondo alla home**: solo invito ("Raccontaci come lavori
+  oggi."), pulsante verso `/contatti` e WhatsApp. Nessun modulo in home.
+  Incontri di persona o in videochiamata, come preferisce il cliente.
+- **Zona**: "Da Scicli, di persona in zona, a distanza in tutta Italia".
+  Mai "Val di Noto". Nei dati per Google: Scicli, provincia di Ragusa, Italia.
 - **Ricostruzioni delle app dei clienti** (es. Vivai Cintoli in "I nostri lavori"):
   disegnate in HTML con dati di esempio, nei colori dell'app del cliente
   (token `--kroma-vivai-*`) e con i suoi angoli tondi. È l'unica eccezione
@@ -333,6 +339,8 @@ un modulo disegnato solo da React non lo vede. Quindi:
 
 - Giovanni: pagine `.astro`, contenuti, CSS, identità visiva.
 - Andrea: le due isole React ed eventuale parte serverless.
+- **Coordinamento su Discord:** chi inizia un lavoro lo scrive all'altro,
+  soprattutto se tocca file condivisi o la pagina `/contatti` (moduli).
 - `main` è protetto: si lavora su branch `feat/nome-sezione`, pull request,
   l'altro approva guardando anche l'anteprima Netlify. Nessun push diretto.
 - Prima di aprire una PR: `npm run verifica` (formattazione, lint, test, build).

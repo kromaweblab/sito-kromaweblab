@@ -1,12 +1,12 @@
 ---
-// Home. Le sezioni si aggiungono qui una alla volta, nell'ordine della
-// mappa in CLAUDE.md.
+// Home: le sezioni nell'ordine della mappa in CLAUDE.md.
 import Base from '../layout/Base.astro';
 import Apertura from '../sezioni/Apertura.astro';
 import Problema from '../sezioni/Problema.astro';
 import ProvaGestionale from '../sezioni/ProvaGestionale.astro';
 import CosaFacciamo from '../sezioni/CosaFacciamo.astro';
 import UnLavoro from '../sezioni/UnLavoro.astro';
+import Contatto from '../sezioni/Contatto.astro';
 import { GestionaleDimostrativo } from '../isole/gestionale-dimostrativo/GestionaleDimostrativo';
 import { DA_SCRIVERE } from '../dati/sito';
 ---
@@ -19,17 +19,5 @@ import { DA_SCRIVERE } from '../dati/sito';
   </ProvaGestionale>
   <CosaFacciamo />
   <UnLavoro />
-  <p class="provvisoria">home in costruzione · prossima sezione: contatto</p>
+  <Contatto />
 </Base>
-
-<style>
-  .provvisoria {
-    max-width: var(--kroma-larghezza);
-    margin: 0 auto;
-    padding: var(--kroma-spazio-4) var(--kroma-spazio-2) var(--kroma-spazio-8);
-    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
-    font-family: var(--kroma-font-mono);
-    font-size: var(--kroma-testo-s);
-    color: var(--kroma-testo-tenue);
-  }
-</style>

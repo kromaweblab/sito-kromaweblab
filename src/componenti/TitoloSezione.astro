@@ -20,7 +20,8 @@ const { id } = Astro.props;
 <style>
   h2 {
     display: flex;
-    align-items: center;
+    /* Il quadretto si appoggia sulla prima riga, anche se il titolo va a capo. */
+    align-items: baseline;
     gap: var(--kroma-spazio-2);
     margin: 0;
     font-size: var(--kroma-testo-xl);
