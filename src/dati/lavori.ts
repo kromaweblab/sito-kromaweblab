@@ -1,5 +1,13 @@
-// I lavori mostrati sul sito. Nomi veri: abbiamo il consenso dei clienti.
-// Il primo è quello in evidenza in home.
+// I lavori mostrati sul sito. Nomi e loghi veri: abbiamo il consenso dei
+// clienti. Il primo è quello in evidenza in home.
+//
+// I loghi stanno in src/assets/lavori/ (non in public/): così Astro li
+// ottimizza e li serve nella misura giusta per ogni schermo.
+
+import type { ImageMetadata } from 'astro';
+import logoVivai from '../assets/lavori/vivai-cintoli.png';
+import logoCasale from '../assets/lavori/casale-allibrio.svg';
+import logoEstro from '../assets/lavori/estro-atelier.png';
 
 export interface Lavoro {
   id: string;
@@ -8,6 +16,8 @@ export interface Lavoro {
   /** Tipo di lavoro, scritto piccolo accanto al nome. */
   tipo: string;
   descrizione: string;
+  /** Logo del cliente, nei suoi colori originali. */
+  logo: ImageMetadata;
 }
 
 export const lavori: Lavoro[] = [
@@ -16,6 +26,7 @@ export const lavori: Lavoro[] = [
     nome: 'Vivai Cintoli',
     href: '/lavori/vivai-cintoli',
     tipo: 'gestionale su misura',
+    logo: logoVivai,
     descrizione:
       "Un'app che collega chi lavora in vivaio e nei cantieri con chi sta in ufficio. Niente più rapporti su WhatsApp né ore sommate a mano.",
   },
@@ -24,6 +35,7 @@ export const lavori: Lavoro[] = [
     nome: 'Casale Allibrio',
     href: '/lavori/casale-allibrio',
     tipo: 'sito web',
+    logo: logoCasale,
     descrizione: 'Il sito di un agriturismo, rifatto da capo.',
   },
   {
@@ -31,6 +43,7 @@ export const lavori: Lavoro[] = [
     nome: 'Estrò Atelier',
     href: '/lavori/estro-atelier',
     tipo: 'sito web',
+    logo: logoEstro,
     descrizione: 'Il sito di un negozio di abiti da sposa.',
   },
 ];

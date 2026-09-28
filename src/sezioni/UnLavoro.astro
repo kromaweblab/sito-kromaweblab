@@ -1,6 +1,8 @@
 ---
-// "Un lavoro": Vivai Cintoli in evidenza, con una ricostruzione di quello
-// che vede ciascun ruolo nell'app; sotto, gli altri due lavori in una riga.
+// "I nostri lavori": Vivai Cintoli in evidenza, con una ricostruzione di
+// quello che vede ciascun ruolo nell'app; sotto, gli altri due lavori in una
+// riga. Al posto dei nomi, i loghi dei clienti (il nome resta nel testo
+// alternativo, per gli screen reader e per Google).
 //
 // La ricostruzione:
 // - è disegnata in HTML dal codice dell'app vera, con DATI DI ESEMPIO:
@@ -13,6 +15,7 @@
 // - il selettore dei ruoli funziona senza JavaScript, come quello
 //   dell'apertura: pulsanti radio + CSS :has().
 
+import { Image } from 'astro:assets';
 import TitoloSezione from '../componenti/TitoloSezione.astro';
 import Pulsante from '../componenti/Pulsante.astro';
 import { lavori, usoVivai } from '../dati/lavori';
@@ -21,8 +24,12 @@ const [vivai, ...altri] = lavori;
 ---
 
 <section class="lavoro" aria-labelledby="lavoro-titolo">
+  <TitoloSezione id="lavoro-titolo">I nostri lavori</TitoloSezione>
+
   <div class="testa">
-    <TitoloSezione id="lavoro-titolo">{vivai.nome}</TitoloSezione>
+    <h3 class="logo-vivai">
+      <Image src={vivai.logo} alt={vivai.nome} width={320} densities={[1, 2]} />
+    </h3>
     <p class="dati">
       {vivai.tipo} · in uso da {usoVivai.inUsoDa} · {usoVivai.persone}
     </p>
@@ -175,7 +182,9 @@ const [vivai, ...altri] = lavori;
     {altri.map((lavoro) => (
       <li>
         <a href={lavoro.href}>
-          <strong>{lavoro.nome}</strong>
+          <span class="logo-altro">
+            <Image src={lavoro.logo} alt={lavoro.nome} width={224} densities={[1, 2]} />
+          </span>
           <span class="descrizione">{lavoro.descrizione}</span>
           <span class="tipo">
             {lavoro.tipo} <span aria-hidden="true">→</span>
@@ -192,6 +201,25 @@ const [vivai, ...altri] = lavori;
     margin: 0 auto;
     padding: var(--kroma-spazio-8) var(--kroma-spazio-2);
     border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .testa {
+    margin-top: var(--kroma-spazio-5);
+  }
+
+  .logo-vivai {
+    margin: 0;
+  }
+
+  /* Loghi alla stessa altezza, larghezza libera: nessun logo deformato. */
+  .logo-vivai img {
+    width: auto;
+    height: var(--kroma-spazio-10);
+  }
+
+  .logo-altro img {
+    width: auto;
+    height: var(--kroma-spazio-8);
   }
 
   .dati {
@@ -492,8 +520,8 @@ const [vivai, ...altri] = lavori;
     transition: background-color var(--kroma-durata);
   }
 
-  .altri strong {
-    font-size: var(--kroma-testo-l);
+  .logo-altro {
+    display: block;
   }
 
   .altri .descrizione {

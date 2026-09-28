@@ -335,3 +335,15 @@ vere con dati finti andranno nel caso completo.
 **Dati di esempio:** niente cognomi, nemmeno inventati: "Operatore 1",
 "Squadra B". Tre cognomi scelti a caso (Greco, Colombo, Russo) erano di
 dipendenti veri.
+
+## 2026-09-28 — "I nostri lavori": titolo di sezione e loghi dei clienti
+
+**Scelta:** la sezione ha il titolo "I nostri lavori"; Vivai Cintoli,
+Casale Allibrio ed Estrò Atelier sono mostrati con il loro logo, nei colori
+originali, alla stessa altezza (80px Vivai, 64px gli altri). Il nome resta
+nel testo alternativo.
+**Perché:** senza titolo "Vivai Cintoli" sembrava il titolo della sezione;
+i loghi veri sono una prova più forte dei nomi scritti.
+**Nota:** il logo di Estrò Atelier esiste solo bianco su nero: ricavata la
+versione nera su trasparente, ritagliata. Il logo di Vivai Cintoli c'è solo
+in PNG (494×129): se arriva un SVG, va sostituito.
