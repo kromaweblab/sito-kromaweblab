@@ -213,7 +213,8 @@ lo si dice nella pull request.
 /lavori/vivai-cintoli    Caso completo (e una pagina per ogni lavoro)
 /come-lavoriamo          Dal primo incontro alla consegna
 /chi-siamo               Giovanni e Andrea (foto vere, segnaposto per ora)
-/contatti                Configuratore + modulo di contatto
+/contatti                Configuratore (Andrea) + contatti diretti
+/privacy                 Informativa privacy (DA SCRIVERE prima del lancio)
 ```
 
 ## Isola 1 — Gestionale dimostrativo (Andrea)
@@ -263,7 +264,8 @@ con il modulo di richiesta già compilato.
   schermata), poi "Parliamone" con i recapiti e una riga di riepilogo
   sopra il pulsante di invio.
 - Sopra il pulsante "Fissiamo un colloquio": "Cosa succede dopo" in tre
-  passi (tempi di risposta e modalità del colloquio `[DA SCRIVERE]`) e
+  passi (tempo di risposta e modalità del colloquio da `src/dati/sito.ts`:
+  `sito.tempoRisposta`, `sito.colloquio`) e
   "Ti rispondiamo noi: Giovanni e Andrea."
 
 ### Moduli e Netlify Forms
@@ -271,8 +273,9 @@ con il modulo di richiesta già compilato.
 Netlify riconosce i moduli leggendo l'HTML statico durante la pubblicazione:
 un modulo disegnato solo da React non lo vede. Quindi:
 
-- **Modulo `contatto`** (Giovanni): statico, in `.astro`, con
-  `data-netlify="true"`.
+- **Un solo modulo, `richiesta`**: niente modulo `contatto` separato
+  (decisione del 28/09/2026). Accanto al configuratore, in `/contatti`, solo
+  i contatti diretti (WhatsApp, email).
 - **Modulo `richiesta`** (Andrea): vive nel configuratore React. Accanto
   serve una **copia nascosta in HTML** con lo stesso nome e gli stessi campi,
   in `src/isole/configuratore/ModuloRichiestaNascosto.astro`, inclusa nella
@@ -286,7 +289,7 @@ un modulo disegnato solo da React non lo vede. Quindi:
   recapito serve: Telefonata o WhatsApp → `telefono`, Email → `email`;
   nessuna scelta o Di persona → almeno uno dei due. `messaggio` è
   facoltativo.
-- Antispam: campo esca (`netlify-honeypot`) su entrambi i moduli.
+- Antispam: campo esca (`netlify-honeypot`).
 
 ## Lavori mostrati
 
@@ -306,6 +309,28 @@ un modulo disegnato solo da React non lo vede. Quindi:
   trasparente (stesso logo, colori invertiti) per stare su carta. Vivai
   Cintoli: dalla versione bianca su trasparente dell'app, colorata in nero
   (quella a colori aveva il fondo bianco).
+
+## Dati condivisi di contatto
+
+In `src/dati/sito.ts`, usati da home, piè di pagina, `/contatti` e
+configuratore: email `kromaweblab@gmail.com`; WhatsApp Giovanni
+348 283 9911 (principale, nei pulsanti) e Andrea 366 936 7721
+(`numeriWhatsapp`); ricontattiamo entro 24 ore (`sito.tempoRisposta`);
+primo colloquio di persona o in videochiamata, sceglie il cliente
+(`sito.colloquio`); informativa privacy in `sito.privacy`.
+
+## Prima del lancio
+
+- [ ] **Informativa privacy** in `/privacy`: la scrivono Giovanni e Andrea
+      partendo da un modello (es. Garante). Senza, il modulo non si pubblica.
+      Titolare del trattamento: da chiarire col commercialista (niente P.IVA).
+- [ ] Prestazione occasionale: verificare col commercialista.
+- [ ] Dominio `kromaweblab.it`.
+- [ ] Descrizione per Google della home (`[DA SCRIVERE]`).
+- [ ] Indirizzi dei siti di Casale Allibrio ed Estrò Atelier.
+- [ ] Lighthouse 95+ su mobile, misurato sul sito pubblicato.
+- [ ] Niente banner cookie finché non si aggiungono statistiche o servizi
+      di terze parti: se si aggiungono, diventa obbligatorio.
 
 ## Qualità richiesta
 

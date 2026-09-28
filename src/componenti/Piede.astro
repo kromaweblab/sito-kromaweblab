@@ -2,7 +2,7 @@
 // Piè di pagina di tutte le pagine: chi siamo in una riga, contatti
 // (WhatsApp compreso) e menu. I dati mancanti restano [DA SCRIVERE].
 
-import { sito, linkWhatsapp, DA_SCRIVERE } from '../dati/sito';
+import { sito, numeriWhatsapp, linkChat, DA_SCRIVERE } from '../dati/sito';
 import { vociMenu, voceContatti } from '../dati/navigazione';
 
 const anno = new Date().getFullYear();
@@ -19,7 +19,13 @@ const anno = new Date().getFullYear();
       <h2>Scrivici</h2>
       <dl>
         <dt>WhatsApp</dt>
-        <dd>{linkWhatsapp ? <a href={linkWhatsapp}>Scrivici su WhatsApp</a> : DA_SCRIVERE}</dd>
+        <dd>
+          {numeriWhatsapp.map((w) => (
+            <a href={linkChat(w.numero)} class="whatsapp">
+              {w.nome} <span class="numero">{w.visibile}</span>
+            </a>
+          ))}
+        </dd>
         <dt>Email</dt>
         <dd>{sito.email ? <a href={`mailto:${sito.email}`}>{sito.email}</a> : DA_SCRIVERE}</dd>
         <dt>Dove</dt>
@@ -41,7 +47,8 @@ const anno = new Date().getFullYear();
   </div>
 
   <p class="dato">
-    © {anno} {sito.nome} · {sito.comune} ({sito.siglaProvincia})
+    © {anno} {sito.nome} · {sito.comune} ({sito.siglaProvincia}) ·
+    <a href={sito.privacy}>Informativa privacy</a>
   </p>
 </footer>
 
@@ -105,6 +112,15 @@ const anno = new Date().getFullYear();
     padding: 0;
     display: grid;
     gap: var(--kroma-spazio-1);
+  }
+
+  .whatsapp {
+    display: block;
+  }
+
+  .numero {
+    font-family: var(--kroma-font-mono);
+    font-variant-numeric: tabular-nums;
   }
 
   .collegamenti a {
