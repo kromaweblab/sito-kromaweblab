@@ -370,3 +370,12 @@ lavorarci.
 
 **Scelta:** chi inizia un lavoro lo dice all'altro su Discord. Scartate per
 ora le PR in bozza obbligatorie e la bacheca GitHub Projects.
+
+## 2026-09-28 — Zona: da Scicli, a distanza in tutta Italia
+
+**Scelta:** tolto "Val di Noto" ovunque. Formula: "Da Scicli, di persona in
+zona, a distanza in tutta Italia". Nei dati per Google (JSON-LD) l'area
+servita è Scicli, provincia di Ragusa e Italia.
+**Perché:** l'obiettivo è crescere anche fuori zona, ma per farsi trovare
+all'inizio il locale è il vantaggio più forte (ricerche tipo "gestionale
+Ragusa"); dire che si lavora a distanza non esclude nessuno.

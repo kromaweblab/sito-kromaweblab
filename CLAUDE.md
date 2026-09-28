@@ -7,7 +7,8 @@ decisione cambia, si aggiornano tutti e due i file.
 ## Chi siamo e cosa vendiamo
 
 Kroma Web Lab, Scicli (RG), Sicilia. Due sviluppatori: Giovanni e Andrea.
-Clienti: attività della provincia di Ragusa e del Val di Noto (ristoranti,
+Clienti: attività della provincia di Ragusa, dove siamo; a distanza, in
+tutta Italia (ristoranti,
 agriturismi, negozi, artigiani, aziende agricole).
 
 In ordine di importanza:
@@ -109,6 +110,8 @@ Al loro posto:
 - **Contatto in fondo alla home**: solo invito ("Raccontaci come lavori
   oggi."), pulsante verso `/contatti` e WhatsApp. Nessun modulo in home.
   Incontri di persona o in videochiamata, come preferisce il cliente.
+- **Zona**: "Da Scicli, di persona in zona, a distanza in tutta Italia".
+  Mai "Val di Noto". Nei dati per Google: Scicli, provincia di Ragusa, Italia.
 - **Ricostruzioni delle app dei clienti** (es. Vivai Cintoli in "I nostri lavori"):
   disegnate in HTML con dati di esempio, nei colori dell'app del cliente
   (token `--kroma-vivai-*`) e con i suoi angoli tondi. È l'unica eccezione

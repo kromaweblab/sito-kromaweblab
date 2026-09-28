@@ -64,3 +64,10 @@ ruoli diversi).
 ## Estrò Atelier — sito di un negozio di abiti da sposa (in sviluppo)
 
 - [DA SCRIVERE]
+
+## Per dopo il lancio: farsi trovare fuori zona
+
+Obiettivo futuro: lavorare anche in tutta Italia. Idea: pagine dedicate per
+tipo di attività (es. "Gestionale per agriturismi"), che parlano a quel tipo
+di attività ovunque sia, con i lavori fatti come prova. La home resta
+ancorata a Scicli e alla provincia di Ragusa (28/09/2026).

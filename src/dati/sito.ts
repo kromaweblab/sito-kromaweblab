@@ -12,7 +12,7 @@ export const sito = {
   siglaProvincia: 'RG',
   cap: '97018',
   regione: 'Sicilia',
-  zoneServite: ['Scicli', 'Provincia di Ragusa', 'Val di Noto'],
+  zoneServite: ['Scicli', 'Provincia di Ragusa', 'Italia'],
   email: null as string | null,
   telefono: null as string | null,
   /** Numero WhatsApp in formato internazionale senza + né spazi, es. 393331234567. */
