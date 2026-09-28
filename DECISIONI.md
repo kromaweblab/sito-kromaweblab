@@ -332,4 +332,6 @@ cliente. Eccezione limitata alla ricostruzione; niente emoji dell'app.
 **Perché:** mostra il cuore del lavoro (campo e ufficio collegati, ognuno
 vede solo ciò che gli serve) senza schermate con dati veri. Le schermate
 vere con dati finti andranno nel caso completo.
-**Dati di esempio:** cognomi generici; escluso Greco, che è un dipendente.
+**Dati di esempio:** niente cognomi, nemmeno inventati: "Operatore 1",
+"Squadra B". Tre cognomi scelti a caso (Greco, Colombo, Russo) erano di
+dipendenti veri.

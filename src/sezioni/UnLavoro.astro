@@ -4,7 +4,9 @@
 //
 // La ricostruzione:
 // - è disegnata in HTML dal codice dell'app vera, con DATI DI ESEMPIO:
-//   nessun nome di dipendente, prodotto o dato reale del vivaio;
+//   nessun nome di dipendente, prodotto o dato reale del vivaio. Niente
+//   cognomi, nemmeno inventati: solo "Operatore 1", "Squadra B" (i cognomi
+//   comuni rischiano di essere quelli di dipendenti veri);
 // - usa i colori dell'app (token --kroma-vivai-*) e i suoi angoli tondi:
 //   è "una fotografia" dell'app del cliente, per questo fa eccezione alle
 //   regole di stile del sito (DECISIONI.md);
@@ -57,19 +59,19 @@ const [vivai, ...altri] = lavori;
         </div>
         <div class="corpo">
           <p class="riga">
-            Rossi{' '}
+            Operatore 1{' '}
             <span class="valore">
               8,0 h <span class="stato">Inviato</span>
             </span>
           </p>
           <p class="riga">
-            Bianchi{' '}
+            Operatore 2{' '}
             <span class="valore">
               7,5 h <span class="stato pieno">Approvato</span>
             </span>
           </p>
           <p class="riga">
-            Squadra Colombo · 3 persone
+            Squadra B · 3 persone
             <span class="valore">
               24,0 h <span class="stato">Ricevuto</span>
             </span>
@@ -87,7 +89,7 @@ const [vivai, ...altri] = lavori;
             <span>
               <b>Riga 1</b> · Potatura siepi
             </span>
-            <span class="tenue">Rossi, Bianchi</span>
+            <span class="tenue">Operatore 1, Operatore 2</span>
           </p>
           <p class="riga">
             <span>
@@ -96,12 +98,12 @@ const [vivai, ...altri] = lavori;
           </p>
           <p class="riga">
             <span>
-              Rossi <span class="etichetta errore">occupato: riga 1</span>
+              Operatore 1 <span class="etichetta errore">occupato: riga 1</span>
             </span>
           </p>
           <p class="riga">
             <span>
-              Esposito <span class="etichetta avviso">in permesso</span>
+              Operatore 4 <span class="etichetta avviso">in permesso</span>
             </span>
           </p>
           <p class="riga">
@@ -126,10 +128,10 @@ const [vivai, ...altri] = lavori;
     <div class="schermi">
       <figure class="app">
         <div class="barra">
-          Vivai Cintoli <span>Operatore Rossi</span>
+          Vivai Cintoli <span>Operatore 1</span>
         </div>
         <div class="corpo">
-          <p class="saluto">Benvenuto, Rossi</p>
+          <p class="saluto">Benvenuto, Operatore 1</p>
           <ul class="tessere">
             <li>Rapporto di oggi</li>
             <li>Programma di oggi</li>

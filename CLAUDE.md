@@ -111,6 +111,8 @@ Al loro posto:
   (token `--kroma-vivai-*`) e con i suoi angoli tondi. È l'unica eccezione
   ad angoli vivi e palette Kroma, e vale solo dentro la ricostruzione.
   Sempre marcate "ricostruzione con dati di esempio". Niente emoji.
+  **Niente cognomi, nemmeno inventati** ("Operatore 1", "Squadra B"): quelli
+  comuni rischiano di essere di dipendenti veri.
 
 ## Il marchio: griglia a pixel
 

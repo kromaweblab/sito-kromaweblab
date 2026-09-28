@@ -37,7 +37,9 @@ dashboard completa; solo Admin crea gli account. Gli operatori hanno una
 dashboard personale con i moduli per inviare dati all'ufficio, e l'ufficio
 sceglie per ogni operatore quali moduli mostrare.
 
-**Cognomi da NON usare negli esempi:** Greco (è un dipendente vero).
+**Negli esempi niente cognomi, nemmeno inventati** (decisione del
+28/09/2026): "Operatore 1", "Squadra B". Greco, Colombo e Russo sono
+dipendenti veri, e i cognomi comuni rischiano sempre di esserlo.
 
 **Altro** (dal README dell'app): giacenze (prima su carta), trattamenti e
 cantieri (prima su Excel), funziona anche senza rete sul campo, installabile
