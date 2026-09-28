@@ -366,6 +366,134 @@ sezione e il suo: in home rientrava di 32px rispetto al titolo e aveva il
 doppio dello spazio sopra. Con la cornice nella sezione, nessuno tocca il
 file dell'altro e l'isola si adatta a qualunque pagina.
 
+## 2026-09-28 — Configuratore: scelte da servizi.ts, tempi da definire
+
+**Scelta:** la domanda "Cosa ti serve?" del configuratore usa le scelte del
+selettore in apertura, importate da `src/dati/servizi.ts`. Anche i tempi
+indicativi, come le fasce di prezzo, restano `[DA DEFINIRE]`.
+**Perché:** il visitatore trova la stessa domanda in home e in `/contatti`:
+se le parole fossero diverse sembrerebbero due cose diverse. Importandole,
+una modifica in `servizi.ts` vale per tutti e due. Per i tempi non ci sono
+ancora numeri decisi, e un numero inventato sarebbe una promessa.
+
+## 2026-09-28 — Configuratore: le attività tra cui scegliere
+
+**Scelta:** otto voci a gruppi: Ristorante o bar, Agriturismo o B&B,
+Negozio, Artigiano o laboratorio, Azienda agricola o vivaio, Parrucchiere o
+centro estetico, Studio medico o professionale, Altro. Chi sceglie "Altro"
+spiega nel campo messaggio del modulo, senza un campo in più.
+**Perché:** coprono i clienti tipici scritti in `CLAUDE.md` (negozi,
+artigiani, aziende agricole compresi), che le sei attività del gestionale
+dimostrativo lasciavano fuori.
+**Alternative scartate:** le sei del gestionale (mancano negozi, artigiani,
+aziende agricole); testo libero (non è a scelta, e da telefono costa di più).
+
+## 2026-09-28 — Configuratore: "Hai già un sito?"
+
+**Scelta:** quattro risposte: No; Solo una pagina social o su Google Maps;
+Sì, ma è da rifare; Sì, e va bene così. La domanda si fa sempre, qualunque
+servizio sia stato scelto.
+**Perché:** molte attività della zona hanno solo una pagina Facebook o una
+scheda Google: con tre risposte avrebbero scritto "No" e l'informazione
+sarebbe andata persa. Serve anche per i gestionali (es. collegare le
+prenotazioni al sito). Chiedere cosa ha già il cliente non contraddice il
+"niente social" di `CLAUDE.md`, che riguarda i servizi che vendiamo.
+
+## 2026-09-28 — Configuratore: "Quanto tempo ci perdi ogni giorno?"
+
+**Scelta:** risposte al giorno: Meno di mezz'ora; Da mezz'ora a un'ora; Più
+di un'ora; Non saprei. Sotto la domanda: "A ricopiare, rispondere ai
+messaggi, ricontrollare." La domanda compare solo per gestionali e web app:
+chi sceglie "Farmi trovare su internet" risponde a tre domande.
+**Perché:** il titolare ragiona a giornate ("ogni sera mezz'ora sul
+quaderno"); "Non saprei" evita numeri a caso. Per chi vuole un sito il
+problema è non essere trovato, non il tempo perso.
+**Alternativa scartata:** tempo alla settimana (richiede un conto a mente).
+
+## 2026-09-28 — Niente prezzi sul sito: colloquio
+
+**Sostituisce** la fascia di prezzo alla fine del configuratore (brief
+iniziale e voce del 28/09 "scelte da servizi.ts, tempi da definire").
+**Scelta:** il sito non mostra prezzi, né nel configuratore né altrove.
+Alla fine del configuratore c'è l'invito a un colloquio, con il modulo già
+compilato. Tolto il campo `fascia_prezzo` dal modulo `richiesta`.
+**Perché:** scelta di Giovanni e Andrea: preferiamo essere contattati e
+parlarne a voce, capendo prima come lavora l'attività.
+
+## 2026-09-28 — Niente tempi di consegna sul sito
+
+**Sostituisce** la parte sui tempi indicativi delle voci del 28/09
+("scelte da servizi.ts, tempi da definire" e "Niente prezzi sul sito").
+**Scelta:** come per i prezzi, il sito non mostra tempi. Il configuratore
+finisce con un riepilogo delle risposte e l'invito al colloquio. Tolto il
+campo `tempo_stimato` dal modulo `richiesta`. Tolto da `CLAUDE.md` anche
+il segnaposto `[DA DEFINIRE]`, che serviva solo per prezzi e tempi.
+**Perché:** un tempo detto prima di sapere cosa serve è una promessa come
+un prezzo; il configuratore serve a preparare bene il colloquio.
+
+## 2026-09-28 — Modulo `richiesta`: recapiti e "Come preferisci sentirci?"
+
+**Scelta:** campi `attivita`, `servizio`, `sito_attuale`, `tempo_perso`,
+`nome`, `telefono`, `email`, `come_sentirci`, `messaggio`. Obbligatori il
+nome e almeno uno tra telefono ed email. "Come preferisci sentirci?"
+(Telefonata, WhatsApp, Email, Di persona) e il messaggio sono facoltativi;
+sotto il messaggio un esempio di cosa scrivere.
+**Perché:** due campi separati danno dati ordinati e la tastiera giusta sul
+telefono; sapere come preferisce essere sentito fa partire il colloquio nel
+modo più comodo per il cliente.
+**Alternativa scartata:** un campo unico "Telefono o email".
+
+## 2026-09-28 — Configuratore: tutte le domande in una pagina
+
+**Scelta:** le domande stanno una sotto l'altra, seguite da "Parliamone"
+(recapiti) e da una riga di riepilogo sopra il pulsante di invio. In
+pratica è un unico modulo.
+**Perché:** si vede tutto subito, ogni risposta si corregge con un tocco,
+le domande funzionano anche prima che arrivi React e la copia nascosta per
+Netlify è quasi identica. Senza prezzi né tempi, non serve fingere un
+calcolo passo per passo.
+**Alternativa scartata:** una domanda per schermata (più codice, più
+insidie per tastiera e lettori di schermo, non si vede quanto manca).
+
+## 2026-09-28 — Configuratore: "Di cosa hai bisogno?"
+
+**Sostituisce** "Cosa ti serve?" con le scelte di `servizi.ts` (voce del
+28/09 "scelte da servizi.ts") e la regola sul tempo perso "solo per
+gestionali e web app".
+**Scelta:** la domanda è "Di cosa hai bisogno?", con quattro risposte:
+Sito web, Gestionale, Web App, Ancora non lo so. Il configuratore non
+importa più da `servizi.ts`. La domanda sul tempo perso compare per tutte
+le risposte tranne Sito web (anche per "Ancora non lo so").
+**Perché:** scelta di Andrea: le risposte sono i nomi dei servizi, più una
+per chi non sa ancora cosa gli serve. Il tempo perso si chiede anche a chi
+è indeciso, perché può essere proprio il suo problema.
+**Costo accettato:** in home e in `/contatti` la stessa domanda ha parole
+diverse ("Cosa ti serve?" con frasi, "Di cosa hai bisogno?" con i nomi dei
+servizi).
+
+## 2026-09-28 — Configuratore: revisione con la skill CRO
+
+**Scelta:** dopo una revisione del modulo con la skill `marketing-skills:cro`:
+
+- le quattro domande a scelta sono **facoltative**; obbligatori solo il nome
+  e un recapito;
+- "Come preferisci sentirci?" viene prima dei recapiti e decide quale serve
+  (WhatsApp o Telefonata → telefono, Email → email);
+- "Basta uno dei due" è sempre visibile sotto i recapiti, non solo in caso
+  di errore;
+- in cima: "Quattro domande a scelta, poi ci lasci un recapito. Nessuna
+  risposta è obbligatoria.";
+- sopra il pulsante, "Cosa succede dopo" in tre passi, con i tempi di
+  risposta e le modalità del colloquio `[DA SCRIVERE]`, e "Ti rispondiamo
+  noi: Giovanni e Andrea.";
+- il pulsante dice **"Fissiamo un colloquio"** invece di "Invia la
+  richiesta".
+  **Perché:** chi non sa cosa rispondere non deve bloccarsi; chi sceglie
+  WhatsApp deve lasciare il numero; sapere quanto è lungo il modulo e cosa
+  succede dopo toglie i dubbi che fanno abbandonare; nomi veri al posto di
+  un'azienda senza volto. Scartati i consigli della skill che contraddicono
+  `CLAUDE.md` (testimonianze e loghi di clienti vicino al pulsante).
+
 ## 2026-09-28 — Sezione "Contatto" della home: solo invito
 
 **Scelta:** titolo "Raccontaci come lavori oggi.", frase "Di persona o in

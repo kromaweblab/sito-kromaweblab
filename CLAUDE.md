@@ -36,8 +36,8 @@ Ogni pagina si chiude con un invito al contatto.
   non tecnologie.
 - Frasi corte. Niente superlativi ("soluzioni innovative", "partner
   strategico", "eccellenza").
-- Dati mancanti: segnaposto evidente `[DA SCRIVERE]` (o `[DA DEFINIRE]`
-  per i prezzi). Mai testo finto verosimile. Nel codice: `DA_SCRIVERE` da
+- Dati mancanti: segnaposto evidente `[DA SCRIVERE]`. Mai testo finto
+  verosimile. Nel codice: `DA_SCRIVERE` da
   `src/dati/sito.ts`.
 
 ## Identità visiva
@@ -242,16 +242,29 @@ Sta in home. Lavagna di prenotazioni funzionante con dati finti.
 - **Dati di esempio**: cognomi comuni e dati plausibili ("20:30 · Bianchi ·
   4 coperti · Tavolo 7"), con la scritta "Dati di esempio" sempre visibile
   sopra la lavagna. È l'unica eccezione a "mai testo finto verosimile":
-  quella regola vale per i dati mancanti del sito (email, telefono, prezzi),
-  che restano `[DA SCRIVERE]` / `[DA DEFINIRE]`.
+  quella regola vale per i dati mancanti del sito (email, telefono,
+  indirizzo), che restano `[DA SCRIVERE]`.
 
 ## Isola 2 — Configuratore (Andrea)
 
 Sta in `/contatti`. Tre o quattro domande a scelta multipla: che attività
-hai, cosa ti serve (presenza sul web / gestionale / app su misura), hai già
-un sito, quanto tempo perdi oggi in quel lavoro. Alla fine: fascia di prezzo
-indicativa (`[DA DEFINIRE]`) e tempo di massima, con il modulo di richiesta
-già compilato con le risposte.
+hai, di cosa hai bisogno, hai già un sito, quanto tempo perdi oggi in quel
+lavoro. Alla fine: **nessun
+prezzo né tempo**, ma un riepilogo delle risposte e l'invito a un colloquio,
+con il modulo di richiesta già compilato.
+
+- "Di cosa hai bisogno?": Sito web, Gestionale, Web App, Ancora non lo so.
+  Parole proprie del configuratore, diverse dal selettore "Cosa ti serve?"
+  della home. La domanda sul tempo perso compare per tutte le risposte
+  tranne Sito web.
+- **Il sito non mostra prezzi né tempi di consegna**, né qui né altrove:
+  preferiamo parlarne in un colloquio.
+- Tutte le domande in una pagina, una sotto l'altra (non una per
+  schermata), poi "Parliamone" con i recapiti e una riga di riepilogo
+  sopra il pulsante di invio.
+- Sopra il pulsante "Fissiamo un colloquio": "Cosa succede dopo" in tre
+  passi (tempi di risposta e modalità del colloquio `[DA SCRIVERE]`) e
+  "Ti rispondiamo noi: Giovanni e Andrea."
 
 ### Moduli e Netlify Forms
 
@@ -265,10 +278,14 @@ un modulo disegnato solo da React non lo vede. Quindi:
   in `src/isole/configuratore/ModuloRichiestaNascosto.astro`, inclusa nella
   pagina `/contatti`. Il componente React invia con `fetch` a `/`, in formato
   `application/x-www-form-urlencoded`, con il campo `form-name=richiesta`.
-- **I campi dei due lati devono essere identici.** Proposta iniziale (Andrea
-  può cambiarla, aggiornando qui): `attivita`, `servizio`, `sito_attuale`,
-  `tempo_perso`, `fascia_prezzo`, `tempo_stimato`, `nome`, `contatto`,
-  `messaggio`.
+- **I campi dei due lati devono essere identici:** `attivita`, `servizio`,
+  `sito_attuale`, `tempo_perso` (vuoto se il servizio è un sito), `nome`,
+  `telefono`, `email`, `come_sentirci`, `messaggio`. Obbligatori solo
+  `nome` e un recapito; le quattro domande a scelta sono facoltative.
+  `come_sentirci` (Telefonata, WhatsApp, Email, Di persona) decide quale
+  recapito serve: Telefonata o WhatsApp → `telefono`, Email → `email`;
+  nessuna scelta o Di persona → almeno uno dei due. `messaggio` è
+  facoltativo.
 - Antispam: campo esca (`netlify-honeypot`) su entrambi i moduli.
 
 ## Lavori mostrati

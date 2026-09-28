@@ -1,0 +1,416 @@
+/*
+ * Stili del configuratore. CSS Modules: le classi valgono solo qui.
+ * Solo variabili --kroma-*; le misure in ch seguono i caratteri.
+ *
+ * Telefono prima: tutto in colonna. Da 60rem di spazio in su (misurato
+ * sull'isola: container-type) domande a sinistra e "Parliamone" a destra.
+ */
+
+/* ---------------------------------------------------------------- impianto */
+
+.configuratore {
+  /* Niente larghezza né margini: la cornice la dà la sezione che contiene
+     l'isola (regola in CLAUDE.md). L'isola misura solo il proprio spazio. */
+  container-type: inline-size;
+}
+
+.impianto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kroma-spazio-8);
+}
+
+.domande {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kroma-spazio-6);
+}
+
+.parliamone {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kroma-spazio-4);
+  padding-top: var(--kroma-spazio-4);
+  border-top: var(--kroma-linea-spessa) solid var(--kroma-linea);
+}
+
+@container (min-width: 60rem) {
+  .impianto {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    column-gap: var(--kroma-spazio-4);
+    align-items: start;
+  }
+
+  /* Da computer "Parliamone" è un riquadro accanto alle domande. */
+  .parliamone {
+    padding: var(--kroma-spazio-4) var(--kroma-spazio-3);
+    border: var(--kroma-linea-sottile) solid var(--kroma-linea);
+    background: var(--kroma-fondo);
+  }
+}
+
+/* ---------------------------------------------------------------- domande */
+
+.introduzione {
+  margin: 0;
+  padding-bottom: var(--kroma-spazio-2);
+  border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  color: var(--kroma-testo-tenue);
+}
+
+fieldset.domanda,
+fieldset.gruppo,
+fieldset.recapiti {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.domanda + .domanda {
+  padding-top: var(--kroma-spazio-4);
+  border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+}
+
+.testoDomanda {
+  /* float: così la legenda sta dentro il fieldset e segue il padding. */
+  float: left;
+  width: 100%;
+  padding: 0;
+  margin-bottom: var(--kroma-spazio-2);
+  font-size: var(--kroma-testo-l);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.testoDomanda + * {
+  clear: both;
+}
+
+.domanda .aiuto {
+  margin: calc(-1 * var(--kroma-spazio-1)) 0 var(--kroma-spazio-2);
+}
+
+/* ------------------------------------------------------- scelte (radio) */
+
+.etichettaScelta {
+  /* Tiene il radio invisibile al suo posto (niente salti al fuoco). */
+  position: relative;
+}
+
+.radio {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+}
+
+.scelta {
+  display: flex;
+  align-items: center;
+  gap: var(--kroma-spazio-2);
+  min-height: var(--kroma-spazio-6);
+  box-sizing: border-box;
+  padding: 0 var(--kroma-spazio-2);
+  background: var(--kroma-fondo);
+  cursor: pointer;
+}
+
+.radio:checked + .scelta {
+  background: var(--kroma-nero);
+  color: var(--kroma-carta);
+  font-weight: 500;
+}
+
+.radio:not(:checked) + .scelta:hover {
+  background: var(--kroma-carta-hover);
+}
+
+.radio:focus-visible + .scelta {
+  outline: var(--kroma-linea-spessa) solid var(--kroma-arancione-testo);
+  outline-offset: var(--kroma-linea-spessa);
+}
+
+/* Risposte brevi: riquadri che vanno a capo. */
+.riquadri {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kroma-spazio-1);
+}
+
+.riquadri .scelta {
+  border: var(--kroma-linea-sottile) solid var(--kroma-linea);
+}
+
+/* Risposte lunghe: righe separate da linee, con il quadretto del marchio. */
+.righe {
+  display: flex;
+  flex-direction: column;
+  border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+}
+
+.righe .scelta {
+  min-height: calc(var(--kroma-spazio-6) + var(--kroma-spazio-1));
+  border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
+}
+
+.quadretto {
+  width: var(--kroma-pixel-cella);
+  height: var(--kroma-pixel-cella);
+  flex-shrink: 0;
+  box-sizing: border-box;
+  border: var(--kroma-linea-spessa) solid currentColor;
+}
+
+.radio:checked + .scelta .quadretto {
+  border: 0;
+  background: var(--kroma-evidenzia);
+}
+
+/* -------------------------------------------------------------- Parliamone */
+
+.titolo {
+  margin: 0;
+  font-size: var(--kroma-testo-l);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.sottotitolo {
+  margin: var(--kroma-spazio-1) 0 0;
+}
+
+.gruppo legend,
+.recapiti legend {
+  padding: 0;
+  margin-bottom: var(--kroma-spazio-1);
+  font-weight: 500;
+}
+
+.recapiti {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kroma-spazio-2);
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kroma-spazio-1);
+}
+
+.campo label {
+  font-weight: 500;
+}
+
+.recapiti .campo label {
+  font-weight: 400;
+}
+
+.campo input,
+.campo textarea {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--kroma-bianco);
+  border: var(--kroma-linea-sottile) solid var(--kroma-linea);
+}
+
+.campo input {
+  min-height: var(--kroma-spazio-6);
+  padding: 0 var(--kroma-spazio-2);
+}
+
+.campo textarea {
+  padding: var(--kroma-spazio-2);
+  resize: vertical;
+}
+
+.mono {
+  font-family: var(--kroma-font-mono);
+}
+
+/* Campo sbagliato: bordo più spesso senza spostare il layout. */
+.campo [aria-invalid='true'] {
+  border-color: var(--kroma-arancione-testo);
+  box-shadow: inset 0 0 0 var(--kroma-linea-sottile) var(--kroma-arancione-testo);
+}
+
+.facoltativo {
+  font-weight: 400;
+  color: var(--kroma-testo-tenue);
+}
+
+.aiuto {
+  margin: 0;
+  font-size: var(--kroma-testo-s);
+  color: var(--kroma-testo-tenue);
+}
+
+.errore {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--kroma-spazio-1);
+  font-size: var(--kroma-testo-s);
+  color: var(--kroma-arancione-testo);
+}
+
+.errore::before {
+  content: '';
+  width: var(--kroma-spazio-1);
+  height: var(--kroma-spazio-1);
+  flex-shrink: 0;
+  background: var(--kroma-arancione-testo);
+}
+
+/* ------------------------------------------------------ cosa succede dopo */
+
+.dopo,
+.invio {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kroma-spazio-2);
+  padding-top: var(--kroma-spazio-3);
+  border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+}
+
+.titoloDopo {
+  margin: 0;
+  font-weight: 700;
+}
+
+.dopo ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: passo;
+  display: flex;
+  flex-direction: column;
+  gap: var(--kroma-spazio-2);
+}
+
+/* Numeri dei passi in monospazio, come dati. */
+.dopo li {
+  display: grid;
+  grid-template-columns: 3ch minmax(0, 1fr);
+  counter-increment: passo;
+}
+
+.dopo li::before {
+  content: counter(passo);
+  font-family: var(--kroma-font-mono);
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------------------- invio */
+
+.sintesi {
+  margin: 0;
+  font-family: var(--kroma-font-mono);
+  font-size: var(--kroma-testo-s);
+  color: var(--kroma-testo-tenue);
+}
+
+.firma {
+  margin: 0;
+}
+
+.pulsante {
+  align-self: flex-start;
+  min-height: var(--kroma-spazio-6);
+  padding: 0 var(--kroma-spazio-3);
+  background: var(--kroma-arancione);
+  border: var(--kroma-linea-sottile) solid var(--kroma-arancione);
+  /* Sull'arancione il testo è sempre nero (bianco = 3,33:1). */
+  color: var(--kroma-su-arancione);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pulsante[aria-disabled='true'] {
+  cursor: progress;
+}
+
+.privacy {
+  margin: 0;
+  font-size: var(--kroma-testo-s);
+  color: var(--kroma-testo-tenue);
+}
+
+.nonPartita {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kroma-spazio-1);
+  padding: var(--kroma-spazio-3) var(--kroma-spazio-2);
+  border: var(--kroma-linea-spessa) solid var(--kroma-arancione-testo);
+  background: var(--kroma-bianco);
+}
+
+.nonPartita p {
+  margin: 0;
+}
+
+.titoloNonPartita {
+  display: flex;
+  align-items: center;
+  gap: var(--kroma-spazio-1);
+  font-weight: 700;
+  color: var(--kroma-arancione-testo);
+}
+
+.titoloNonPartita::before {
+  content: '';
+  width: var(--kroma-spazio-1);
+  height: var(--kroma-spazio-1);
+  flex-shrink: 0;
+  background: var(--kroma-arancione-testo);
+}
+
+/* ---------------------------------------------------------------- inviata */
+
+.inviata {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kroma-spazio-2);
+  padding-top: var(--kroma-spazio-4);
+  border-top: var(--kroma-linea-spessa) solid var(--kroma-linea);
+}
+
+.inviata p {
+  margin: 0;
+}
+
+.titoloConferma {
+  display: flex;
+  align-items: center;
+  gap: var(--kroma-spazio-2);
+  margin: 0;
+  font-size: var(--kroma-testo-l);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* Il quadretto giallo: la cosa importante è fatta. Bordo perché su carta
+   il giallo quasi non si vede. */
+.titoloConferma::before {
+  content: '';
+  width: var(--kroma-pixel-cella);
+  height: var(--kroma-pixel-cella);
+  flex-shrink: 0;
+  box-sizing: border-box;
+  background: var(--kroma-evidenzia);
+  border: var(--kroma-linea-sottile) solid var(--kroma-linea);
+}
+
+/* --------------------------------------------------------------- utilità */
+
+.soloLettori {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
