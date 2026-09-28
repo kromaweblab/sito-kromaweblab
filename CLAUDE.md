@@ -106,6 +106,11 @@ Al loro posto:
   la tua attività" → `/contatti`, secondo pulsante → pagina del servizio,
   link "Tutti i servizi" → `/servizi`. Niente slider automatici.
 - **WhatsApp**: nella sezione contatti in fondo alla home e nel piè di pagina.
+- **Ricostruzioni delle app dei clienti** (es. Vivai Cintoli in "Un lavoro"):
+  disegnate in HTML con dati di esempio, nei colori dell'app del cliente
+  (token `--kroma-vivai-*`) e con i suoi angoli tondi. È l'unica eccezione
+  ad angoli vivi e palette Kroma, e vale solo dentro la ricostruzione.
+  Sempre marcate "ricostruzione con dati di esempio". Niente emoji.
 
 ## Il marchio: griglia a pixel
 

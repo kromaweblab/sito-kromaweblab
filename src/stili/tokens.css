@@ -33,6 +33,24 @@
   --kroma-linea-su-scuro: #3a3835; /* solo separatori, non testo */
   --kroma-carta-hover: #ebe7e1; /* fondo al passaggio del mouse su carta */
 
+  /*
+   * Colori dei clienti: SOLO per le ricostruzioni delle loro app (es. la
+   * sezione "Un lavoro"). Non si usano per nient'altro nel sito.
+   * Presi dal CSS dell'app di Vivai Cintoli.
+   */
+  --kroma-vivai-verde: #1f6532; /* barre e pulsanti; testo bianco sopra: 7,08 */
+  --kroma-vivai-verde-scuro: #144222;
+  --kroma-vivai-verde-tenue: #e6f0e8;
+  --kroma-vivai-fondo: #f4f6f4;
+  --kroma-vivai-bordo: #dfe6e0;
+  --kroma-vivai-testo: #1c231d;
+  --kroma-vivai-testo-tenue: #5b6a5d;
+  --kroma-vivai-avviso-fondo: #fff3cd;
+  --kroma-vivai-avviso-testo: #6b4e00;
+  --kroma-vivai-errore-fondo: #fdecea;
+  --kroma-vivai-errore-testo: #8a1c12;
+  --kroma-vivai-raggio: 8px; /* l'app ha gli angoli tondi: eccezione voluta */
+
   /* Ruoli (usare questi nei componenti quando possibile) */
   --kroma-fondo: var(--kroma-carta);
   --kroma-testo: var(--kroma-nero);

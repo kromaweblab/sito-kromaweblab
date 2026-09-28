@@ -317,3 +317,19 @@ suo lavoro. Così non si ripete l'apertura, che presenta già i tre servizi.
 **Nota:** il gestionale sta dentro `ProvaGestionale.astro` (titolo e
 introduzione di Giovanni, isola di Andrea nello slot): spostata la riga
 dell'isola in `index.astro`.
+
+## 2026-09-28 — "Un lavoro": Vivai Cintoli ricostruito, per ruolo
+
+**Scelta:** Vivai Cintoli in evidenza, con una ricostruzione in HTML di
+cosa vede ogni ruolo (selettore "Ufficio e admin" / "Operatore", ufficio
+selezionato all'apertura; radio + `:has()`, niente JS). Casale Allibrio ed
+Estrò Atelier sotto, in una riga ciascuno. Riga di dati veri: in uso da
+settembre 2026, una ventina di operatori, 2 persone in ufficio, 3
+amministratori.
+**Stile:** fedele all'app (verde Vivai Cintoli, angoli tondi) tramite i
+token `--kroma-vivai-*`: la ricostruzione è come una fotografia dell'app del
+cliente. Eccezione limitata alla ricostruzione; niente emoji dell'app.
+**Perché:** mostra il cuore del lavoro (campo e ufficio collegati, ognuno
+vede solo ciò che gli serve) senza schermate con dati veri. Le schermate
+vere con dati finti andranno nel caso completo.
+**Dati di esempio:** cognomi generici; escluso Greco, che è un dipendente.

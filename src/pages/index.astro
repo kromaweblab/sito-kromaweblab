@@ -6,6 +6,7 @@ import Apertura from '../sezioni/Apertura.astro';
 import Problema from '../sezioni/Problema.astro';
 import ProvaGestionale from '../sezioni/ProvaGestionale.astro';
 import CosaFacciamo from '../sezioni/CosaFacciamo.astro';
+import UnLavoro from '../sezioni/UnLavoro.astro';
 import { GestionaleDimostrativo } from '../isole/gestionale-dimostrativo/GestionaleDimostrativo';
 import { DA_SCRIVERE } from '../dati/sito';
 ---
@@ -17,7 +18,8 @@ import { DA_SCRIVERE } from '../dati/sito';
     <GestionaleDimostrativo client:visible />
   </ProvaGestionale>
   <CosaFacciamo />
-  <p class="provvisoria">home in costruzione · prossima sezione: un lavoro</p>
+  <UnLavoro />
+  <p class="provvisoria">home in costruzione · prossima sezione: contatto</p>
 </Base>
 
 <style>
