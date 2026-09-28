@@ -189,6 +189,10 @@ lo si dice nella pull request.
   Andrea anche se è un `.astro`.
 - Le isole non importano i token: le variabili `--kroma-*` sono già
   caricate dal layout.
+- **Le isole non hanno cornice** (larghezza massima, margini, spazio
+  sopra e sotto): la dà la sezione di Giovanni che le contiene, come
+  `sezioni/ProvaGestionale.astro` con lo `<slot />`. L'isola misura solo il
+  proprio spazio (`container-type`) per decidere come disporsi.
 
 ## Mappa del sito
 
