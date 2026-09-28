@@ -355,3 +355,18 @@ in PNG (494×129): se arriva un SVG, va sostituito.
 versione bianca su trasparente (`logo-white.png`), colorata in
 `--kroma-nero` e ritagliata. Nelle righe di Casale Allibrio ed Estrò Atelier
 logo, descrizione e link sono centrati in verticale.
+
+## 2026-09-28 — Sezione "Contatto" della home: solo invito
+
+**Scelta:** titolo "Raccontaci come lavori oggi.", frase "Di persona o in
+videochiamata, come preferisci…", pulsante "Raccontaci la tua attività" →
+`/contatti` e pulsante WhatsApp (segnaposto finché non c'è il numero).
+Nessun modulo in home.
+**Perché:** un modulo in home farebbe doppione con `/contatti`, dove ci sono
+il configuratore di Andrea e il modulo contatto; e Andrea potrebbe già
+lavorarci.
+
+## 2026-09-28 — Coordinamento su Discord, niente PR in bozza obbligatorie
+
+**Scelta:** chi inizia un lavoro lo dice all'altro su Discord. Scartate per
+ora le PR in bozza obbligatorie e la bacheca GitHub Projects.
