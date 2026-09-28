@@ -1,0 +1,43 @@
+---
+// ANTEPRIMA DA NON UNIRE: serve solo a provare l'invio vero del
+// configuratore a Netlify Forms sull'anteprima della pull request.
+// La cornice qui sotto è provvisoria: quella vera la fa Giovanni in /contatti.
+import Base from '../layout/Base.astro';
+import { Configuratore } from '../isole/configuratore/Configuratore';
+import ModuloRichiestaNascosto from '../isole/configuratore/ModuloRichiestaNascosto.astro';
+---
+
+<Base titolo="Anteprima configuratore" descrizione="Pagina di anteprima, non pubblicare.">
+  <section class="anteprima">
+    <h1>Anteprima del configuratore</h1>
+    <p class="nota">Da non pubblicare: in /contatti andrà dentro la sezione di Giovanni.</p>
+    <Configuratore client:visible />
+    <ModuloRichiestaNascosto />
+  </section>
+</Base>
+
+<style>
+  .anteprima {
+    max-width: var(--kroma-larghezza);
+    margin: 0 auto;
+    padding: var(--kroma-spazio-8) var(--kroma-spazio-2);
+  }
+
+  h1 {
+    margin: 0 0 var(--kroma-spazio-1);
+    font-size: var(--kroma-testo-xl);
+  }
+
+  .nota {
+    margin: 0 0 var(--kroma-spazio-6);
+    font-family: var(--kroma-font-mono);
+    font-size: var(--kroma-testo-s);
+    color: var(--kroma-testo-tenue);
+  }
+
+  @media (min-width: 960px) {
+    .anteprima {
+      padding: var(--kroma-spazio-12) var(--kroma-spazio-4);
+    }
+  }
+</style>
