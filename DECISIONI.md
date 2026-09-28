@@ -356,6 +356,16 @@ versione bianca su trasparente (`logo-white.png`), colorata in
 `--kroma-nero` e ritagliata. Nelle righe di Casale Allibrio ed Estrò Atelier
 logo, descrizione e link sono centrati in verticale.
 
+## 2026-09-28 — Le isole non hanno cornice
+
+**Scelta:** le isole React non hanno larghezza massima né margini propri:
+li dà la sezione `.astro` che le contiene (come `ProvaGestionale.astro`).
+Tolto dal gestionale il contenitore aggiunto nella PR #11.
+**Perché:** dopo la #12 il gestionale aveva due contenitori, quello della
+sezione e il suo: in home rientrava di 32px rispetto al titolo e aveva il
+doppio dello spazio sopra. Con la cornice nella sezione, nessuno tocca il
+file dell'altro e l'isola si adatta a qualunque pagina.
+
 ## 2026-09-28 — Sezione "Contatto" della home: solo invito
 
 **Scelta:** titolo "Raccontaci come lavori oggi.", frase "Di persona o in

@@ -10,21 +10,10 @@
 /* ---------------------------------------------------------------- impianto */
 
 .gestionale {
-  /* Stesso contenitore delle sezioni di Giovanni (Apertura, Problema):
-     larghezza massima, centrata, spazio sopra, sotto e ai lati. */
-  max-width: var(--kroma-larghezza);
-  margin: 0 auto;
-  padding: var(--kroma-spazio-8) var(--kroma-spazio-2);
-  /* L'isola misura il proprio spazio interno (container query), non la
-     finestra: le due colonne compaiono solo se c'è posto davvero. */
+  /* Niente larghezza né margini: la cornice la dà la sezione che contiene
+     l'isola (es. ProvaGestionale.astro di Giovanni). L'isola misura solo il
+     proprio spazio (container query) per decidere se usare due colonne. */
   container-type: inline-size;
-}
-
-/* Stesso passaggio e stesse misure di Problema.astro da computer. */
-@media (min-width: 960px) {
-  .gestionale {
-    padding: var(--kroma-spazio-12) var(--kroma-spazio-4);
-  }
 }
 
 .impianto {
