@@ -4,6 +4,8 @@
 import Base from '../layout/Base.astro';
 import Apertura from '../sezioni/Apertura.astro';
 import Problema from '../sezioni/Problema.astro';
+import ProvaGestionale from '../sezioni/ProvaGestionale.astro';
+import CosaFacciamo from '../sezioni/CosaFacciamo.astro';
 import { GestionaleDimostrativo } from '../isole/gestionale-dimostrativo/GestionaleDimostrativo';
 import { DA_SCRIVERE } from '../dati/sito';
 ---
@@ -11,8 +13,11 @@ import { DA_SCRIVERE } from '../dati/sito';
 <Base titolo="Kroma Web Lab — Scicli" descrizione={DA_SCRIVERE}>
   <Apertura />
   <Problema />
-  <p class="provvisoria">home in costruzione · prossima sezione: cosa facciamo</p>
-  <GestionaleDimostrativo client:visible />
+  <ProvaGestionale>
+    <GestionaleDimostrativo client:visible />
+  </ProvaGestionale>
+  <CosaFacciamo />
+  <p class="provvisoria">home in costruzione · prossima sezione: un lavoro</p>
 </Base>
 
 <style>
