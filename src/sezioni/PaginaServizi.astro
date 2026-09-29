@@ -1,0 +1,222 @@
+---
+// Pagina /servizi: apertura e i tre servizi.
+// La chiusura (invito al contatto) è la sezione Contatto della home, che la
+// pagina aggiunge dopo questa.
+//
+// I gestionali sono il servizio principale (CLAUDE.md): tutta la larghezza,
+// titolo grande, quadretto giallo e i lavori di tutti i giorni. App e siti
+// stanno affiancati, più sobri. Testi e lavori vengono da src/dati/servizi.ts.
+
+import Pulsante from '../componenti/Pulsante.astro';
+import TitoloSezione from '../componenti/TitoloSezione.astro';
+import { lavori, servizi } from '../dati/servizi';
+
+const [gestionali, ...altri] = servizi;
+const lavoriGestionali = lavori.filter((l) => l.servizio === 'gestionali');
+---
+
+<div class="servizi">
+  <header class="testa">
+    <h1>Gestionali, app e siti per le attività della provincia di Ragusa.</h1>
+    <p>
+      Partiamo da come lavori oggi: il quaderno delle prenotazioni, il foglio Excel, i messaggi su
+      WhatsApp. Poi facciamo la cosa più semplice che ti fa risparmiare tempo.
+    </p>
+  </header>
+
+  {gestionali && (
+    <section class="principale" aria-labelledby={`servizio-${gestionali.id}`}>
+      <div class="racconto">
+        <TitoloSezione id={`servizio-${gestionali.id}`}>{gestionali.nome}</TitoloSezione>
+        <p class="titolo-servizio">{gestionali.titolo}</p>
+        <p>{gestionali.testo}</p>
+        <div class="azioni">
+          <Pulsante href={gestionali.href} variante="secondario">
+            {gestionali.invito}
+          </Pulsante>
+          <Pulsante href="/#prova-titolo" variante="secondario">
+            Provalo adesso
+          </Pulsante>
+        </div>
+      </div>
+
+      <div class="esempi">
+        <h3 id="esempi-gestionali">Per esempio</h3>
+        <ul aria-labelledby="esempi-gestionali">
+          {lavoriGestionali.map((l) => (
+            <li>
+              <strong>{l.lavoro}</strong>
+              <span>{l.dettaglio}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <div class="altri">
+    {altri.map((s) => (
+      <section aria-labelledby={`servizio-${s.id}`}>
+        <h2 id={`servizio-${s.id}`}>{s.nome}</h2>
+        <p class="titolo-servizio">{s.titolo}</p>
+        <p>{s.testo}</p>
+        <a href={s.href} class="collegamento">
+          {s.invito}
+        </a>
+      </section>
+    ))}
+  </div>
+</div>
+
+<style>
+  .servizi {
+    max-width: var(--kroma-larghezza);
+    margin: 0 auto;
+    padding: var(--kroma-spazio-6) var(--kroma-spazio-2) var(--kroma-spazio-8);
+  }
+
+  /* ---------- Apertura ---------- */
+
+  h1 {
+    max-width: 16ch;
+    margin: 0;
+    font-size: var(--kroma-testo-xxl);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+
+  .testa p {
+    max-width: 48ch;
+    margin: var(--kroma-spazio-3) 0 0;
+    font-size: var(--kroma-testo-l);
+    line-height: 1.35;
+  }
+
+  /* ---------- Testi comuni ai servizi ---------- */
+
+  p {
+    margin: var(--kroma-spazio-2) 0 0;
+    max-width: 52ch;
+  }
+
+  .titolo-servizio {
+    font-size: var(--kroma-testo-l);
+    font-weight: 700;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+
+  /* ---------- Gestionali: il servizio principale ---------- */
+
+  .principale {
+    display: grid;
+    gap: var(--kroma-spazio-5);
+    margin-top: var(--kroma-spazio-8);
+    padding-top: var(--kroma-spazio-5);
+    border-top: var(--kroma-linea-spessa) solid var(--kroma-linea);
+  }
+
+  .principale .titolo-servizio {
+    font-size: var(--kroma-testo-xl);
+    line-height: 1.1;
+  }
+
+  .azioni {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kroma-spazio-2);
+    margin-top: var(--kroma-spazio-4);
+  }
+
+  h3 {
+    margin: 0 0 var(--kroma-spazio-2);
+    font-size: var(--kroma-testo-m);
+    font-weight: 500;
+    color: var(--kroma-testo-tenue);
+  }
+
+  .esempi ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .esempi li {
+    display: grid;
+    gap: var(--kroma-spazio-1);
+    padding: var(--kroma-spazio-2) 0;
+    border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .esempi strong {
+    font-size: var(--kroma-testo-l);
+    line-height: 1.2;
+  }
+
+  .esempi span {
+    color: var(--kroma-testo-tenue);
+  }
+
+  /* ---------- Web app e siti ---------- */
+
+  .altri {
+    display: grid;
+    margin-top: var(--kroma-spazio-8);
+  }
+
+  .altri .titolo-servizio {
+    font-size: var(--kroma-testo-m);
+  }
+
+  .altri section {
+    padding: var(--kroma-spazio-4) 0 var(--kroma-spazio-5);
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  /* Un gradino sotto i gestionali, che restano il servizio principale. */
+  h2 {
+    margin: 0;
+    font-size: var(--kroma-testo-l);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .collegamento {
+    display: inline-block;
+    margin-top: var(--kroma-spazio-3);
+    font-weight: 700;
+    text-decoration-color: var(--kroma-arancione-scuro);
+    text-decoration-thickness: var(--kroma-linea-spessa);
+    text-underline-offset: 0.25em;
+  }
+
+  .collegamento:hover {
+    color: var(--kroma-arancione-testo);
+  }
+
+  /* ---------- Da computer ---------- */
+
+  @media (min-width: 960px) {
+    .servizi {
+      padding: var(--kroma-spazio-10) var(--kroma-spazio-4) var(--kroma-spazio-12);
+    }
+
+    /* Griglia asimmetrica: il racconto largo, gli esempi stretti a destra. */
+    .principale {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: var(--kroma-spazio-8);
+      align-items: start;
+    }
+
+    .esempi {
+      padding-top: var(--kroma-spazio-1);
+    }
+
+    .altri {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--kroma-spazio-8);
+    }
+  }
+</style>
