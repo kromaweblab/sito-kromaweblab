@@ -323,8 +323,16 @@ primo colloquio di persona o in videochiamata, sceglie il cliente
 
 - [ ] **Informativa privacy** in `/privacy`: la scrivono Giovanni e Andrea
       partendo da un modello (es. Garante). Senza, il modulo non si pubblica.
-      Titolare del trattamento: da chiarire col commercialista (niente P.IVA).
-- [ ] Prestazione occasionale: verificare col commercialista.
+      Titolare del trattamento: dipende dalla forma fiscale (voce sotto).
+- [ ] **Forma fiscale, col commercialista.** La prestazione occasionale non
+      regge per un'agenzia con sito pubblico e clienti continuativi: serve
+      quasi certamente la Partita IVA (probabilmente forfettaria). Domande:
+  1. Con il codice ATECO per siti e software andiamo in **Gestione Separata
+     INPS** (contributi solo su quanto si incassa, nessun minimo) o in una
+     gestione con **contributi fissi** anche senza clienti?
+  2. **Una Partita IVA sola** all'inizio, **due**, o **una società**?
+  3. Quanto costa **il commercialista** all'anno, e **da quando** serve la
+     Partita IVA rispetto al lancio del sito?
 - [ ] Dominio `kromaweblab.it`.
 - [ ] Descrizione per Google della home (`[DA SCRIVERE]`).
 - [ ] Indirizzi dei siti di Casale Allibrio ed Estrò Atelier.

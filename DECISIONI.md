@@ -554,3 +554,15 @@ locale e frontend-design: città e servizio nel titolo, una pagina centrale
 che collega le tre pagine dei servizi, niente numeri 01/02/03 (non è una
 sequenza), niente elenchi con i punti in mezzo, un solo invito finale (una
 riga per gli indecisi ripeteva la sezione Contatto ed è stata tolta).
+
+## 2026-09-29 — Forma fiscale: tre domande per il commercialista
+
+**Scelta:** in "Prima del lancio" (CLAUDE.md) la voce "prestazione
+occasionale" diventa "forma fiscale", con tre domande: gestione INPS
+(Gestione Separata senza minimo o contributi fissi), una o due Partite IVA
+o società, costo del commercialista e da quando serve la Partita IVA.
+**Perché:** i 5.000 euro sono la soglia dei contributi INPS, non un tetto
+della prestazione occasionale; il vero limite è l'occasionalità, che un sito
+d'agenzia con clienti continuativi non ha. Il timore di costi fissi senza
+clienti dipende quasi tutto dalla gestione INPS. Da verificare col
+commercialista: non è una consulenza.
