@@ -554,3 +554,17 @@ locale e frontend-design: città e servizio nel titolo, una pagina centrale
 che collega le tre pagine dei servizi, niente numeri 01/02/03 (non è una
 sequenza), niente elenchi con i punti in mezzo, un solo invito finale (una
 riga per gli indecisi ripeteva la sezione Contatto ed è stata tolta).
+
+## 2026-09-29 — Sitemap e robots.txt
+
+**Scelta:** integrazione ufficiale `@astrojs/sitemap` (genera
+`/sitemap-index.xml` da tutte le pagine, tranne quelle di prova `/prova-…`)
+e `robots.txt` generato da `src/pages/robots.txt.ts`, che permette tutto e
+indica la sitemap. Tutti e due prendono l'indirizzo da `site` in
+`astro.config.mjs`: oggi `https://kromaweblab.it`, anche se il dominio non è
+ancora attivo, come per i link canonici.
+**Perché:** il sito pubblicato non li aveva (404). Revisione con la skill
+seo-sitemap: niente `priority` e `changefreq` (Google li ignora), niente
+`lastmod` (meglio nessuna data che una data uguale per tutte), solo
+indirizzi canonici (controllati: coincidono con il `canonical` di ogni
+pagina).
