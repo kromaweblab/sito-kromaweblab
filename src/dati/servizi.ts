@@ -48,3 +48,31 @@ export const servizi: Servizio[] = [
     invito: 'Scopri i siti',
   },
 ];
+
+/**
+ * I lavori di tutti i giorni che risolviamo, ognuno col suo servizio.
+ * Li usano "Non solo prenotazioni" in home (CosaFacciamo.astro) e la
+ * pagina /servizi: si scrivono una volta sola qui.
+ */
+export interface Lavoro {
+  lavoro: string;
+  dettaglio: string;
+  servizio: Servizio['id'];
+}
+
+export const lavori: Lavoro[] = [
+  { lavoro: 'Prenotazioni', dettaglio: 'tavoli, camere, appuntamenti', servizio: 'gestionali' },
+  { lavoro: 'Ordini', dettaglio: 'dal cliente al magazzino', servizio: 'gestionali' },
+  { lavoro: 'Magazzino', dettaglio: 'giacenze che si aggiornano da sole', servizio: 'gestionali' },
+  { lavoro: 'Turni', dettaglio: 'chi lavora, quando, dove', servizio: 'gestionali' },
+  {
+    lavoro: 'La squadra',
+    dettaglio: "rapporti e programma, dal campo all'ufficio",
+    servizio: 'web-app',
+  },
+  {
+    lavoro: 'Farti trovare',
+    dettaglio: 'un sito che dice chi sei e come contattarti',
+    servizio: 'siti',
+  },
+];

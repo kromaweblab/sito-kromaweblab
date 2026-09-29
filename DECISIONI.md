@@ -538,6 +538,23 @@ del lancio partendo da un modello; il titolare del trattamento va chiarito
 col commercialista. Niente banner cookie: il sito non usa statistiche né
 servizi di terze parti.
 
+## 2026-09-29 — Pagina /servizi (fatta da Andrea per Giovanni)
+
+**Scelta:** h1 "Gestionali, app e siti per le attività della provincia di
+Ragusa.", una riga su come lavoriamo, poi i tre servizi con testi da
+`servizi.ts`. I gestionali in primo piano (tutta la larghezza, quadretto
+giallo, i lavori di tutti i giorni, "Provalo adesso" verso la lavagna);
+app e siti affiancati, un gradino sotto. Chiusura con la sezione `Contatto`
+della home. JSON-LD `Service` per ogni servizio, con zona servita e
+fornitore: solo dati veri. L'elenco dei lavori di tutti i giorni si sposta
+da `CosaFacciamo.astro` a `src/dati/servizi.ts` (`lavori`), usato da tutte
+e due; la home costruita resta identica.
+**Perché:** revisione con le skill copywriting, copy-editing, SEO, SEO
+locale e frontend-design: città e servizio nel titolo, una pagina centrale
+che collega le tre pagine dei servizi, niente numeri 01/02/03 (non è una
+sequenza), niente elenchi con i punti in mezzo, un solo invito finale (una
+riga per gli indecisi ripeteva la sezione Contatto ed è stata tolta).
+
 ## 2026-09-29 — Sitemap e robots.txt
 
 **Scelta:** integrazione ufficiale `@astrojs/sitemap` (genera
