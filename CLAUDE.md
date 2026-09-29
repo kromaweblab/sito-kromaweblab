@@ -328,7 +328,13 @@ primo colloquio di persona o in videochiamata, sceglie il cliente
 - [ ] Dominio `kromaweblab.it`.
 - [ ] Descrizione per Google della home (`[DA SCRIVERE]`).
 - [ ] Indirizzi dei siti di Casale Allibrio ed Estrò Atelier.
-- [ ] Lighthouse 95+ su mobile, misurato sul sito pubblicato.
+- [x] Lighthouse 95+ su mobile, misurato sul sito pubblicato (29/09/2026,
+      mediana di 3, `npx lighthouse@13.5.0 <url>`, telefono simulato):
+      home 98 · 100 · 100 · 100, `/contatti` 97 · 100 · 100 · 100
+      (prestazioni · accessibilità · buone pratiche · SEO).
+- [ ] Togliere dal pannello di Netlify la barra "Powered by Netlify"
+      (`/.netlify/scripts/hud`, l'unico JavaScript fuori dalle isole): issue #20.
+- [ ] Rimisurare Lighthouse sul dominio vero, quando c'è.
 - [ ] Niente banner cookie finché non si aggiungono statistiche o servizi
       di terze parti: se si aggiungono, diventa obbligatorio.
 
