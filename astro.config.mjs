@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig, fontProviders } from 'astro/config';
 import react from '@astrojs/react';
+import sitemap from '@astrojs/sitemap';
 
 // https://docs.astro.build/en/reference/configuration-reference/
 export default defineConfig({
@@ -15,7 +16,16 @@ export default defineConfig({
 
   // React serve solo per le isole in src/isole/. Tutto il resto è .astro
   // e non manda JavaScript al browser.
-  integrations: [react()],
+  // sitemap: genera /sitemap-index.xml con tutte le pagine, per Google.
+  // Usa `site` qui sopra per gli indirizzi. Niente priority/changefreq
+  // (Google li ignora) e niente lastmod (meglio nessuna data che una data
+  // uguale per tutte). Le pagine di prova (/prova-…) restano fuori.
+  integrations: [
+    react(),
+    sitemap({
+      filter: (pagina) => !new URL(pagina).pathname.startsWith('/prova-'),
+    }),
+  ],
 
   // Solo per `npm run dev`. Senza questo, Vite scopre React la prima volta
   // che una pagina con un'isola viene aperta, lo prepara di nuovo a server

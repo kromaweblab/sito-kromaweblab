@@ -537,3 +537,17 @@ Pagina `/privacy` segnaposto, linkata nel piè di pagina. Da scrivere prima
 del lancio partendo da un modello; il titolare del trattamento va chiarito
 col commercialista. Niente banner cookie: il sito non usa statistiche né
 servizi di terze parti.
+
+## 2026-09-29 — Sitemap e robots.txt
+
+**Scelta:** integrazione ufficiale `@astrojs/sitemap` (genera
+`/sitemap-index.xml` da tutte le pagine, tranne quelle di prova `/prova-…`)
+e `robots.txt` generato da `src/pages/robots.txt.ts`, che permette tutto e
+indica la sitemap. Tutti e due prendono l'indirizzo da `site` in
+`astro.config.mjs`: oggi `https://kromaweblab.it`, anche se il dominio non è
+ancora attivo, come per i link canonici.
+**Perché:** il sito pubblicato non li aveva (404). Revisione con la skill
+seo-sitemap: niente `priority` e `changefreq` (Google li ignora), niente
+`lastmod` (meglio nessuna data che una data uguale per tutte), solo
+indirizzi canonici (controllati: coincidono con il `canonical` di ogni
+pagina).
