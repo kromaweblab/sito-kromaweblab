@@ -6,28 +6,7 @@
 // primo piano senza dimenticare app e siti.
 
 import TitoloSezione from '../componenti/TitoloSezione.astro';
-import { servizi, type Servizio } from '../dati/servizi';
-
-const cicli: { lavoro: string; dettaglio: string; servizio: Servizio['id'] }[] = [
-  { lavoro: 'Prenotazioni', dettaglio: 'tavoli, camere, appuntamenti', servizio: 'gestionali' },
-  { lavoro: 'Ordini', dettaglio: 'dal cliente al magazzino', servizio: 'gestionali' },
-  {
-    lavoro: 'Magazzino',
-    dettaglio: 'giacenze che si aggiornano da sole',
-    servizio: 'gestionali',
-  },
-  { lavoro: 'Turni', dettaglio: 'chi lavora, quando, dove', servizio: 'gestionali' },
-  {
-    lavoro: 'La squadra',
-    dettaglio: "rapporti e programma, dal campo all'ufficio",
-    servizio: 'web-app',
-  },
-  {
-    lavoro: 'Farti trovare',
-    dettaglio: 'un sito che dice chi sei e come contattarti',
-    servizio: 'siti',
-  },
-];
+import { lavori as cicli, servizi, type Servizio } from '../dati/servizi';
 
 const servizioDa = (id: Servizio['id']) => servizi.find((s) => s.id === id)!;
 ---
