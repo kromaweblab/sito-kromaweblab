@@ -1,5 +1,48 @@
 ---
-import PaginaSegnaposto from '../componenti/PaginaSegnaposto.astro';
+// Pagina /gestionali: il servizio principale. In fondo lo stesso invito al
+// contatto della home. JSON-LD: il servizio (Service) e le domande frequenti
+// (FAQPage), generati dagli stessi dati del testo visibile.
+import Base from '../layout/Base.astro';
+import PaginaGestionali from '../sezioni/PaginaGestionali.astro';
+import Contatto from '../sezioni/Contatto.astro';
+import { servizi } from '../dati/servizi';
+import { domandeGestionali } from '../dati/metodo';
+import { sito } from '../dati/sito';
+
+const gestionali = servizi.find((s) => s.id === 'gestionali');
+
+const datiStrutturati = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Gestionali su misura',
+    serviceType: 'Gestionale web su misura',
+    description: gestionali ? `${gestionali.titolo} ${gestionali.testo}` : undefined,
+    url: new URL('/gestionali/', Astro.site).href,
+    provider: { '@type': 'ProfessionalService', name: sito.nome, url: sito.url },
+    areaServed: [
+      { '@type': 'City', name: sito.comune },
+      { '@type': 'AdministrativeArea', name: `Provincia di ${sito.provincia}` },
+      { '@type': 'Country', name: 'Italia' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: domandeGestionali.map((d) => ({
+      '@type': 'Question',
+      name: d.domanda,
+      acceptedAnswer: { '@type': 'Answer', text: d.risposta },
+    })),
+  },
+];
 ---
 
-<PaginaSegnaposto titolo="Gestionali" />
+<Base
+  titolo="Gestionali su misura in provincia di Ragusa"
+  descrizione="Prenotazioni, ordini, magazzino e turni in un posto solo, dal telefono e dal computer. Gestionali su misura per le attività di Scicli e provincia di Ragusa."
+>
+  <PaginaGestionali />
+  <Contatto />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(datiStrutturati)} />
+</Base>

@@ -1,0 +1,619 @@
+---
+// Pagina /gestionali, il servizio principale. In ordine: apertura, la
+// giornata tipo della home rivista "con un gestionale" (l'elemento forte
+// della pagina), un magazzino di esempio, cosa può gestire, il caso vero di
+// Vivai Cintoli, come lavoriamo, domande frequenti. La chiusura (Contatto)
+// la aggiunge la pagina.
+//
+// L'interruttore "Oggi / Con un gestionale" funziona senza JavaScript, come
+// il selettore dell'apertura: pulsanti radio + CSS :has(). Nei browser che
+// non conoscono :has() si vedono le due versioni una sotto l'altra.
+//
+// Tutti i testi di fatto vengono da src/dati (giornata, servizi, lavori,
+// metodo): qui c'è solo l'impaginazione e le poche frasi della pagina.
+
+import { Image } from 'astro:assets';
+import Pulsante from '../componenti/Pulsante.astro';
+import TitoloSezione from '../componenti/TitoloSezione.astro';
+import { giornata } from '../dati/giornata';
+import { lavori as casi, usoVivai } from '../dati/lavori';
+import { domandeGestionali, passi } from '../dati/metodo';
+import { lavori } from '../dati/servizi';
+
+const momenti = giornata.filter((m) => m.dopo);
+const lavoriGestionali = lavori.filter((l) => l.servizio === 'gestionali');
+const vivai = casi.find((c) => c.id === 'vivai-cintoli');
+
+// Magazzino di esempio (dati inventati, e la pagina lo dice): un
+// ristorante, come la lavagna in home.
+const magazzino = [
+  { articolo: 'Farina 00', quantita: '38 kg', soglia: '20 kg', riordina: false },
+  { articolo: 'Olio extravergine', quantita: '6 l', soglia: '10 l', riordina: true },
+  {
+    articolo: 'Passata di pomodoro',
+    quantita: '54 bottiglie',
+    soglia: '24 bottiglie',
+    riordina: false,
+  },
+  {
+    articolo: 'Vino rosso della casa',
+    quantita: '9 bottiglie',
+    soglia: '12 bottiglie',
+    riordina: true,
+  },
+];
+---
+
+<div class="gestionali">
+  <header class="testa">
+    <h1>Gestionali su misura per le attività della provincia di Ragusa.</h1>
+    <p>
+      Prenotazioni su un quaderno, ordini su WhatsApp, turni su un foglio Excel. Li mettiamo in un
+      posto solo, che usi dal telefono e dal computer.
+    </p>
+    <div class="azioni">
+      <Pulsante href="/contatti">Raccontaci la tua attività</Pulsante>
+      <Pulsante href="#giornata-titolo" variante="secondario">
+        Guarda la differenza
+      </Pulsante>
+    </div>
+  </header>
+
+  <section class="giornata" aria-labelledby="giornata-titolo">
+    <div class="testa-sezione">
+      <TitoloSezione id="giornata-titolo">La stessa giornata, con un gestionale</TitoloSezione>
+      <p>La giornata tipo che hai visto in home, momento per momento.</p>
+    </div>
+
+    <fieldset class="interruttore">
+      <legend class="solo-lettori">Come vuoi vedere la giornata</legend>
+      <input type="radio" name="vista" id="vista-oggi" value="oggi" checked />
+      <label for="vista-oggi">Oggi</label>
+      <input type="radio" name="vista" id="vista-dopo" value="dopo" />
+      <label for="vista-dopo">Con un gestionale</label>
+    </fieldset>
+
+    <ol class="momenti">
+      {momenti.map((m) => (
+        <li>
+          <time datetime={m.ora}>{m.ora}</time>
+          <div class="versione oggi">
+            <span class="etichetta">Oggi, {m.strumento}</span>
+            <p>{m.testo}</p>
+          </div>
+          <div class="versione dopo">
+            <span class="etichetta">Con un gestionale</span>
+            <p>{m.dopo}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="magazzino" aria-labelledby="magazzino-titolo">
+    <div class="testa-sezione">
+      <h2 id="magazzino-titolo">Un esempio: il magazzino</h2>
+      <p>
+        Ogni volta che esce un ordine, la quantità scende da sola. Quando un articolo arriva sotto
+        la soglia, il gestionale te lo segna: non devi più contare gli scaffali per sapere cosa
+        ordinare.
+      </p>
+    </div>
+
+    <p class="avviso">Dati di esempio: il magazzino di un ristorante</p>
+    <table>
+      <caption class="solo-lettori">Magazzino di esempio di un ristorante</caption>
+      <thead>
+        <tr>
+          <th scope="col">Articolo</th>
+          <th scope="col">In magazzino</th>
+          <th scope="col">Riordina sotto</th>
+        </tr>
+      </thead>
+      <tbody>
+        {magazzino.map((riga) => (
+          <tr class:list={{ riordina: riga.riordina }}>
+            <th scope="row">
+              {riga.articolo}
+              {riga.riordina && <span class="stato">da riordinare</span>}
+            </th>
+            <td>{riga.quantita}</td>
+            <td>{riga.soglia}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="cosa" aria-labelledby="cosa-titolo">
+    <h2 id="cosa-titolo">Cosa può tenere in ordine</h2>
+    <ul>
+      {lavoriGestionali.map((l) => (
+        <li>
+          <strong>{l.lavoro}</strong>
+          <span>{l.dettaglio}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  {vivai && (
+    <section class="caso" aria-labelledby="caso-titolo">
+      <h2 id="caso-titolo">Un gestionale vero</h2>
+      <div class="caso-corpo">
+        <Image src={vivai.logo} alt={vivai.nome} width={240} densities={[1, 2]} class="logo" />
+        <div>
+          <p class="frase">{vivai.descrizione}</p>
+          <dl>
+            <dt>In uso da</dt>
+            <dd>{usoVivai.inUsoDa}</dd>
+            <dt>Chi lo usa</dt>
+            <dd>{usoVivai.persone}</dd>
+          </dl>
+          <a href={vivai.href} class="collegamento">
+            Il caso di {vivai.nome}
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="metodo" aria-labelledby="metodo-titolo">
+    <h2 id="metodo-titolo">Come lavoriamo</h2>
+    <ol>
+      {passi.map((p) => (
+        <li>
+          <strong>{p.titolo}</strong>
+          <p>{p.testo}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="domande" aria-labelledby="domande-titolo">
+    <h2 id="domande-titolo">Domande frequenti</h2>
+    <dl>
+      {domandeGestionali.map((d) => (
+        <div>
+          <dt>{d.domanda}</dt>
+          <dd>{d.risposta}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+</div>
+
+<style>
+  .gestionali {
+    max-width: var(--kroma-larghezza);
+    margin: 0 auto;
+    padding: var(--kroma-spazio-6) var(--kroma-spazio-2) var(--kroma-spazio-8);
+  }
+
+  .solo-lettori {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  /* ---------- Apertura ---------- */
+
+  h1 {
+    max-width: 16ch;
+    margin: 0;
+    font-size: var(--kroma-testo-xxl);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+
+  .testa > p {
+    max-width: 48ch;
+    margin-top: var(--kroma-spazio-3);
+    font-size: var(--kroma-testo-l);
+    line-height: 1.35;
+  }
+
+  .azioni {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kroma-spazio-2);
+    margin-top: var(--kroma-spazio-4);
+  }
+
+  /* ---------- Sezioni ---------- */
+
+  section {
+    margin-top: var(--kroma-spazio-8);
+    padding-top: var(--kroma-spazio-5);
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .testa-sezione p {
+    max-width: 52ch;
+    margin-top: var(--kroma-spazio-2);
+    font-size: var(--kroma-testo-l);
+    line-height: 1.35;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: var(--kroma-testo-xl);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  /* ---------- La giornata ---------- */
+
+  .giornata {
+    border-top-width: var(--kroma-linea-spessa);
+  }
+
+  /* L'interruttore: due riquadri a filo, la scelta attiva in nero. */
+  .interruttore {
+    display: flex;
+    margin: var(--kroma-spazio-4) 0 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .interruttore input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+
+  .interruttore label {
+    min-height: var(--kroma-spazio-6);
+    display: flex;
+    align-items: center;
+    padding: 0 var(--kroma-spazio-2);
+    border: var(--kroma-linea-sottile) solid var(--kroma-linea);
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .interruttore label + input + label {
+    border-left: 0;
+  }
+
+  .interruttore label:hover {
+    background: var(--kroma-carta-hover);
+  }
+
+  .interruttore input:checked + label {
+    background: var(--kroma-nero);
+    color: var(--kroma-carta);
+  }
+
+  .interruttore input:focus-visible + label {
+    outline: var(--kroma-linea-spessa) solid var(--kroma-arancione-testo);
+    outline-offset: var(--kroma-linea-spessa);
+  }
+
+  .momenti {
+    margin: var(--kroma-spazio-4) 0 0;
+    padding: 0;
+    list-style: none;
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .momenti li {
+    display: grid;
+    grid-template-columns: 6ch minmax(0, 1fr);
+    column-gap: var(--kroma-spazio-2);
+    padding: var(--kroma-spazio-3) 0;
+    border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  time {
+    font-family: var(--kroma-font-mono);
+    font-weight: 600;
+  }
+
+  .versione {
+    grid-column: 2;
+  }
+
+  .versione + .versione {
+    margin-top: var(--kroma-spazio-2);
+  }
+
+  .etichetta {
+    display: block;
+    font-size: var(--kroma-testo-s);
+    color: var(--kroma-testo-tenue);
+  }
+
+  .versione p {
+    font-size: var(--kroma-testo-l);
+    line-height: 1.3;
+  }
+
+  /* Con :has() si vede solo la versione scelta; senza, tutte e due. */
+  @supports selector(:has(a)) {
+    .versione + .versione {
+      margin-top: 0;
+    }
+
+    .giornata:has(#vista-oggi:checked) .dopo,
+    .giornata:has(#vista-dopo:checked) .oggi {
+      display: none;
+    }
+
+    .giornata:has(#vista-dopo:checked) .dopo .etichetta {
+      display: none;
+    }
+  }
+
+  /* ---------- Magazzino di esempio ---------- */
+
+  .avviso {
+    display: flex;
+    align-items: center;
+    gap: var(--kroma-spazio-1);
+    margin-top: var(--kroma-spazio-4);
+    font-family: var(--kroma-font-mono);
+    font-size: var(--kroma-testo-s);
+    color: var(--kroma-testo-tenue);
+  }
+
+  .avviso::before {
+    content: '';
+    width: var(--kroma-spazio-1);
+    height: var(--kroma-spazio-1);
+    background: var(--kroma-giallo);
+    border: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  table {
+    width: 100%;
+    max-width: 48rem;
+    margin-top: var(--kroma-spazio-2);
+    border-collapse: collapse;
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  th,
+  td {
+    padding: var(--kroma-spazio-2) var(--kroma-spazio-1);
+    border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  thead th {
+    font-size: var(--kroma-testo-s);
+    font-weight: 500;
+    color: var(--kroma-testo-tenue);
+  }
+
+  tbody th {
+    font-weight: 700;
+  }
+
+  td {
+    font-family: var(--kroma-font-mono);
+    font-size: var(--kroma-testo-s);
+  }
+
+  /* Sotto soglia: il quadretto giallo del marchio e la parola, mai il solo colore. */
+  .stato {
+    display: flex;
+    align-items: center;
+    gap: var(--kroma-spazio-1);
+    margin-top: var(--kroma-spazio-1);
+    font-size: var(--kroma-testo-s);
+    font-weight: 500;
+  }
+
+  .stato::before {
+    content: '';
+    width: var(--kroma-pixel-cella);
+    height: var(--kroma-pixel-cella);
+    box-sizing: border-box;
+    background: var(--kroma-giallo);
+    border: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  /* ---------- Cosa può tenere in ordine ---------- */
+
+  .cosa ul {
+    margin: var(--kroma-spazio-4) 0 0;
+    padding: 0;
+    list-style: none;
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .cosa li {
+    display: grid;
+    gap: var(--kroma-spazio-1);
+    padding: var(--kroma-spazio-2) 0;
+    border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .cosa strong {
+    font-size: var(--kroma-testo-l);
+    line-height: 1.2;
+  }
+
+  .cosa span {
+    color: var(--kroma-testo-tenue);
+  }
+
+  /* ---------- Il caso vero ---------- */
+
+  .caso-corpo {
+    display: grid;
+    gap: var(--kroma-spazio-4);
+    margin-top: var(--kroma-spazio-4);
+  }
+
+  .caso :global(.logo) {
+    width: 100%;
+    max-width: calc(3 * var(--kroma-spazio-10));
+    height: auto;
+  }
+
+  .frase {
+    max-width: 52ch;
+    font-size: var(--kroma-testo-l);
+    line-height: 1.35;
+  }
+
+  .caso dl {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: var(--kroma-spazio-1) var(--kroma-spazio-3);
+    margin: var(--kroma-spazio-3) 0 0;
+  }
+
+  .caso dt {
+    font-size: var(--kroma-testo-s);
+    color: var(--kroma-testo-tenue);
+  }
+
+  .caso dd {
+    margin: 0;
+    font-family: var(--kroma-font-mono);
+    font-size: var(--kroma-testo-s);
+  }
+
+  .collegamento {
+    display: inline-block;
+    margin-top: var(--kroma-spazio-3);
+    font-weight: 700;
+    text-decoration-color: var(--kroma-arancione-scuro);
+    text-decoration-thickness: var(--kroma-linea-spessa);
+    text-underline-offset: 0.25em;
+  }
+
+  .collegamento:hover {
+    color: var(--kroma-arancione-testo);
+  }
+
+  /* ---------- Come lavoriamo: una sequenza, quindi numerata ---------- */
+
+  .metodo ol {
+    margin: var(--kroma-spazio-4) 0 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: passo;
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .metodo li {
+    display: grid;
+    grid-template-columns: 3ch minmax(0, 1fr);
+    column-gap: var(--kroma-spazio-2);
+    padding: var(--kroma-spazio-3) 0;
+    border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
+    counter-increment: passo;
+  }
+
+  .metodo li::before {
+    content: counter(passo);
+    grid-row: 1 / span 2;
+    font-family: var(--kroma-font-mono);
+    font-size: var(--kroma-testo-l);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .metodo strong {
+    font-size: var(--kroma-testo-l);
+    line-height: 1.2;
+  }
+
+  .metodo li p {
+    max-width: 52ch;
+    margin-top: var(--kroma-spazio-1);
+    color: var(--kroma-testo-tenue);
+  }
+
+  /* ---------- Domande frequenti ---------- */
+
+  .domande dl {
+    margin: var(--kroma-spazio-4) 0 0;
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .domande dl > div {
+    padding: var(--kroma-spazio-3) 0;
+    border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .domande dt {
+    font-size: var(--kroma-testo-l);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .domande dd {
+    max-width: 60ch;
+    margin: var(--kroma-spazio-1) 0 0;
+  }
+
+  /* ---------- Da computer ---------- */
+
+  @media (min-width: 960px) {
+    .gestionali {
+      padding: var(--kroma-spazio-10) var(--kroma-spazio-4) var(--kroma-spazio-12);
+    }
+
+    section {
+      margin-top: var(--kroma-spazio-10);
+    }
+
+    /* Da telefono le quantità vanno a capo ("54 / bottiglie"); qui c'è posto. */
+    td {
+      white-space: nowrap;
+    }
+
+    /* Senza :has() le due versioni stanno affiancate, come un prima e dopo. */
+    .momenti li {
+      grid-template-columns: 8ch minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: var(--kroma-spazio-4);
+    }
+
+    .versione {
+      grid-column: auto;
+    }
+
+    .versione + .versione {
+      margin-top: 0;
+    }
+
+    @supports selector(:has(a)) {
+      .versione {
+        grid-column: 2 / -1;
+      }
+    }
+
+    .caso-corpo {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+      gap: var(--kroma-spazio-8);
+      align-items: start;
+    }
+
+    .metodo ol {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--kroma-spazio-8);
+    }
+
+    .domande dl {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--kroma-spazio-8);
+    }
+  }
+</style>
