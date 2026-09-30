@@ -566,3 +566,28 @@ della prestazione occasionale; il vero limite è l'occasionalità, che un sito
 d'agenzia con clienti continuativi non ha. Il timore di costi fissi senza
 clienti dipende quasi tutto dalla gestione INPS. Da verificare col
 commercialista: non è una consulenza.
+
+## 2026-09-30 — Pagina /gestionali (fatta da Andrea per Giovanni)
+
+**Scelta:** apertura; "La stessa giornata, con un gestionale" (la giornata
+tipo della home con un interruttore Oggi / Con un gestionale, radio + CSS
+`:has()`, niente JS); un magazzino di esempio (ristorante, dati di esempio
+dichiarati, articoli sotto soglia con quadretto giallo e scritta); cosa può
+tenere in ordine; il caso vero di Vivai Cintoli; come lavoriamo (quattro
+passi numerati: è una sequenza); domande frequenti; chiusura Contatto.
+JSON-LD `Service` e `FAQPage`, dagli stessi dati del testo visibile.
+La giornata tipo passa da `Problema.astro` a `src/dati/giornata.ts`, con la
+versione "dopo" dei momenti che un gestionale risolve; la home resta
+identica.
+**Fatti forniti da Andrea (29/09/2026), in `src/dati/metodo.ts`:** dopo il
+colloquio pensiamo un modello adatto e mandiamo una proposta; se viene
+accettata iniziamo, e mostriamo una prima versione. Nessun software da
+installare: web app che si apre dal browser e si può aggiungere al
+telefono o al computer come app. Dati in un database su un server sicuro,
+con nome utente e password; server e dominio li acquista il cliente, i dati
+restano suoi. Prima formazione compresa; assistenza e modifiche dopo la
+consegna a pagamento.
+**Perché:** revisione con le skill copywriting, ai-seo, seo-local e
+frontend-design; la lavagna non si ripete (scelta di Andrea), al suo posto
+il "prima e dopo" della giornata già vista in home, più il magazzino di
+esempio chiesto da Andrea.
