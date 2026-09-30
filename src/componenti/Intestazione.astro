@@ -12,10 +12,29 @@
 // e toccando fuori). Se lo script non parte, il menu funziona lo stesso.
 
 import { vociMenu, voceContatti } from '../dati/navigazione';
+import { servizi } from '../dati/servizi';
 
-const percorso = Astro.url.pathname;
-/** La voce è "attiva" se siamo sulla sua pagina o in una sotto-pagina. */
-const attiva = (href: string) => percorso === href || percorso.startsWith(`${href}/`);
+// Senza la barra finale: "/servizi/" e "/servizi" sono la stessa pagina.
+const percorso = Astro.url.pathname.replace(/(.)\/$/, '$1');
+
+/** Le pagine dei singoli servizi: nel menu stanno sotto "Servizi". */
+const sottopagine: Record<string, string[]> = {
+  '/servizi': servizi.map((s) => s.href),
+};
+
+const dentro = (href: string) => percorso === href || percorso.startsWith(`${href}/`);
+
+/**
+ * aria-current della voce: "page" se siamo proprio sulla sua pagina,
+ * "true" se siamo in una sua sotto-pagina (es. /lavori/vivai-cintoli, o
+ * /gestionali per "Servizi"): per i lettori di schermo "sei in questa
+ * sezione", non "sei in questa pagina". L'aspetto è lo stesso.
+ */
+const attiva = (href: string): 'page' | 'true' | undefined => {
+  if (percorso === href) return 'page';
+  if (dentro(href) || (sottopagine[href] ?? []).some(dentro)) return 'true';
+  return undefined;
+};
 const tutteLeVoci = [...vociMenu, voceContatti];
 ---
 
@@ -28,17 +47,13 @@ const tutteLeVoci = [...vociMenu, voceContatti];
     <ul>
       {vociMenu.map((voce) => (
         <li>
-          <a href={voce.href} aria-current={attiva(voce.href) ? 'page' : undefined}>
+          <a href={voce.href} aria-current={attiva(voce.href)}>
             {voce.testo}
           </a>
         </li>
       ))}
       <li>
-        <a
-          href={voceContatti.href}
-          class="voce-contatti"
-          aria-current={attiva(voceContatti.href) ? 'page' : undefined}
-        >
+        <a href={voceContatti.href} class="voce-contatti" aria-current={attiva(voceContatti.href)}>
           {voceContatti.testo}
         </a>
       </li>
@@ -64,7 +79,7 @@ const tutteLeVoci = [...vociMenu, voceContatti];
       <ul>
         {tutteLeVoci.map((voce) => (
           <li>
-            <a href={voce.href} aria-current={attiva(voce.href) ? 'page' : undefined}>
+            <a href={voce.href} aria-current={attiva(voce.href)}>
               {voce.testo}
             </a>
           </li>
@@ -159,7 +174,7 @@ const tutteLeVoci = [...vociMenu, voceContatti];
   }
 
   /* Pagina in cui ci si trova: linea sempre visibile, in giallo. */
-  .menu-computer a[aria-current='page']::after {
+  .menu-computer a[aria-current]::after {
     transform: scaleX(1);
     background: var(--kroma-giallo);
     height: var(--kroma-spazio-1);
@@ -181,7 +196,7 @@ const tutteLeVoci = [...vociMenu, voceContatti];
 
   .voce-contatti:hover,
   .voce-contatti:focus-visible,
-  .voce-contatti[aria-current='page'] {
+  .voce-contatti[aria-current] {
     background: var(--kroma-nero);
     color: var(--kroma-arancione);
   }
@@ -243,7 +258,7 @@ const tutteLeVoci = [...vociMenu, voceContatti];
     font-weight: 700;
   }
 
-  .menu-telefono nav a[aria-current='page']::before {
+  .menu-telefono nav a[aria-current]::before {
     content: '';
     width: var(--kroma-spazio-2);
     height: var(--kroma-spazio-2);
