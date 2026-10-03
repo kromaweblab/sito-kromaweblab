@@ -598,3 +598,11 @@ pulsanti, dati separati da puntini.
   **Sostituisce:** trama a punti (27/09), menu con "Come lavoriamo", apertura
   con "Cosa ti serve?" e la frase "Strumenti digitali cuciti sulla tua
   attività", Space Grotesk.
+
+## 2026-10-03 — Nuova veste: apertura della home
+
+**Scelta:** marchio a pixel grande che si compone all'apertura (CSS, colori
+dai token, posizioni di partenza calcolate alla build), titolo "Software per
+chi lavora con una squadra.", due pulsanti "Fissa un primo incontro" e
+"Vedi i lavori". Tolte dalla home "Una giornata tipo" e il selettore "Cosa
+ti serve?" (i dati in `src/dati/servizi.ts` restano: li usa `/servizi`).
