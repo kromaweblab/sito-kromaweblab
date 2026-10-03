@@ -566,3 +566,35 @@ della prestazione occasionale; il vero limite è l'occasionalità, che un sito
 d'agenzia con clienti continuativi non ha. Il timore di costi fissi senza
 clienti dipende quasi tutto dalla gestione INPS. Da verificare col
 commercialista: non è una consulenza.
+
+## 2026-10-03 — Nuova veste "Officina"
+
+**Perché:** il sito somigliava troppo, nel tono e nella struttura, a quello
+di un altro studio di Scicli (epressio.it): stesso registro ("raccontaci",
+"senza tecnicismi", "da Scicli lavoriamo ovunque"), stessa idea di demo,
+fondo a puntini. Molti tratti erano quelli tipici dei siti generati: fondo
+crema, linee sottili da giornale, etichette in monospazio, frecce nei
+pulsanti, dati separati da puntini.
+**Scelte (provate nella pagina "Direzioni grafiche Kroma"):**
+
+- direzione **Officina**: sito scuro (#15181B), voi due in primo piano con
+  foto vere, il marchio a pixel come protagonista dell'apertura;
+- carattere **Geist** per titoli e testo al posto di Space Grotesk;
+  JetBrains Mono solo per dati veri;
+- **niente trama di fondo**;
+- **movimento C**: transizioni morbide ai gesti, View Transitions tra le
+  pagine (CSS), un solo momento animato (i pixel del marchio che si
+  compongono all'apertura della home);
+- posizionamento: web app e gestionali su misura, siti, manutenzione con
+  contratto; i gestionali installabili sono l'obiettivo, non si promettono;
+- home nuova: apertura, voi due, Vivai Cintoli, gestionale dimostrativo,
+  servizi, come lavoriamo, altri lavori, chiusura. Escono dalla home il
+  selettore "Cosa ti serve?" e "Una giornata tipo" (resta in /gestionali);
+- `/web-app` confluisce in `/gestionali`; nasce `/manutenzione`; esce dal
+  menu "Come lavoriamo" (diventa una sezione della home).
+  **Come:** branch lungo `feat/nuova-veste` con PR intermedie, una sola PR
+  finale verso `main`. Prima tappa: le fondamenta (colori, caratteri, fondo,
+  intestazione, piè di pagina, pulsanti, regole).
+  **Sostituisce:** trama a punti (27/09), menu con "Come lavoriamo", apertura
+  con "Cosa ti serve?" e la frase "Strumenti digitali cuciti sulla tua
+  attività", Space Grotesk.

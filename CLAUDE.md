@@ -11,12 +11,24 @@ Clienti: attività della provincia di Ragusa, dove siamo; a distanza, in
 tutta Italia (ristoranti,
 agriturismi, negozi, artigiani, aziende agricole).
 
-In ordine di importanza:
+**Nuova veste "Officina" (decisa il 03/10/2026, lavori in corso su
+`feat/nuova-veste`)**: il sito somigliava troppo a quello di un altro studio
+di Scicli (epressio.it) nel tono e nella struttura. Si ridisegna tutto:
+posizionamento, voce, grafica. Finché il branch non è unito, su `main` resta
+il sito vecchio.
 
-1. **Mini gestionali** che risolvono un ciclo di lavoro reale: prenotazioni,
-   ordini, magazzino, turni. È ciò per cui vogliamo essere riconosciuti.
-2. **Web app su misura**, costruite sul modo in cui quell'attività lavora già.
-3. **Siti web** per chi sul web non esiste ancora.
+Cosa vendiamo, in ordine di come ci fa lavorare oggi:
+
+1. **Web app e gestionali su misura** per chi lavora con una squadra:
+   rapporti, programma, turni, ordini, magazzino. La prova è Vivai Cintoli.
+2. **Siti web**, che fanno guadagnare prima.
+3. **Manutenzione** con contratto: aggiornamenti, modifiche, assistenza.
+   Entrata continua, da mettere in evidenza.
+
+Obiettivo a lungo termine: gestionali "seri", anche installabili come i
+software commerciali. **Sul sito non si promettono ancora**: si dice ciò che
+è vero oggi (le web app si installano su telefono e computer come un'app e
+funzionano anche senza rete).
 
 NON siamo un'agenzia di marketing: niente social, niente campagne. Non
 vendiamo "velocità" come argomento principale.
@@ -32,13 +44,18 @@ Ogni pagina si chiude con un invito al contatto.
 
 - Italiano semplice, per chi non è del mestiere. Mai "stack", "deploy",
   "performance", "responsive".
-- Problemi concreti ("prendi ancora le prenotazioni su un quaderno?"),
-  non tecnologie.
+- **Fatti al posto degli slogan**: numeri veri, cose che l'app fa davvero,
+  i nostri nomi. Una frase concreta su Vivai Cintoli vale più di dieci frasi
+  belle.
+- **Voce nostra, non da agenzia**: niente "Raccontaci…", "Parliamone",
+  "senza tecnicismi", "partiamo da una giornata reale", "da Scicli,
+  lavoriamo ovunque" e simili (sono il tono del concorrente e dei siti
+  generati). Pulsante principale: "Fissa un primo incontro".
 - Frasi corte. Niente superlativi ("soluzioni innovative", "partner
   strategico", "eccellenza").
-- Dati mancanti: segnaposto evidente `[DA SCRIVERE]`. Mai testo finto
-  verosimile. Nel codice: `DA_SCRIVERE` da
-  `src/dati/sito.ts`.
+- Dati mancanti: segnaposto evidente `[DA SCRIVERE]` (`[DA DEFINIRE]` per
+  ciò che va ancora deciso, es. il canone di manutenzione). Mai testo finto
+  verosimile. Nel codice: `DA_SCRIVERE` da `src/dati/sito.ts`.
 
 ## Identità visiva
 
@@ -47,70 +64,72 @@ sempre le variabili `--kroma-*`, mai un colore, carattere o spaziatura
 scritti a mano.** Uniche eccezioni: `scripts/genera-marchio.mjs` (i file
 SVG/PNG non possono leggere variabili CSS) e `src/stili/tokens.css` stesso.
 
-| Token                     | Valore  | Uso                                                |
-| ------------------------- | ------- | -------------------------------------------------- |
-| `--kroma-nero`            | #101010 | testo, fondi scuri                                 |
-| `--kroma-carta`           | #F5F2EE | fondo principale                                   |
-| `--kroma-arancione`       | #F25C05 | primario su fondo scuro                            |
-| `--kroma-verde`           | #12B3A8 | secondario su fondo scuro                          |
-| `--kroma-giallo`          | #FFC53D | SOLO evidenziazioni e pixel del marchio, MAI testo |
-| `--kroma-arancione-scuro` | #D24F03 | su chiaro: solo titoli grandi e grafica (3,87)     |
-| `--kroma-verde-scuro`     | #0E8F86 | su chiaro: solo titoli grandi e grafica (3,56)     |
-| `--kroma-arancione-testo` | #B84503 | su chiaro: testo piccolo e link (4,84)             |
-| `--kroma-verde-testo`     | #0C776F | su chiaro: testo piccolo e link (4,85)             |
-| `--kroma-testo-tenue`     | #5E5A55 | testo secondario su carta (6,13)                   |
+**Direzione "Officina"**: sito scuro, voi due in primo piano, il marchio a
+pixel come protagonista dell'apertura. Nei componenti si usano i **ruoli**:
 
-- "Titolo grande" = almeno 24px, o 19px in grassetto (soglia WCAG).
-- Testo sopra l'arancione: **sempre nero** (bianco su arancione = 3,33,
-  non basta).
-- Caratteri: **Space Grotesk** (titoli e testo) → `--kroma-font-testo`;
-  **JetBrains Mono** (dati veri: orari, date, numeri, dettagli tecnici) →
-  `--kroma-font-mono`. Self-hosted tramite l'API Fonts di Astro.
+| Ruolo                 | Valore                    | Uso                                      |
+| --------------------- | ------------------------- | ---------------------------------------- |
+| `--kroma-fondo`       | #15181B (`--kroma-notte`) | fondo del sito                           |
+| `--kroma-superficie`  | #1D2125                   | sezioni e riquadri un gradino più chiari |
+| `--kroma-testo`       | #EDEBE7                   | testo principale (15:1)                  |
+| `--kroma-testo-tenue` | #A3A9AE                   | testo secondario (7,5:1)                 |
+| `--kroma-linea`       | #2F353A                   | separatori, solo grafica                 |
+| `--kroma-bordo`       | #6B747C                   | bordi di campi e controlli (3,7:1)       |
+| `--kroma-link`        | arancione #F25C05         | link e azioni (5,3:1)                    |
+| `--kroma-focus`       | giallo #FFC53D            | contorno del focus da tastiera           |
+
+- Colori del marchio invariati: arancione #F25C05, verde #12B3A8, giallo
+  #FFC53D (solo marchio, cursore, attenzione: mai testo lungo). I token
+  "su chiaro" (`--kroma-carta`, `--kroma-arancione-testo`…) restano per le
+  parti chiare, come le ricostruzioni delle app dei clienti.
+- Testo sopra l'arancione: **sempre nero** (bianco su arancione = 3,33).
+- Caratteri: **Geist** per titoli e testo (`--kroma-font-testo`), titoli
+  in peso 650 e spaziatura stretta. **JetBrains Mono** (`--kroma-font-mono`)
+  **solo per dati veri** (orari, numeri), mai per etichette.
+- **Nessuna trama di fondo**: fondo pieno. Le sezioni si distinguono con il
+  passaggio fondo / superficie.
 - Spaziature: solo multipli di 8px → `--kroma-spazio-1` (8) …
   `--kroma-spazio-16` (128). Uniche eccezioni: le linee da 1–2px.
-- **Angoli vivi ovunque**: `border-radius: 0` (`--kroma-raggio`).
+- Angoli vivi (`--kroma-raggio: 0`), tranne dentro le ricostruzioni delle
+  app dei clienti.
+- **Movimento (scelta C)**: transizioni morbide in risposta a un gesto
+  (`--kroma-durata`, `--kroma-curva`), passaggio tra le pagine con le View
+  Transitions del browser (CSS, niente JS), e **un solo momento animato**
+  all'apertura della home: i pixel del marchio che si compongono. Sempre
+  spento con `prefers-reduced-motion`.
 
 ### Divieti di design (importantissimo)
 
 Il sito non deve sembrare fatto con un generatore. MAI:
 
 - etichette in maiuscolo sopra i titoli ("I NOSTRI SERVIZI", "CHI SIAMO")
-- schede arrotondate con icona + titolo + testo + pulsante
+- piccole etichette in monospazio come decorazione
+- frecce "→" aggiunte ai pulsanti e ai link (nelle parti nuove)
+- dati in fila separati da puntini ("A · B · C")
+- schede tutte uguali con icona + titolo + testo + pulsante
 - gradienti, ombre diffuse, vetro smerigliato
 - icone generiche al posto di contenuto vero
-- Inter, Roboto, Arial, Poppins
-- animazioni di comparsa a ogni scorrimento
+- Inter, Roboto, Arial, Poppins, Space Grotesk
+- animazioni di comparsa a ogni scorrimento (l'unico momento animato è
+  quello dell'apertura della home)
 - testimonianze finte, loghi di clienti inventati, numeri gonfiati
 
-Al loro posto:
-
-- impianto editoriale: linee sottili come separatori, griglia asimmetrica,
-  titoli molto grandi, testi corti
-- monospazio per dati veri, non come decoro
-- la griglia a pixel del logo come trama di fondo leggerissima; quadretti
-  gialli per marcare le cose importanti
-- movimento solo dove l'utente interagisce, mai decorativo
+Al loro posto: titoli grandi in Geist, testi corti e concreti, fatti veri,
+le nostre facce, il marchio a pixel usato con misura.
 
 **Se una richiesta contraddice questi divieti, segnalarlo invece di eseguire.**
 
 ### Scelte già fatte (dettagli in DECISIONI.md)
 
-- **Trama di fondo**: punti su tutto il sito, intensità 9%, passo 32px
-  (`--kroma-trama-*`, in `base.css`). Le sezioni a fondo pieno la coprono.
-- **Quadretti gialli** per marcare le cose importanti (sì).
-- **Menu**: da computer barra completa con tutte le voci e "Contatti" come
-  pulsante arancione; da telefono pulsante a 9 quadretti che diventa una X.
-- **Apertura della home**: frase forte ("Strumenti digitali cuciti sulla tua
-  attività.") + riga con i tre servizi e la zona + domanda "Cosa ti serve?"
-  con tre scelte (radio + CSS `:has()`, niente JS), un pannello per scelta.
-  All'apertura della pagina è selezionato "gestionali". Pulsanti: "Raccontaci
-  la tua attività" → `/contatti`, secondo pulsante → pagina del servizio,
-  link "Tutti i servizi" → `/servizi`. Niente slider automatici.
-- **WhatsApp**: nella sezione contatti in fondo alla home e nel piè di pagina.
-- **Contatto in fondo alla home**: solo invito ("Raccontaci come lavori
-  oggi."), pulsante verso `/contatti` e WhatsApp. Nessun modulo in home.
-  Incontri di persona o in videochiamata, come preferisce il cliente.
-- **Zona**: "Da Scicli, di persona in zona, a distanza in tutta Italia".
+- **Apertura della home (Officina)**: marchio a pixel grande che si compone
+  all'apertura, titolo "Software per chi lavora con una squadra.", due
+  pulsanti: "Fissa un primo incontro" → `/contatti`, "Vedi i lavori".
+- **Menu**: Lavori, Servizi, Chi siamo, e il pulsante arancione "Fissa un
+  incontro" (`/contatti`); da telefono pulsante a 9 quadretti che diventa
+  una X.
+- **WhatsApp**: nella chiusura della home e nel piè di pagina.
+- **Zona**: di persona a Scicli e dintorni, in videochiamata da tutta
+  Italia (detto con parole nostre, non con la formula del concorrente).
   Mai "Val di Noto". Nei dati per Google: Scicli, provincia di Ragusa, Italia.
 - **Ricostruzioni delle app dei clienti** (es. Vivai Cintoli in "I nostri lavori"):
   disegnate in HTML con dati di esempio, nei colori dell'app del cliente
@@ -203,16 +222,15 @@ lo si dice nella pull request.
 ## Mappa del sito
 
 ```
-/                        Home: apertura, il problema, gestionale dimostrativo,
-                         cosa facciamo, i nostri lavori, contatto
-/servizi                 I tre servizi spiegati, ognuno porta alla sua pagina
-/gestionali              Mini gestionali (servizio principale)
-/web-app                 Web app su misura
+/                        Home (Officina): apertura, voi due, Vivai Cintoli,
+                         provalo (gestionale dimostrativo), servizi, come
+                         lavoriamo, altri lavori, chiusura
+/lavori                  Elenco lavori, e una pagina per ogni lavoro
+/servizi                 Panoramica dei servizi
+/gestionali              Gestionali e web app su misura (assorbe /web-app)
 /siti                    Siti web
-/lavori                  Elenco lavori
-/lavori/vivai-cintoli    Caso completo (e una pagina per ogni lavoro)
-/come-lavoriamo          Dal primo incontro alla consegna
-/chi-siamo               Giovanni e Andrea (foto vere, segnaposto per ora)
+/manutenzione            NUOVA: cosa comprende il contratto
+/chi-siamo               Giovanni e Andrea, foto vere e storia
 /contatti                Configuratore (Andrea) + contatti diretti
 /privacy                 Informativa privacy (DA SCRIVERE prima del lancio)
 ```
@@ -382,6 +400,11 @@ primo colloquio di persona o in videochiamata, sceglie il cliente
   soprattutto se tocca file condivisi o la pagina `/contatti` (moduli).
 - `main` è protetto: si lavora su branch `feat/nome-sezione`, pull request,
   l'altro approva guardando anche l'anteprima Netlify. Nessun push diretto.
+- **Nuova veste in corso**: tutto il lavoro di ridisegno va in PR verso il
+  branch lungo **`feat/nuova-veste`**, non verso `main`. Alla fine una sola
+  PR `feat/nuova-veste` → `main` (una sola pubblicazione Netlify: i crediti
+  del piano gratuito sono 20 pubblicazioni al mese). Prima di ogni PR si
+  porta dentro l'ultima versione di `feat/nuova-veste`.
 - Prima di aprire una PR: `npm run verifica` (formattazione, lint, test, build).
 
 ### Pull request: ordine e conflitti

@@ -1,7 +1,7 @@
 ---
-// Titolo di sezione con il quadretto giallo davanti: i quadretti gialli
-// marcano le cose importanti (CLAUDE.md). Stesso aspetto della domanda
-// "Cosa ti serve?" nell'apertura.
+// Titolo di sezione (direzione Officina): Geist, stretto, senza
+// decorazioni davanti. Il giallo resta per il marchio e per ciò che chiede
+// attenzione.
 //
 //   <TitoloSezione id="problema-titolo">Una giornata tipo</TitoloSezione>
 
@@ -19,22 +19,11 @@ const { id } = Astro.props;
 
 <style>
   h2 {
-    display: flex;
-    /* Il quadretto si appoggia sulla prima riga, anche se il titolo va a capo. */
-    align-items: baseline;
-    gap: var(--kroma-spazio-2);
     margin: 0;
     font-size: var(--kroma-testo-xl);
-    font-weight: 700;
-    line-height: 1.1;
+    font-weight: 650;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
     text-wrap: balance;
-  }
-
-  h2::before {
-    content: '';
-    flex: none;
-    width: var(--kroma-pixel-cella);
-    height: var(--kroma-pixel-cella);
-    background: var(--kroma-giallo);
   }
 </style>

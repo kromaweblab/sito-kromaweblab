@@ -25,8 +25,8 @@
   --kroma-arancione-testo: #b84503; /* contrasto su carta 4,84 */
   --kroma-verde-testo: #0c776f; /* contrasto su carta 4,85 */
 
-  /* Testo secondario su carta */
-  --kroma-testo-tenue: #5e5a55;
+  /* Testo secondario su carta (per le parti chiare, es. ricostruzioni) */
+  --kroma-carta-tenue: #5e5a55;
 
   /* Su fondo nero */
   --kroma-testo-tenue-su-scuro: #b8b3ac; /* testo secondario, contrasto 9,14 */
@@ -51,20 +51,38 @@
   --kroma-vivai-errore-testo: #8a1c12;
   --kroma-vivai-raggio: 8px; /* l'app ha gli angoli tondi: eccezione voluta */
 
-  /* Ruoli (usare questi nei componenti quando possibile) */
-  --kroma-fondo: var(--kroma-carta);
-  --kroma-testo: var(--kroma-nero);
-  --kroma-linea: var(--kroma-nero);
+  /*
+   * Officina (scelta del 03/10/2026): il sito è scuro. Contrasti sul fondo
+   * --kroma-notte: testo 15:1, testo tenue 7,5:1, arancione 5,3:1,
+   * verde 6,8:1, giallo 11:1.
+   */
+  --kroma-notte: #15181b; /* fondo del sito */
+  --kroma-notte-superficie: #1d2125; /* sezioni e riquadri un gradino più chiari */
+  --kroma-notte-linea: #2f353a; /* separatori, solo grafica */
+  --kroma-notte-bordo: #6b747c; /* bordi di campi e controlli: 3,6:1, soglia 3:1 */
+  --kroma-chiaro: #edebe7; /* testo principale sul fondo scuro */
+  --kroma-chiaro-tenue: #a3a9ae; /* testo secondario sul fondo scuro */
+
+  /* Ruoli: i componenti usano questi, non i colori di base */
+  --kroma-fondo: var(--kroma-notte);
+  --kroma-superficie: var(--kroma-notte-superficie);
+  --kroma-testo: var(--kroma-chiaro);
+  --kroma-testo-tenue: var(--kroma-chiaro-tenue);
+  --kroma-linea: var(--kroma-notte-linea);
+  --kroma-bordo: var(--kroma-notte-bordo);
+  --kroma-link: var(--kroma-arancione);
+  --kroma-focus: var(--kroma-giallo);
   --kroma-evidenzia: var(--kroma-giallo);
   /* Testo sopra l'arancione: sempre nero (bianco su arancione = 3,33, non basta) */
   --kroma-su-arancione: var(--kroma-nero);
 
   /*
-   * Caratteri. Sul sito --font-space-grotesk e --font-jetbrains-mono
-   * li crea Astro (vedi astro.config.mjs); fuori dal sito vale il nome
-   * del carattere scritto dopo la virgola.
+   * Caratteri. Geist per titoli e testo (scelta del 03/10/2026), JetBrains
+   * Mono solo per dati veri (orari, numeri). Sul sito --font-geist e
+   * --font-jetbrains-mono li crea Astro (astro.config.mjs); fuori dal sito
+   * vale il nome scritto dopo la virgola.
    */
-  --kroma-font-testo: var(--font-space-grotesk, 'Space Grotesk'), system-ui, sans-serif;
+  --kroma-font-testo: var(--font-geist, 'Geist'), system-ui, sans-serif;
   --kroma-font-mono: var(--font-jetbrains-mono, 'JetBrains Mono'), ui-monospace, monospace;
 
   /* Dimensioni del testo */
@@ -99,12 +117,14 @@
   --kroma-pixel-passo: 16px;
   --kroma-pixel-cella: 14px;
 
-  /* Trama di fondo: punti del passo della griglia (scelta del 27/09/2026) */
-  --kroma-trama-passo: 32px;
-  --kroma-trama-intensita: 0.09;
-
-  /* Movimento: solo in risposta a un gesto dell'utente */
-  --kroma-durata: 150ms;
+  /*
+   * Movimento (scelta C del 03/10/2026): transizioni morbide ovunque in
+   * risposta a un gesto, più un solo momento animato all'apertura della
+   * home. Sempre spento con prefers-reduced-motion.
+   */
+  --kroma-durata: 160ms;
+  --kroma-durata-lenta: 420ms;
+  --kroma-curva: cubic-bezier(0.2, 0.7, 0.2, 1);
 
   /* Angoli vivi, come i pixel del marchio */
   --kroma-raggio: 0;

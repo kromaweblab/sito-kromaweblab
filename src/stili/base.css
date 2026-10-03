@@ -27,12 +27,12 @@ textarea {
 }
 
 html {
+  color-scheme: dark;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
 
 body {
-  position: relative;
   margin: 0;
   background: var(--kroma-fondo);
   color: var(--kroma-testo);
@@ -42,21 +42,17 @@ body {
 }
 
 /*
- * Trama di fondo: un punto ogni --kroma-trama-passo, su tutto il sito.
- * Il disegno (maschera) dice solo DOVE sono i punti; il colore viene dal
- * token, così nel codice non c'è nessun colore scritto a mano.
- * Le sezioni con un fondo pieno (es. il piè di pagina) la coprono.
+ * Passaggio morbido da una pagina all'altra, senza JavaScript: lo fa il
+ * browser (View Transitions tra documenti). Dove non è supportato, la
+ * pagina cambia normalmente.
  */
-body::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: var(--kroma-nero);
-  opacity: var(--kroma-trama-intensita);
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect width='3' height='3'/%3E%3C/svg%3E")
-    0 0 / var(--kroma-trama-passo) var(--kroma-trama-passo) repeat;
+@view-transition {
+  navigation: auto;
+}
+
+::selection {
+  background: var(--kroma-giallo);
+  color: var(--kroma-nero);
 }
 
 img,
@@ -69,11 +65,22 @@ svg {
 a {
   color: inherit;
   text-underline-offset: 0.2em;
+  text-decoration-thickness: var(--kroma-linea-sottile);
+}
+
+/* Titoli: Geist, interlinea stretta, a capo bilanciato. */
+h1,
+h2,
+h3 {
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  text-wrap: balance;
 }
 
 /* Focus sempre visibile per chi naviga da tastiera. */
 :focus-visible {
-  outline: var(--kroma-linea-spessa) solid var(--kroma-arancione-testo);
+  outline: var(--kroma-linea-spessa) solid var(--kroma-focus);
   outline-offset: var(--kroma-linea-spessa);
 }
 
@@ -83,8 +90,9 @@ a {
   left: var(--kroma-spazio-2);
   top: calc(-1 * var(--kroma-spazio-8));
   padding: var(--kroma-spazio-1) var(--kroma-spazio-2);
-  background: var(--kroma-nero);
-  color: var(--kroma-carta);
+  background: var(--kroma-giallo);
+  color: var(--kroma-nero);
+  font-weight: 600;
 }
 
 .salta-al-contenuto:focus {
