@@ -2,6 +2,7 @@
 // Home: le sezioni nell'ordine della mappa in CLAUDE.md.
 import Base from '../layout/Base.astro';
 import Apertura from '../sezioni/Apertura.astro';
+import VoiDue from '../sezioni/VoiDue.astro';
 import ProvaGestionale from '../sezioni/ProvaGestionale.astro';
 import CosaFacciamo from '../sezioni/CosaFacciamo.astro';
 import UnLavoro from '../sezioni/UnLavoro.astro';
@@ -12,6 +13,7 @@ import { DA_SCRIVERE } from '../dati/sito';
 
 <Base titolo="Kroma Web Lab — Scicli" descrizione={DA_SCRIVERE}>
   <Apertura />
+  <VoiDue />
   <ProvaGestionale>
     <GestionaleDimostrativo client:visible />
   </ProvaGestionale>
