@@ -606,3 +606,11 @@ dai token, posizioni di partenza calcolate alla build), titolo "Software per
 chi lavora con una squadra.", due pulsanti "Fissa un primo incontro" e
 "Vedi i lavori". Tolte dalla home "Una giornata tipo" e il selettore "Cosa
 ti serve?" (i dati in `src/dati/servizi.ts` restano: li usa `/servizi`).
+
+## 2026-10-03 — Nuova veste: sezione "Voi due"
+
+**Scelta:** subito dopo l'apertura, su fondo superficie: "Parlate con chi
+scrive il codice." e "Siamo in due. Chi vi ascolta al primo incontro è chi
+poi costruisce l'app.", poi Giovanni e Andrea con foto, ruolo e una frase.
+Dati in `src/dati/squadra.ts` (li userà anche `/chi-siamo`). Foto, ruolo e
+frase sono segnaposto: le foto in 4:5, le frasi con parole loro.
