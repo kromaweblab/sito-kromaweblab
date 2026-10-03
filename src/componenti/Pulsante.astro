@@ -27,15 +27,15 @@ const { href, variante = 'primario', freccia = false } = Astro.props;
     align-items: center;
     gap: var(--kroma-spazio-1);
     padding: var(--kroma-spazio-2) var(--kroma-spazio-3);
-    border: var(--kroma-linea-spessa) solid var(--kroma-nero);
-    font-weight: 700;
+    border: var(--kroma-linea-spessa) solid var(--kroma-testo);
+    font-weight: 600;
     line-height: 1.2;
     text-decoration: none;
     transition:
       background-color var(--kroma-durata),
       color var(--kroma-durata),
       border-color var(--kroma-durata),
-      transform var(--kroma-durata);
+      transform var(--kroma-durata) var(--kroma-curva);
   }
 
   .primario {
@@ -45,24 +45,24 @@ const { href, variante = 'primario', freccia = false } = Astro.props;
   }
 
   .primario:hover {
-    background: var(--kroma-nero);
-    border-color: var(--kroma-nero);
-    color: var(--kroma-arancione);
-  }
-
-  .secondario {
-    background: var(--kroma-carta);
+    background: var(--kroma-testo);
+    border-color: var(--kroma-testo);
     color: var(--kroma-nero);
   }
 
+  .secondario {
+    background: transparent;
+    color: var(--kroma-testo);
+  }
+
   .secondario:hover {
-    background: var(--kroma-nero);
-    color: var(--kroma-carta);
+    background: var(--kroma-testo);
+    color: var(--kroma-nero);
   }
 
   /* Al passaggio del mouse la freccia si sposta di un passo. */
   span {
-    transition: transform var(--kroma-durata);
+    transition: transform var(--kroma-durata) var(--kroma-curva);
   }
 
   .pulsante:hover span {

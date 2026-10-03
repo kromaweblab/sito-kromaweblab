@@ -212,6 +212,12 @@ const [vivai, ...altri] = lavori;
   }
 
   /* Loghi alla stessa altezza, larghezza libera: nessun logo deformato. */
+  /* I loghi sono neri su trasparente: sul fondo scuro si mostrano chiari. */
+  .logo-vivai img,
+  .logo-altro img {
+    filter: invert(1);
+  }
+
   .logo-vivai img {
     width: auto;
     height: var(--kroma-spazio-10);
@@ -259,7 +265,7 @@ const [vivai, ...altri] = lavori;
     align-items: center;
     gap: var(--kroma-spazio-2);
     padding: var(--kroma-spazio-2);
-    background: var(--kroma-carta);
+    background: var(--kroma-superficie);
     font-weight: 500;
     line-height: 1.2;
     cursor: pointer;
@@ -287,12 +293,12 @@ const [vivai, ...altri] = lavori;
   }
 
   .ruoli label:hover {
-    background: var(--kroma-carta-hover);
+    background: var(--kroma-hover);
   }
 
   .ruoli input:checked + label {
-    background: var(--kroma-nero);
-    color: var(--kroma-carta);
+    background: var(--kroma-testo);
+    color: var(--kroma-nero);
   }
 
   .ruoli input:checked + label .quadretto {
@@ -301,12 +307,12 @@ const [vivai, ...altri] = lavori;
   }
 
   .ruoli input:focus-visible + label {
-    outline: var(--kroma-linea-spessa) solid var(--kroma-arancione-testo);
+    outline: var(--kroma-linea-spessa) solid var(--kroma-focus);
     outline-offset: calc(-1 * var(--kroma-spazio-1));
   }
 
   .ruoli input:checked:focus-visible + label {
-    outline-color: var(--kroma-giallo);
+    outline-color: var(--kroma-arancione);
   }
 
   /* ---------- Schermate ---------- */
@@ -314,7 +320,7 @@ const [vivai, ...altri] = lavori;
   .schermata {
     border: var(--kroma-linea-sottile) solid var(--kroma-linea);
     border-top: 0;
-    background: var(--kroma-carta);
+    background: var(--kroma-superficie);
   }
 
   .schermata + .schermata {
@@ -542,7 +548,7 @@ const [vivai, ...altri] = lavori;
   }
 
   .altri a:hover {
-    background: var(--kroma-carta-hover);
+    background: var(--kroma-hover);
   }
 
   .altri a:hover .tipo span {

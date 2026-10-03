@@ -55,14 +55,14 @@ export default defineConfig({
   fonts: [
     {
       provider: fontProviders.local(),
-      name: 'Space Grotesk',
-      cssVariable: '--font-space-grotesk',
+      name: 'Geist',
+      cssVariable: '--font-geist',
       fallbacks: ['system-ui', 'sans-serif'],
       options: {
         variants: [
           {
-            src: ['@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2'],
-            weight: '300 700',
+            src: ['@fontsource-variable/geist/files/geist-latin-wght-normal.woff2'],
+            weight: '100 900',
             style: 'normal',
           },
         ],
