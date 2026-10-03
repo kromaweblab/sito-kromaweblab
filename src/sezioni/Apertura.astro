@@ -135,7 +135,7 @@ const sceltaIniziale = 'gestionali';
     gap: var(--kroma-spazio-2);
     padding: var(--kroma-spazio-2);
     border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
-    background: var(--kroma-carta);
+    background: var(--kroma-fondo);
     font-size: var(--kroma-testo-m);
     font-weight: 500;
     line-height: 1.25;
@@ -153,12 +153,12 @@ const sceltaIniziale = 'gestionali';
   }
 
   label:hover {
-    background: var(--kroma-carta-hover);
+    background: var(--kroma-hover);
   }
 
   input:checked + label {
-    background: var(--kroma-nero);
-    color: var(--kroma-carta);
+    background: var(--kroma-testo);
+    color: var(--kroma-nero);
   }
 
   input:checked + label .quadretto {
@@ -167,12 +167,12 @@ const sceltaIniziale = 'gestionali';
   }
 
   input:focus-visible + label {
-    outline: var(--kroma-linea-spessa) solid var(--kroma-arancione-testo);
+    outline: var(--kroma-linea-spessa) solid var(--kroma-focus);
     outline-offset: calc(-1 * var(--kroma-spazio-1));
   }
 
   input:checked:focus-visible + label {
-    outline-color: var(--kroma-giallo);
+    outline-color: var(--kroma-arancione);
   }
 
   /* ---------- I pannelli ---------- */

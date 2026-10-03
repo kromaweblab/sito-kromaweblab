@@ -28,9 +28,6 @@
   /* Testo secondario su carta (per le parti chiare, es. ricostruzioni) */
   --kroma-carta-tenue: #5e5a55;
 
-  /* Su fondo nero */
-  --kroma-testo-tenue-su-scuro: #b8b3ac; /* testo secondario, contrasto 9,14 */
-  --kroma-linea-su-scuro: #3a3835; /* solo separatori, non testo */
   --kroma-carta-hover: #ebe7e1; /* fondo al passaggio del mouse su carta */
 
   /*
@@ -59,6 +56,7 @@
   --kroma-notte: #15181b; /* fondo del sito */
   --kroma-notte-superficie: #1d2125; /* sezioni e riquadri un gradino più chiari */
   --kroma-notte-linea: #2f353a; /* separatori, solo grafica */
+  --kroma-notte-hover: #262b30; /* fondo al passaggio del mouse */
   --kroma-notte-bordo: #6b747c; /* bordi di campi e controlli: 3,6:1, soglia 3:1 */
   --kroma-chiaro: #edebe7; /* testo principale sul fondo scuro */
   --kroma-chiaro-tenue: #a3a9ae; /* testo secondario sul fondo scuro */
@@ -70,6 +68,7 @@
   --kroma-testo-tenue: var(--kroma-chiaro-tenue);
   --kroma-linea: var(--kroma-notte-linea);
   --kroma-bordo: var(--kroma-notte-bordo);
+  --kroma-hover: var(--kroma-notte-hover);
   --kroma-link: var(--kroma-arancione);
   --kroma-focus: var(--kroma-giallo);
   --kroma-evidenzia: var(--kroma-giallo);
