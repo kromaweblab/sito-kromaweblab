@@ -614,3 +614,17 @@ scrive il codice." e "Siamo in due. Chi vi ascolta al primo incontro è chi
 poi costruisce l'app.", poi Giovanni e Andrea con foto, ruolo e una frase.
 Dati in `src/dati/squadra.ts` (li userà anche `/chi-siamo`). Foto, ruolo e
 frase sono segnaposto: le foto in 4:5, le frasi con parole loro.
+
+## 2026-10-03 — Nuova veste: Vivai Cintoli e altri lavori
+
+**Scelta:** "I nostri lavori" si divide in due sezioni della home.
+`VivaiCintoli.astro` subito dopo "Voi due": logo, titolo "L'app con cui
+lavora ogni giorno la squadra di Vivai Cintoli.", quattro fatti veri in
+grande (in uso da settembre 2026, 20-25 operatori, 5 persone tra ufficio e
+amministrazione, prima WhatsApp/fogli/Excel) e la ricostruzione per ruolo.
+`AltriLavori.astro` più in basso: "Anche siti, per chi deve farsi trovare."
+con Casale Allibrio ed Estrò Atelier.
+**Loghi:** ora chiari su trasparente per il fondo scuro: Vivai Cintoli
+dalla loro versione ufficiale per fondi scuri (`logo-white.png`, con il
+cerchio giallo), Casale Allibrio dal loro SVG bianco, Estrò Atelier
+ricavato bianco dal logo originale. Niente più filtro di inversione.
