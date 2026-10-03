@@ -1,267 +1,186 @@
 ---
-// Apertura della home: frase forte, riga con i tre servizi, poi la domanda
-// "Cosa ti serve?" con una scelta per servizio.
+// Apertura della home (direzione Officina): il marchio a pixel grande, il
+// titolo e due pulsanti.
 //
-// Il selettore funziona SENZA JavaScript:
-// - le tre scelte sono pulsanti radio veri (da tastiera si usano le frecce);
-// - il CSS, con :has(), mostra solo il pannello della scelta attiva.
-// Nei browser che non conoscono :has() si vedono tutti e tre i pannelli,
-// uno sotto l'altro: il contenuto resta comunque tutto leggibile.
+// È l'unico momento animato del sito (scelta C): all'apertura i pixel del
+// marchio arrivano da punti sparsi e si compongono, poi il cursore giallo
+// lampeggia qualche volta. Tutto in CSS, nessun JavaScript. Con "riduci
+// movimento" attivo nel telefono o nel computer il marchio è già fermo e
+// composto.
 
 import Pulsante from '../componenti/Pulsante.astro';
-import { servizi } from '../dati/servizi';
 
-/** Scelta attiva quando si apre la pagina (decisione del 27/09/2026). */
-const sceltaIniziale = 'gestionali';
+/** Le celle del marchio (coordinate in CLAUDE.md), con il loro ruolo. */
+type Ruolo = 'base' | 'w' | 'l' | 'giallo';
+// prettier-ignore
+const K: [number, number][] = [
+  [0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [1, 0], [1, 1], [1, 2],
+  [1, 3], [1, 4], [2, 2], [3, 1], [3, 3], [4, 0], [4, 4],
+];
+// prettier-ignore
+const W: [number, number][] = [
+  [0, 0], [0, 1], [0, 2], [0, 3], [1, 4], [2, 2],
+  [2, 3], [3, 4], [4, 0], [4, 1], [4, 2], [4, 3],
+];
+// prettier-ignore
+const L: [number, number][] = [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [1, 4], [2, 4], [3, 4]];
+
+const celle: { c: number; r: number; ruolo: Ruolo }[] = [
+  ...K.map(([c, r]) => ({ c, r, ruolo: (c === 2 && r === 2 ? 'giallo' : 'base') as Ruolo })),
+  ...W.map(([c, r]) => ({ c: c + 6, r, ruolo: 'w' as Ruolo })),
+  ...L.map(([c, r]) => ({ c: c + 12, r, ruolo: 'l' as Ruolo })),
+];
+
+// Da dove parte ogni pixel: un punto "a caso" ma sempre uguale (calcolato
+// durante la build, così l'HTML è identico a ogni pubblicazione).
+const partenza = (i: number) => ({
+  dx: Math.round(Math.sin(i * 12.9898) * 220),
+  dy: Math.round(Math.cos(i * 78.233) * 150),
+});
 ---
 
 <section class="apertura" aria-labelledby="apertura-titolo">
-  <h1 id="apertura-titolo">Strumenti digitali cuciti sulla tua attività.</h1>
-  <p class="sotto">Siti, gestionali e app su misura. Da Scicli, per attività in tutta Italia.</p>
+  <svg class="marchio" viewBox="-8 -8 302 94" role="img" aria-label="Kroma Web Lab">
+    {celle.map(({ c, r, ruolo }, i) => {
+      const { dx, dy } = partenza(i);
+      return (
+        <rect
+          class:list={['pixel', ruolo]}
+          style={`--i:${i};--dx:${dx}px;--dy:${dy}px`}
+          x={c * 16}
+          y={r * 16}
+          width="14"
+          height="14"
+        />
+      );
+    })}
+    <rect
+      class="pixel giallo cursore"
+      style={`--i:${celle.length};--dx:120px;--dy:-90px`}
+      x="272"
+      y="64"
+      width="14"
+      height="14"
+    ></rect>
+  </svg>
 
-  <fieldset class="domanda">
-    <legend>Cosa ti serve?</legend>
-    <div class="scelte">
-      {servizi.map((s) => (
-        <>
-          <input
-            type="radio"
-            name="cosa-ti-serve"
-            id={`scelta-${s.id}`}
-            value={s.id}
-            checked={s.id === sceltaIniziale}
-          />
-          <label for={`scelta-${s.id}`}>
-            <span class="quadretto" aria-hidden="true" />
-            {s.scelta}
-          </label>
-        </>
-      ))}
-    </div>
-  </fieldset>
-
-  <div class="pannelli">
-    {servizi.map((s) => (
-      <div class={`pannello pannello-${s.id}`}>
-        <h2>{s.titolo}</h2>
-        <p>{s.testo}</p>
-        <div class="azioni">
-          <Pulsante href="/contatti">Raccontaci la tua attività</Pulsante>
-          <Pulsante href={s.href} variante="secondario" freccia>
-            {s.invito}
-          </Pulsante>
-        </div>
-      </div>
-    ))}
+  <h1 id="apertura-titolo">Software per chi lavora con una squadra.</h1>
+  <p class="sotto">
+    Web app, siti e gestionali per aziende della provincia di Ragusa e di tutta Italia. Li
+    progettiamo, li costruiamo e li seguiamo nel tempo, in due, da Scicli.
+  </p>
+  <div class="azioni">
+    <Pulsante href="/contatti">Fissa un primo incontro</Pulsante>
+    <Pulsante href="/lavori" variante="secondario">
+      Vedi i lavori
+    </Pulsante>
   </div>
-
-  <a href="/servizi" class="tutti">
-    Tutti i servizi <span aria-hidden="true">→</span>
-  </a>
 </section>
 
 <style>
   .apertura {
+    display: grid;
+    gap: var(--kroma-spazio-4);
     max-width: var(--kroma-larghezza);
     margin: 0 auto;
-    padding: var(--kroma-spazio-6) var(--kroma-spazio-2) var(--kroma-spazio-8);
+    padding: var(--kroma-spazio-6) var(--kroma-spazio-2) var(--kroma-spazio-10);
   }
 
+  /* ---------- Il marchio ---------- */
+
+  .marchio {
+    width: min(100%, 640px);
+    height: auto;
+    overflow: visible;
+  }
+
+  .pixel {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .base {
+    fill: var(--kroma-bianco);
+  }
+
+  .w {
+    fill: var(--kroma-arancione);
+  }
+
+  .l {
+    fill: var(--kroma-verde);
+  }
+
+  .giallo {
+    fill: var(--kroma-giallo);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .pixel {
+      animation: componi 900ms var(--kroma-curva) both;
+      /* Ogni pixel parte un attimo dopo il precedente. */
+      animation-delay: calc(var(--i) * 18ms + 120ms);
+    }
+
+    .cursore {
+      animation:
+        componi 900ms var(--kroma-curva) both,
+        lampeggia 500ms steps(1) 6;
+      animation-delay: calc(var(--i) * 18ms + 120ms), 1700ms;
+    }
+  }
+
+  @keyframes componi {
+    from {
+      opacity: 0;
+      transform: translate(var(--dx), var(--dy)) scale(0.4);
+    }
+
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes lampeggia {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  /* ---------- Testo ---------- */
+
   h1 {
-    max-width: 13ch;
+    max-width: 15ch;
     margin: 0;
-    font-size: var(--kroma-testo-xxl);
+    font-size: clamp(2.75rem, 9vw, 6rem);
     font-weight: 700;
-    line-height: 0.95;
-    letter-spacing: -0.03em;
-    text-wrap: balance;
+    letter-spacing: -0.045em;
+    line-height: 0.98;
   }
 
   .sotto {
-    max-width: 44ch;
-    margin: var(--kroma-spazio-3) 0 0;
-    font-size: var(--kroma-testo-l);
-    line-height: 1.35;
-  }
-
-  /* ---------- La domanda e le tre scelte ---------- */
-
-  .domanda {
-    min-width: 0;
-    margin: var(--kroma-spazio-8) 0 0;
-    padding: var(--kroma-spazio-3) 0 0;
-    border: 0;
-    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
-  }
-
-  legend {
-    display: flex;
-    align-items: center;
-    gap: var(--kroma-spazio-2);
-    float: left; /* fa stare la legenda dentro il riquadro, sopra le scelte */
-    width: 100%;
-    margin-bottom: var(--kroma-spazio-2);
-    padding: 0;
-    font-size: var(--kroma-testo-xl);
-    font-weight: 700;
-    line-height: 1.1;
-  }
-
-  legend::before {
-    content: '';
-    flex: none;
-    width: var(--kroma-pixel-cella);
-    height: var(--kroma-pixel-cella);
-    background: var(--kroma-giallo);
-  }
-
-  .scelte {
-    clear: both;
-    display: grid;
-    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
-  }
-
-  /* Il pallino del radio non si vede: lo sostituisce il quadretto. */
-  input {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    opacity: 0;
-  }
-
-  label {
-    display: flex;
-    align-items: center;
-    gap: var(--kroma-spazio-2);
-    padding: var(--kroma-spazio-2);
-    border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
-    background: var(--kroma-fondo);
+    max-width: 50ch;
+    margin: 0;
     font-size: var(--kroma-testo-m);
-    font-weight: 500;
-    line-height: 1.25;
-    cursor: pointer;
-    transition:
-      background-color var(--kroma-durata),
-      color var(--kroma-durata);
-  }
-
-  .quadretto {
-    flex: none;
-    width: var(--kroma-pixel-cella);
-    height: var(--kroma-pixel-cella);
-    border: var(--kroma-linea-spessa) solid currentColor;
-  }
-
-  label:hover {
-    background: var(--kroma-hover);
-  }
-
-  input:checked + label {
-    background: var(--kroma-testo);
-    color: var(--kroma-nero);
-  }
-
-  input:checked + label .quadretto {
-    background: var(--kroma-giallo);
-    border-color: var(--kroma-giallo);
-  }
-
-  input:focus-visible + label {
-    outline: var(--kroma-linea-spessa) solid var(--kroma-focus);
-    outline-offset: calc(-1 * var(--kroma-spazio-1));
-  }
-
-  input:checked:focus-visible + label {
-    outline-color: var(--kroma-arancione);
-  }
-
-  /* ---------- I pannelli ---------- */
-
-  .pannelli {
-    margin-top: var(--kroma-spazio-4);
-  }
-
-  .pannello + .pannello {
-    margin-top: var(--kroma-spazio-6);
-  }
-
-  /* Solo se il browser conosce :has(): si vede il pannello della scelta attiva. */
-  @supports selector(:has(a)) {
-    .pannello {
-      display: none;
-    }
-
-    .pannello + .pannello {
-      margin-top: 0;
-    }
-
-    .apertura:has(#scelta-gestionali:checked) .pannello-gestionali,
-    .apertura:has(#scelta-web-app:checked) .pannello-web-app,
-    .apertura:has(#scelta-siti:checked) .pannello-siti {
-      display: block;
-    }
-  }
-
-  h2 {
-    max-width: 22ch;
-    margin: 0 0 var(--kroma-spazio-2);
-    font-size: var(--kroma-testo-xl);
-    line-height: 1.05;
-    letter-spacing: -0.01em;
-    text-wrap: balance;
-  }
-
-  .pannello p {
-    max-width: 52ch;
-    margin: 0 0 var(--kroma-spazio-4);
+    color: var(--kroma-testo-tenue);
   }
 
   .azioni {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--kroma-spazio-1);
+    gap: var(--kroma-spazio-2);
   }
-
-  .tutti {
-    display: inline-flex;
-    gap: var(--kroma-spazio-1);
-    margin-top: var(--kroma-spazio-4);
-    font-weight: 500;
-    text-decoration-thickness: var(--kroma-linea-sottile);
-    transition: text-decoration-thickness var(--kroma-durata);
-  }
-
-  .tutti:hover {
-    text-decoration-thickness: var(--kroma-linea-spessa);
-  }
-
-  /* ---------- Da computer ---------- */
 
   @media (min-width: 960px) {
     .apertura {
-      padding: var(--kroma-spazio-10) var(--kroma-spazio-4) var(--kroma-spazio-12);
+      gap: var(--kroma-spazio-5);
+      padding: var(--kroma-spazio-10) var(--kroma-spazio-4) var(--kroma-spazio-16);
     }
 
-    .domanda {
-      margin-top: var(--kroma-spazio-10);
-    }
-
-    /* Le tre scelte affiancate, come colonne di una tabella. */
-    .scelte {
-      grid-template-columns: repeat(3, 1fr);
-      border-top: 0;
-    }
-
-    label {
-      height: 100%;
-      padding: var(--kroma-spazio-3);
-      border: var(--kroma-linea-sottile) solid var(--kroma-linea);
-      border-left-width: 0;
+    .sotto {
       font-size: var(--kroma-testo-l);
-    }
-
-    input:first-of-type + label {
-      border-left-width: var(--kroma-linea-sottile);
+      line-height: 1.4;
     }
   }
 </style>
