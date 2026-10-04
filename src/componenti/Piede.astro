@@ -1,63 +1,64 @@
 ---
-// Piè di pagina di tutte le pagine: chi siamo in una riga, contatti
-// (WhatsApp compreso) e menu. I dati mancanti restano [DA SCRIVERE].
+// Piè di pagina di tutte le pagine (direzione Officina): il marchio, i
+// collegamenti alle pagine e le note legali. Niente recapiti: stanno grandi
+// nella Chiusura, che c'è su ogni pagina, e in /contatti (decisione del
+// 04/10/2026, per non ripeterli due volte di fila).
 
-import { sito, numeriWhatsapp, linkChat, DA_SCRIVERE } from '../dati/sito';
-import { vociMenu, voceContatti } from '../dati/navigazione';
+import { sito, oSegnaposto } from '../dati/sito';
+import { vociMenu, voceContatti, vociServizi } from '../dati/navigazione';
+
+// "Servizi" è già il titolo del primo gruppo: nel secondo le altre pagine.
+const vociStudio = [...vociMenu.filter((voce) => voce.href !== '/servizi'), voceContatti];
 
 const anno = new Date().getFullYear();
 ---
 
 <footer class="piede">
   <div class="interno">
-    <div class="chi">
-      <img src="/brand/kwl-su-scuro.svg" width="143" height="39" alt="Kroma Web Lab" />
-      <p>Siti, gestionali e app su misura. Da Scicli, per attività in tutta Italia.</p>
-    </div>
-
-    <div class="contatti">
-      <h2>Scrivici</h2>
-      <dl>
-        <dt>WhatsApp</dt>
-        <dd>
-          {numeriWhatsapp.map((w) => (
-            <a href={linkChat(w.numero)} class="whatsapp">
-              {w.nome} <span class="numero">{w.visibile}</span>
-            </a>
-          ))}
-        </dd>
-        <dt>Email</dt>
-        <dd>{sito.email ? <a href={`mailto:${sito.email}`}>{sito.email}</a> : DA_SCRIVERE}</dd>
-        <dt>Dove</dt>
-        <dd>
-          {sito.comune} ({sito.siglaProvincia})
-        </dd>
-      </dl>
-    </div>
+    <a href="/" class="marchio">
+      <img src="/brand/kwl-su-scuro.svg" width="143" height="39" alt="Kroma Web Lab, home" />
+    </a>
 
     <nav class="collegamenti" aria-label="Pagine del sito">
-      <ul>
-        {[...vociMenu, voceContatti].map((voce) => (
-          <li>
-            <a href={voce.href}>{voce.testo}</a>
-          </li>
-        ))}
-      </ul>
+      <div>
+        <h2 id="piede-servizi">
+          <a href="/servizi">Servizi</a>
+        </h2>
+        <ul aria-labelledby="piede-servizi">
+          {vociServizi.map((voce) => (
+            <li>
+              <a href={voce.href}>{voce.testo}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h2 id="piede-studio">Studio</h2>
+        <ul aria-labelledby="piede-studio">
+          {vociStudio.map((voce) => (
+            <li>
+              <a href={voce.href}>{voce.testo}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
     </nav>
   </div>
 
-  <p class="dato">
-    © {anno} {sito.nome} · {sito.comune} ({sito.siglaProvincia}) ·
+  <div class="legale">
+    <p>
+      © {anno} {sito.nome}, {sito.comune} ({sito.siglaProvincia}). P.IVA{' '}
+      {oSegnaposto(sito.partitaIva)}
+    </p>
     <a href={sito.privacy}>Informativa privacy</a>
-  </p>
+  </div>
 </footer>
 
 <style>
   .piede {
-    background: var(--kroma-superficie);
-    color: var(--kroma-testo);
-    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
     padding: var(--kroma-spazio-8) var(--kroma-spazio-2) var(--kroma-spazio-4);
+    background: var(--kroma-superficie);
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
   }
 
   .interno {
@@ -67,86 +68,96 @@ const anno = new Date().getFullYear();
     margin: 0 auto;
   }
 
-  .chi p {
-    margin: var(--kroma-spazio-3) 0 0;
-    max-width: 36ch;
-    color: var(--kroma-testo-tenue);
+  .marchio {
+    justify-self: start;
+  }
+
+  .marchio img {
+    display: block;
+  }
+
+  /* Due gruppi affiancati anche da telefono: sono liste corte. */
+  .collegamenti {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kroma-spazio-4);
   }
 
   h2 {
     margin: 0 0 var(--kroma-spazio-2);
-    font-size: var(--kroma-testo-l);
-  }
-
-  dl {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: var(--kroma-spazio-1) var(--kroma-spazio-3);
-    margin: 0;
-  }
-
-  dt {
-    font-family: var(--kroma-font-mono);
     font-size: var(--kroma-testo-s);
+    font-weight: 500;
+    letter-spacing: 0;
     color: var(--kroma-testo-tenue);
-    padding-top: 2px;
   }
 
-  dd {
+  ul {
+    display: grid;
+    gap: var(--kroma-spazio-1);
     margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
   a {
     color: var(--kroma-testo);
-    text-decoration-color: var(--kroma-arancione);
-    text-decoration-thickness: var(--kroma-linea-spessa);
-    transition: color var(--kroma-durata);
+    text-decoration: none;
+    transition: color var(--kroma-durata) var(--kroma-curva);
   }
 
   a:hover {
-    color: var(--kroma-arancione);
+    color: var(--kroma-link);
   }
 
-  ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: var(--kroma-spazio-1);
+  h2 a {
+    color: inherit;
   }
 
-  .whatsapp {
-    display: block;
-  }
-
-  .numero {
-    font-family: var(--kroma-font-mono);
-    font-variant-numeric: tabular-nums;
-  }
-
-  .collegamenti a {
-    text-decoration: none;
+  .collegamenti li a {
     font-weight: 500;
   }
 
-  .dato {
+  /* Note legali: piccole e tenui, una riga per cosa. */
+  .legale {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--kroma-spazio-1) var(--kroma-spazio-4);
     max-width: var(--kroma-larghezza);
     margin: var(--kroma-spazio-8) auto 0;
     padding-top: var(--kroma-spazio-2);
     border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
-    font-family: var(--kroma-font-mono);
     font-size: var(--kroma-testo-s);
     color: var(--kroma-testo-tenue);
   }
 
-  /* Griglia asimmetrica da computer: la colonna "chi" è più larga. */
+  .legale p {
+    margin: 0;
+  }
+
+  .legale a {
+    color: var(--kroma-testo-tenue);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .legale a:hover {
+    color: var(--kroma-link);
+  }
+
+  /* Da computer: marchio a sinistra, collegamenti a destra. */
   @media (min-width: 960px) {
     .piede {
       padding-inline: var(--kroma-spazio-4);
     }
 
     .interno {
-      grid-template-columns: 2fr 1.5fr 1fr;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: start;
+    }
+
+    .collegamenti {
+      gap: var(--kroma-spazio-6);
     }
   }
 </style>

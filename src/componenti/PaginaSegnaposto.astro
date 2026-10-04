@@ -1,8 +1,11 @@
 ---
 // Pagina provvisoria per le voci del menu non ancora costruite:
 // evita link rotti nell'anteprima. Si sostituisce con la pagina vera.
+// Anche qui in fondo c'è la Chiusura: i recapiti non stanno più nel piè di
+// pagina, e nessuna pagina deve restare senza.
 
 import Base from '../layout/Base.astro';
+import Chiusura from '../sezioni/Chiusura.astro';
 import { DA_SCRIVERE } from '../dati/sito';
 
 interface Props {
@@ -16,15 +19,16 @@ const { titolo } = Astro.props;
   <div class="segnaposto">
     <h1>{titolo}</h1>
     <p>{DA_SCRIVERE}</p>
-    <p class="dato">pagina in costruzione</p>
+    <p class="nota">Pagina in costruzione.</p>
   </div>
+  <Chiusura />
 </Base>
 
 <style>
   .segnaposto {
     max-width: var(--kroma-larghezza);
     margin: 0 auto;
-    padding: var(--kroma-spazio-10) var(--kroma-spazio-2) var(--kroma-spazio-16);
+    padding: var(--kroma-spazio-10) var(--kroma-spazio-2);
   }
 
   h1 {
@@ -33,8 +37,7 @@ const { titolo } = Astro.props;
     line-height: 1;
   }
 
-  .dato {
-    font-family: var(--kroma-font-mono);
+  .nota {
     font-size: var(--kroma-testo-s);
     color: var(--kroma-testo-tenue);
   }

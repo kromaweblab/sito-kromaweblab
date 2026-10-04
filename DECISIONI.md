@@ -745,3 +745,21 @@ in mezzo al voi.
 evitare; i campi bianchi pieni erano rimasti della veste chiara. I file del
 configuratore sono di Andrea: le modifiche sono concordate con lui e segnate
 nella PR. Nomi dei campi, logica e invio non cambiano.
+
+## 2026-10-04 — Nuova veste: piè di pagina
+
+**Scelta:** il piè di pagina non ripete più i recapiti: stanno grandi nella
+Chiusura, subito sopra, e in `/contatti`. Restano il marchio (senza frase:
+"Da Scicli, per attività in tutta Italia" era troppo vicina alla formula del
+concorrente), due gruppi di collegamenti ("Servizi" con le tre pagine dei
+servizi, "Studio" con Lavori, Chi siamo, Fissa un incontro) e una riga di
+note legali in Geist, senza puntini: "© anno Kroma Web Lab, Scicli (RG).
+P.IVA [DA SCRIVERE]" e "Informativa privacy". Tolto il monospazio dalle
+etichette.
+
+**Conseguenze:** la pagina provvisoria (`PaginaSegnaposto`) ora chiude con
+la Chiusura, così nessuna pagina resta senza contatti. Nuovo campo
+`sito.partitaIva` (null finché non c'è; quando c'è va anche nel JSON-LD come
+`vatID`): la legge chiede di mostrarla sul sito. Tolta la pagina provvisoria
+`/come-lavoriamo`, che non era nella mappa: reindirizzamento 301 alla home
+in `netlify.toml`.

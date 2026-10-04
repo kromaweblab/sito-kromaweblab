@@ -127,7 +127,9 @@ le nostre facce, il marchio a pixel usato con misura.
 - **Menu**: Lavori, Servizi, Chi siamo, e il pulsante arancione "Fissa un
   incontro" (`/contatti`); da telefono pulsante a 9 quadretti che diventa
   una X.
-- **WhatsApp**: nella chiusura della home e nel piè di pagina.
+- **Recapiti** (WhatsApp, email): grandi nella Chiusura, che sta in fondo a
+  ogni pagina (anche le provvisorie), e in `/contatti`. Il piè di pagina non
+  li ripete: marchio, collegamenti alle pagine, note legali (con la P.IVA).
 - **Zona**: di persona a Scicli e dintorni, in videochiamata da tutta
   Italia (detto con parole nostre, non con la formula del concorrente).
   Mai "Val di Noto". Nei dati per Google: Scicli, provincia di Ragusa, Italia.
@@ -334,7 +336,7 @@ un modulo disegnato solo da React non lo vede. Quindi:
 
 ## Dati condivisi di contatto
 
-In `src/dati/sito.ts`, usati da home, piè di pagina, `/contatti` e
+In `src/dati/sito.ts`, usati da chiusura, `/contatti` e
 configuratore: email `kromaweblab@gmail.com`; WhatsApp Giovanni
 348 283 9911 (principale, nei pulsanti) e Andrea 366 936 7721
 (`numeriWhatsapp`); ricontattiamo entro 24 ore (`sito.tempoRisposta`);
@@ -379,7 +381,8 @@ primo incontro di persona o in videochiamata, sceglie il cliente
   layout `Base.astro`. I dati mancanti (email, telefono, indirizzo) in
   `src/dati/sito.ts` restano `null`: nel JSON-LD si omettono.
 - Dominio previsto: `kromaweblab.it` (non ancora acquistato). Nessuna P.IVA
-  per ora: non inventarne una.
+  per ora: non inventarne una. Quando c'è va in `sito.partitaIva`: compare
+  nel piè di pagina (oggi `[DA SCRIVERE]`) e nel JSON-LD (`vatID`).
 
 ## Convenzioni
 
