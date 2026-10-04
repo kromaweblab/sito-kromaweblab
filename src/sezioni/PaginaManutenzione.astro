@@ -1,0 +1,168 @@
+---
+// Pagina /manutenzione (direzione Officina): cosa comprende il contratto e
+// cosa resta fuori. Le voci sono quelle decise il 04/10/2026; la durata del
+// contratto è ancora da decidere e resta [DA DEFINIRE]. Il costo non si
+// scrive: sul sito non mettiamo prezzi.
+// La chiusura, con il pulsante per l'incontro, la aggiunge la pagina dopo
+// questa.
+
+// Valgono per siti e gestionali, tranne le copie dei dati (un sito non ha
+// dati da salvare): lo dice la frase stessa, senza un'etichetta a parte.
+const comprende = [
+  {
+    titolo: 'Aggiornamenti e controlli',
+    testo:
+      "Teniamo aggiornato il software e controlliamo che il sito o l'app funzionino e siano sicuri.",
+  },
+  {
+    titolo: 'Piccole modifiche',
+    testo: "Orari, foto e testi sul sito; un campo o un'etichetta in più nel gestionale.",
+  },
+  {
+    titolo: 'Assistenza diretta',
+    testo: 'Quando qualcosa non va ci scrivete o ci chiamate, e risponde Giovanni o Andrea.',
+  },
+  {
+    titolo: 'Copie dei dati',
+    testo: 'Per i gestionali: copie di sicurezza regolari, da cui ripartire se succede qualcosa.',
+  },
+];
+---
+
+<div class="manutenzione">
+  <header class="testa">
+    <h1>Dopo la consegna, restiamo noi.</h1>
+    <p>
+      Un sito o un gestionale va tenuto in ordine: aggiornamenti, piccole modifiche, qualcuno da
+      chiamare quando qualcosa non va. Con il contratto di manutenzione lo facciamo noi due.
+    </p>
+  </header>
+
+  <section class="comprende" aria-labelledby="comprende-titolo">
+    <h2 id="comprende-titolo">Cosa comprende</h2>
+    <dl>
+      {comprende.map((voce) => (
+        <div>
+          <dt>{voce.titolo}</dt>
+          <dd>{voce.testo}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <section class="fuori" aria-labelledby="fuori-titolo">
+    <h2 id="fuori-titolo">Cosa resta fuori</h2>
+    <div class="testo">
+      <p>
+        Una funzione nuova o un cambiamento grande è un lavoro a parte: prima ne parliamo, poi lo
+        concordiamo.
+      </p>
+      <p>Durata del contratto: [DA DEFINIRE].</p>
+      <p>Il costo lo vediamo insieme al primo incontro.</p>
+    </div>
+  </section>
+</div>
+
+<style>
+  .manutenzione {
+    display: grid;
+    gap: var(--kroma-spazio-10);
+    max-width: var(--kroma-larghezza);
+    margin: 0 auto;
+    padding: var(--kroma-spazio-6) var(--kroma-spazio-2) var(--kroma-spazio-8);
+  }
+
+  h1 {
+    max-width: 14ch;
+    margin: 0;
+    font-size: var(--kroma-testo-xxl);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 0.98;
+  }
+
+  .testa p {
+    max-width: 50ch;
+    margin: var(--kroma-spazio-3) 0 0;
+    font-size: var(--kroma-testo-m);
+    color: var(--kroma-testo-tenue);
+  }
+
+  section {
+    display: grid;
+    gap: var(--kroma-spazio-3);
+    padding-top: var(--kroma-spazio-4);
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  h2 {
+    margin: 0;
+    font-size: var(--kroma-testo-xl);
+  }
+
+  /* ---------- Cosa comprende ---------- */
+
+  .comprende dl {
+    display: grid;
+    gap: var(--kroma-spazio-4);
+    margin: 0;
+  }
+
+  .comprende dt {
+    font-size: var(--kroma-testo-l);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .comprende dd {
+    max-width: 44ch;
+    margin: var(--kroma-spazio-1) 0 0;
+    color: var(--kroma-testo-tenue);
+  }
+
+  /* ---------- Cosa resta fuori ---------- */
+
+  /* Un gradino più chiaro: è la parte da leggere prima di chiamarci. */
+  .fuori {
+    padding: var(--kroma-spazio-4);
+    border: var(--kroma-linea-sottile) solid var(--kroma-linea);
+    background: var(--kroma-superficie);
+  }
+
+  .fuori .testo {
+    display: grid;
+    gap: var(--kroma-spazio-2);
+  }
+
+  .fuori p {
+    max-width: 52ch;
+    margin: 0;
+    color: var(--kroma-testo-tenue);
+  }
+
+  .fuori p:first-child {
+    font-size: var(--kroma-testo-m);
+    color: var(--kroma-testo);
+  }
+
+  @media (min-width: 960px) {
+    .manutenzione {
+      gap: var(--kroma-spazio-12);
+      padding: var(--kroma-spazio-10) var(--kroma-spazio-4) var(--kroma-spazio-10);
+    }
+
+    section {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+      gap: var(--kroma-spazio-8);
+    }
+
+    .comprende dl {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--kroma-spazio-5) var(--kroma-spazio-6);
+    }
+
+    .fuori {
+      padding: var(--kroma-spazio-6);
+    }
+  }
+</style>

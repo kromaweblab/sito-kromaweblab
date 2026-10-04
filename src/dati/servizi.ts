@@ -125,7 +125,12 @@ export const offerta: Offerta[] = [
     href: '/manutenzione',
     frase:
       'Dopo la consegna restiamo noi: aggiornamenti, modifiche e assistenza, con un contratto chiaro. Si aggiunge a un gestionale o a un sito.',
-    punti: ['[DA DEFINIRE] cosa comprende', '[DA DEFINIRE] canone'],
+    punti: [
+      'aggiornamenti e controlli',
+      'piccole modifiche a testi, foto e orari',
+      'assistenza diretta da Giovanni o Andrea',
+      'copie di sicurezza dei dati dei gestionali',
+    ],
     invito: 'Come funziona la manutenzione',
   },
 ];
