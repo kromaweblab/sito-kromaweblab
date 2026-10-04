@@ -678,3 +678,11 @@ grande con foto (4:5), ruolo e frase, la seconda più in basso da computer
 (griglia asimmetrica); "Come è nato Kroma Web Lab" con storia e perché
 (`studio` in `src/dati/squadra.ts`); "Dove ci trovate" con i fatti; la
 Chiusura. Foto, ruoli, frasi e storia sono segnaposto: li scrivono loro.
+
+## 2026-10-04 — Nuova veste: pagina /siti
+
+**Scelta:** "Siti web per farvi trovare.", poi "Cosa ricevete" (testi
+scritti insieme, pensato per chi vi cerca in zona, telefono e WhatsApp a un
+tocco; dominio/spazio sul web e modifiche autonome `[DA DEFINIRE]`), "Due
+siti che abbiamo fatto" (Casale Allibrio, Estrò Atelier), il rimando alla
+manutenzione, poi "Come lavoriamo" e la Chiusura della home.
