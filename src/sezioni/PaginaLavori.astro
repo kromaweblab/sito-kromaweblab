@@ -1,0 +1,225 @@
+---
+// Pagina /lavori (direzione Officina): il gestionale di Vivai Cintoli in
+// evidenza, con i fatti veri, e sotto i siti. Ogni lavoro porta alla sua
+// pagina con il caso completo.
+// I dati stanno in src/dati/lavori.ts: gli stessi della home.
+
+import { Image } from 'astro:assets';
+import Pulsante from '../componenti/Pulsante.astro';
+import { lavori, usoVivai } from '../dati/lavori';
+
+const vivai = lavori[0]!;
+const siti = lavori.slice(1);
+---
+
+<div class="lavori">
+  <header class="testa">
+    <h1>Lavori</h1>
+    <p>
+      Un gestionale che una squadra usa ogni giorno, e due siti. Ogni lavoro ha la sua pagina:
+      com'era prima, cosa abbiamo fatto, come si usa oggi.
+    </p>
+  </header>
+
+  <article class="in-evidenza" aria-labelledby="vivai-titolo">
+    <Image class="logo-grande" src={vivai.logo} alt="" width={360} densities={[1, 2]} />
+    <div class="corpo">
+      <h2 id="vivai-titolo">{vivai.nome}</h2>
+      <p class="tipo">Gestionale su misura</p>
+      <p>{vivai.descrizione}</p>
+      <dl class="fatti">
+        <div>
+          <dt>In uso da</dt>
+          <dd>{usoVivai.inUsoDa}</dd>
+        </div>
+        <div>
+          <dt>Operatori sul campo</dt>
+          <dd>{usoVivai.operatori}</dd>
+        </div>
+        <div>
+          <dt>Ufficio e amministrazione</dt>
+          <dd>{usoVivai.ufficio}</dd>
+        </div>
+      </dl>
+      <div>
+        <Pulsante href={vivai.href} variante="secondario">
+          Leggi il caso di Vivai Cintoli
+        </Pulsante>
+      </div>
+    </div>
+  </article>
+
+  <section class="siti" aria-labelledby="siti-titolo">
+    <h2 id="siti-titolo">Siti web</h2>
+    <ul>
+      {siti.map((lavoro) => (
+        <li>
+          <a href={lavoro.href}>
+            <Image class="logo" src={lavoro.logo} alt="" width={224} densities={[1, 2]} />
+            <span class="nome">{lavoro.nome}</span>
+            <span class="descrizione">{lavoro.descrizione}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</div>
+
+<style>
+  .lavori {
+    display: grid;
+    gap: var(--kroma-spazio-8);
+    max-width: var(--kroma-larghezza);
+    margin: 0 auto;
+    padding: var(--kroma-spazio-6) var(--kroma-spazio-2) var(--kroma-spazio-10);
+  }
+
+  h1 {
+    margin: 0;
+    font-size: var(--kroma-testo-xxl);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 0.98;
+  }
+
+  .testa p {
+    max-width: 52ch;
+    margin: var(--kroma-spazio-3) 0 0;
+    font-size: var(--kroma-testo-m);
+    color: var(--kroma-testo-tenue);
+  }
+
+  /* ---------- Vivai Cintoli in evidenza ---------- */
+
+  .in-evidenza {
+    display: grid;
+    gap: var(--kroma-spazio-4);
+    padding: var(--kroma-spazio-4);
+    background: var(--kroma-superficie);
+    border: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .logo-grande {
+    width: auto;
+    height: var(--kroma-spazio-8);
+  }
+
+  .corpo {
+    display: grid;
+    gap: var(--kroma-spazio-2);
+    align-content: start;
+  }
+
+  .corpo h2 {
+    margin: 0;
+    font-size: var(--kroma-testo-xl);
+  }
+
+  .corpo p {
+    max-width: 52ch;
+    margin: 0;
+    color: var(--kroma-testo-tenue);
+  }
+
+  .corpo .tipo {
+    color: var(--kroma-verde);
+    font-weight: 600;
+  }
+
+  .fatti {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kroma-spazio-2) var(--kroma-spazio-4);
+    margin: var(--kroma-spazio-2) 0;
+  }
+
+  .fatti dt {
+    font-size: var(--kroma-testo-s);
+    color: var(--kroma-testo-tenue);
+  }
+
+  .fatti dd {
+    margin: var(--kroma-spazio-1) 0 0;
+    font-size: var(--kroma-testo-l);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  /* ---------- I siti ---------- */
+
+  .siti h2 {
+    margin: 0 0 var(--kroma-spazio-3);
+    font-size: var(--kroma-testo-l);
+  }
+
+  .siti ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .siti li {
+    border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .siti a {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--kroma-spazio-1) var(--kroma-spazio-3);
+    align-items: center;
+    padding: var(--kroma-spazio-3) var(--kroma-spazio-1);
+    text-decoration: none;
+    transition: background-color var(--kroma-durata);
+  }
+
+  .siti a:hover {
+    background: var(--kroma-hover);
+  }
+
+  .siti .logo {
+    grid-row: span 2;
+    width: auto;
+    height: var(--kroma-spazio-6);
+  }
+
+  .siti .nome {
+    font-size: var(--kroma-testo-l);
+    font-weight: 600;
+  }
+
+  .siti .descrizione {
+    color: var(--kroma-testo-tenue);
+  }
+
+  @media (min-width: 960px) {
+    .lavori {
+      gap: var(--kroma-spazio-10);
+      padding: var(--kroma-spazio-10) var(--kroma-spazio-4) var(--kroma-spazio-12);
+    }
+
+    .in-evidenza {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: var(--kroma-spazio-8);
+      padding: var(--kroma-spazio-8);
+    }
+
+    .logo-grande {
+      height: var(--kroma-spazio-10);
+    }
+
+    .fatti {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--kroma-spazio-2) var(--kroma-spazio-6);
+    }
+
+    .siti a {
+      grid-template-columns: calc(2 * var(--kroma-spazio-16)) minmax(0, 2fr) minmax(0, 3fr);
+      padding-inline: var(--kroma-spazio-2);
+    }
+
+    .siti .logo {
+      grid-row: auto;
+    }
+  }
+</style>

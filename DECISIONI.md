@@ -660,3 +660,12 @@ videochiamata da tutta Italia. Rispondiamo entro 24 ore.", il pulsante
 WhatsApp Andrea, email) in monospazio perché sono dati veri. Nuovo
 `Chiusura.astro`, tolto `Contatto.astro`; anche `/servizi` ora chiude con
 `Chiusura`.
+
+## 2026-10-04 — Nuova veste: pagina /lavori
+
+**Scelta:** titolo "Lavori" e una frase; Vivai Cintoli in evidenza su fondo
+superficie (logo, "Gestionale su misura", descrizione, tre fatti veri,
+pulsante al caso completo); sotto, "Siti web" con Casale Allibrio ed Estrò
+Atelier in righe con logo; in fondo la Chiusura. Nei loghi `alt=""` perché
+il nome è già scritto accanto. Le tre pagine dei casi completi restano
+segnaposto finché non ci sono i materiali.
