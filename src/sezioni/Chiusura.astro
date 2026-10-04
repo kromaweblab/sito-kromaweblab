@@ -1,0 +1,116 @@
+---
+// Chiusura della home (direzione Officina): l'invito a un primo incontro e
+// i contatti diretti, con i nomi. Nessun modulo qui: i moduli stanno in
+// /contatti, con il configuratore di Andrea.
+// I recapiti vengono da src/dati/sito.ts: numeri e indirizzi sono dati
+// veri, per questo sono in monospazio.
+
+import Pulsante from '../componenti/Pulsante.astro';
+import { sito, numeriWhatsapp, linkChat } from '../dati/sito';
+---
+
+<section class="chiusura" aria-labelledby="chiusura-titolo">
+  <h2 id="chiusura-titolo">Iniziamo da un incontro.</h2>
+  <p class="frase">
+    Di persona a Scicli e dintorni, in videochiamata da tutta Italia. Rispondiamo entro{' '}
+    {sito.tempoRisposta}.
+  </p>
+
+  <div class="azioni">
+    <Pulsante href="/contatti">Fissa un primo incontro</Pulsante>
+  </div>
+
+  <dl class="recapiti">
+    {numeriWhatsapp.map((w) => (
+      <div>
+        <dt>WhatsApp {w.nome}</dt>
+        <dd>
+          <a href={linkChat(w.numero)}>{w.visibile}</a>
+        </dd>
+      </div>
+    ))}
+    {sito.email && (
+      <div>
+        <dt>Email</dt>
+        <dd>
+          <a href={`mailto:${sito.email}`}>{sito.email}</a>
+        </dd>
+      </div>
+    )}
+  </dl>
+</section>
+
+<style>
+  .chiusura {
+    display: grid;
+    gap: var(--kroma-spazio-4);
+    max-width: var(--kroma-larghezza);
+    margin: 0 auto;
+    padding: var(--kroma-spazio-10) var(--kroma-spazio-2);
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  h2 {
+    max-width: 12ch;
+    margin: 0;
+    font-size: var(--kroma-testo-xxl);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 0.98;
+  }
+
+  .frase {
+    max-width: 46ch;
+    margin: 0;
+    font-size: var(--kroma-testo-m);
+    color: var(--kroma-testo-tenue);
+  }
+
+  /* I recapiti: dati veri, in fila; si leggono e si toccano. */
+  .recapiti {
+    display: grid;
+    gap: var(--kroma-spazio-3);
+    margin: var(--kroma-spazio-2) 0 0;
+    padding-top: var(--kroma-spazio-3);
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  dt {
+    font-size: var(--kroma-testo-s);
+    color: var(--kroma-testo-tenue);
+  }
+
+  dd {
+    margin: var(--kroma-spazio-1) 0 0;
+  }
+
+  dd a {
+    font-family: var(--kroma-font-mono);
+    font-size: var(--kroma-testo-m);
+    font-variant-numeric: tabular-nums;
+    text-decoration-color: var(--kroma-arancione);
+    text-decoration-thickness: var(--kroma-linea-spessa);
+    text-underline-offset: 0.3em;
+    transition: color var(--kroma-durata);
+  }
+
+  dd a:hover {
+    color: var(--kroma-arancione);
+  }
+
+  @media (min-width: 960px) {
+    .chiusura {
+      padding: var(--kroma-spazio-16) var(--kroma-spazio-4);
+    }
+
+    .frase {
+      font-size: var(--kroma-testo-l);
+      line-height: 1.4;
+    }
+
+    .recapiti {
+      grid-template-columns: repeat(3, max-content);
+      gap: var(--kroma-spazio-8);
+    }
+  }
+</style>

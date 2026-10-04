@@ -4,7 +4,7 @@
 // veri presi da src/dati: niente prezzi né recensioni.
 import Base from '../layout/Base.astro';
 import PaginaServizi from '../sezioni/PaginaServizi.astro';
-import Contatto from '../sezioni/Contatto.astro';
+import Chiusura from '../sezioni/Chiusura.astro';
 import { servizi } from '../dati/servizi';
 import { sito } from '../dati/sito';
 
@@ -39,6 +39,6 @@ const datiStrutturati = {
   descrizione="Gestionali, web app e siti per le attività di Scicli e della provincia di Ragusa. Ci incontriamo di persona o in videochiamata e partiamo da come lavori oggi."
 >
   <PaginaServizi />
-  <Contatto />
+  <Chiusura />
   <script is:inline type="application/ld+json" set:html={JSON.stringify(datiStrutturati)} />
 </Base>

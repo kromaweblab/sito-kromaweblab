@@ -650,3 +650,13 @@ telefono; il numero sta in un quadretto, l'ultimo (consegna) è giallo.
 portati al "voi" della nuova veste, più il passo "Consegna e formazione"
 dal suo `fattiGestionale.formazione`. Le domande frequenti e i fatti del
 file restano al "tu": li usa `/gestionali`, da rivedere con quella pagina.
+
+## 2026-10-04 — Nuova veste: chiusura della home
+
+**Scelta:** "Iniziamo da un incontro." al posto di "Raccontaci come lavori
+oggi." (tono da agenzia). Sotto: "Di persona a Scicli e dintorni, in
+videochiamata da tutta Italia. Rispondiamo entro 24 ore.", il pulsante
+"Fissa un primo incontro" e i recapiti con i nomi (WhatsApp Giovanni,
+WhatsApp Andrea, email) in monospazio perché sono dati veri. Nuovo
+`Chiusura.astro`, tolto `Contatto.astro`; anche `/servizi` ora chiude con
+`Chiusura`.
