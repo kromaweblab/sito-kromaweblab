@@ -1,0 +1,228 @@
+---
+// Pagina /siti (direzione Officina): cosa ricevete con un sito, due esempi
+// veri, il rimando alla manutenzione. "Come lavoriamo" e la chiusura sono
+// le stesse sezioni della home (le aggiunge la pagina).
+// Ciò che non abbiamo ancora deciso resta [DA DEFINIRE]: niente promesse
+// inventate.
+
+import { Image } from 'astro:assets';
+import Pulsante from '../componenti/Pulsante.astro';
+import { lavori } from '../dati/lavori';
+
+const esempi = lavori.filter((lavoro) => lavoro.tipo === 'sito web');
+
+const cosaRicevete = [
+  {
+    titolo: 'Testi scritti insieme a voi',
+    testo: 'Parliamo di cosa fate e di chi vi cerca, poi scriviamo con parole vostre.',
+  },
+  {
+    titolo: 'Pensato per chi vi cerca in zona',
+    testo: 'Su Google, chi cerca la vostra attività vicino a sé deve trovarvi.',
+  },
+  {
+    titolo: 'Telefono e WhatsApp a un tocco',
+    testo: 'Da telefono, chiamarvi o scrivervi è il primo pulsante che si vede.',
+  },
+  {
+    titolo: 'Dominio e spazio sul web',
+    testo: '[DA DEFINIRE] chi li acquista e a nome di chi.',
+  },
+  {
+    titolo: 'Modifiche ai testi e alle foto',
+    testo: '[DA DEFINIRE] se potete farle da soli o le facciamo noi.',
+  },
+];
+---
+
+<div class="siti">
+  <header class="testa">
+    <h1>Siti web per farvi trovare.</h1>
+    <p>
+      Per chi su internet non c'è ancora, o ha un sito che non lo rappresenta più. Chi siete, cosa
+      fate, come contattarvi: detto bene, e facile da trovare.
+    </p>
+  </header>
+
+  <section class="ricevete" aria-labelledby="ricevete-titolo">
+    <h2 id="ricevete-titolo">Cosa ricevete</h2>
+    <dl>
+      {cosaRicevete.map((voce) => (
+        <div>
+          <dt>{voce.titolo}</dt>
+          <dd>{voce.testo}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <section class="esempi" aria-labelledby="esempi-titolo">
+    <h2 id="esempi-titolo">Due siti che abbiamo fatto</h2>
+    <ul>
+      {esempi.map((lavoro) => (
+        <li>
+          <a href={lavoro.href}>
+            <Image class="logo" src={lavoro.logo} alt="" width={224} densities={[1, 2]} />
+            <span class="nome">{lavoro.nome}</span>
+            <span class="descrizione">{lavoro.descrizione}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="dopo" aria-labelledby="dopo-titolo">
+    <h2 id="dopo-titolo">E dopo la pubblicazione</h2>
+    <p>
+      Un sito va tenuto aggiornato: orari, foto, novità. Con la manutenzione lo facciamo noi, con un
+      contratto chiaro.
+    </p>
+    <div>
+      <Pulsante href="/manutenzione" variante="secondario">
+        Come funziona la manutenzione
+      </Pulsante>
+    </div>
+  </section>
+</div>
+
+<style>
+  .siti {
+    display: grid;
+    gap: var(--kroma-spazio-10);
+    max-width: var(--kroma-larghezza);
+    margin: 0 auto;
+    padding: var(--kroma-spazio-6) var(--kroma-spazio-2) var(--kroma-spazio-8);
+  }
+
+  h1 {
+    max-width: 14ch;
+    margin: 0;
+    font-size: var(--kroma-testo-xxl);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 0.98;
+  }
+
+  .testa p {
+    max-width: 50ch;
+    margin: var(--kroma-spazio-3) 0 0;
+    font-size: var(--kroma-testo-m);
+    color: var(--kroma-testo-tenue);
+  }
+
+  section {
+    display: grid;
+    gap: var(--kroma-spazio-3);
+    padding-top: var(--kroma-spazio-4);
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  h2 {
+    margin: 0;
+    font-size: var(--kroma-testo-xl);
+  }
+
+  /* ---------- Cosa ricevete ---------- */
+
+  .ricevete dl {
+    display: grid;
+    gap: var(--kroma-spazio-4);
+    margin: 0;
+  }
+
+  .ricevete dt {
+    font-size: var(--kroma-testo-l);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .ricevete dd {
+    max-width: 44ch;
+    margin: var(--kroma-spazio-1) 0 0;
+    color: var(--kroma-testo-tenue);
+  }
+
+  /* ---------- Esempi ---------- */
+
+  .esempi ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .esempi li {
+    border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .esempi a {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--kroma-spazio-1) var(--kroma-spazio-3);
+    align-items: center;
+    padding: var(--kroma-spazio-3) var(--kroma-spazio-1);
+    text-decoration: none;
+    transition: background-color var(--kroma-durata);
+  }
+
+  .esempi a:hover {
+    background: var(--kroma-hover);
+  }
+
+  .esempi .logo {
+    grid-row: span 2;
+    width: auto;
+    height: var(--kroma-spazio-6);
+  }
+
+  .esempi .nome {
+    font-size: var(--kroma-testo-l);
+    font-weight: 600;
+  }
+
+  .esempi .descrizione {
+    color: var(--kroma-testo-tenue);
+  }
+
+  /* ---------- Dopo ---------- */
+
+  .dopo {
+    padding: var(--kroma-spazio-4);
+    border: var(--kroma-linea-sottile) solid var(--kroma-linea);
+    background: var(--kroma-superficie);
+  }
+
+  .dopo p {
+    max-width: 52ch;
+    margin: 0;
+    color: var(--kroma-testo-tenue);
+  }
+
+  @media (min-width: 960px) {
+    .siti {
+      gap: var(--kroma-spazio-12);
+      padding: var(--kroma-spazio-10) var(--kroma-spazio-4) var(--kroma-spazio-10);
+    }
+
+    section {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+      gap: var(--kroma-spazio-8);
+    }
+
+    .ricevete dl {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--kroma-spazio-5) var(--kroma-spazio-6);
+    }
+
+    .esempi a {
+      grid-template-columns: calc(2 * var(--kroma-spazio-16)) minmax(0, 1fr);
+    }
+
+    .dopo {
+      padding: var(--kroma-spazio-6);
+    }
+
+    .dopo > div {
+      grid-column: 2;
+    }
+  }
+</style>

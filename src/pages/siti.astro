@@ -1,5 +1,17 @@
 ---
-import PaginaSegnaposto from '../componenti/PaginaSegnaposto.astro';
+// Siti web: cosa ricevete, due esempi, la manutenzione; poi "Come
+// lavoriamo" e la chiusura, le stesse della home.
+import Base from '../layout/Base.astro';
+import PaginaSiti from '../sezioni/PaginaSiti.astro';
+import ComeLavoriamo from '../sezioni/ComeLavoriamo.astro';
+import Chiusura from '../sezioni/Chiusura.astro';
 ---
 
-<PaginaSegnaposto titolo="Siti web" />
+<Base
+  titolo="Siti web"
+  descrizione="Siti web per attività della provincia di Ragusa e di tutta Italia: testi scritti insieme a voi, pensati per chi vi cerca in zona. Kroma Web Lab, Scicli."
+>
+  <PaginaSiti />
+  <ComeLavoriamo />
+  <Chiusura />
+</Base>
