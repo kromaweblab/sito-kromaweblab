@@ -1,0 +1,205 @@
+---
+// Pagina /chi-siamo (direzione Officina): le due persone dello studio, in
+// grande, con foto, ruolo e una frase; poi la storia e i fatti su come ci
+// si incontra. Dati in src/dati/squadra.ts (gli stessi di "Voi due" in
+// home) e src/dati/sito.ts. Finché mancano foto e testi restano i
+// segnaposto: niente frasi inventate.
+
+import { squadra, studio } from '../dati/squadra';
+import { sito } from '../dati/sito';
+---
+
+<div class="chi-siamo">
+  <header class="testa">
+    <h1>Giovanni e Andrea.</h1>
+    <p>Due sviluppatori, a Scicli. Chi vi ascolta al primo incontro è chi poi costruisce l'app.</p>
+  </header>
+
+  <ul class="persone">
+    {squadra.map((persona) => (
+      <li class="persona">
+        <div class="foto" role="img" aria-label={`Foto di ${persona.nome}, in arrivo`}>
+          <span aria-hidden="true">foto di {persona.nome}</span>
+        </div>
+        <h2>{persona.nome}</h2>
+        <p class="ruolo">{persona.ruolo}</p>
+        <p>{persona.frase}</p>
+      </li>
+    ))}
+  </ul>
+
+  <section class="storia" aria-labelledby="storia-titolo">
+    <h2 id="storia-titolo">Come è nato Kroma Web Lab</h2>
+    <div class="testi">
+      <p>{studio.storia}</p>
+      <p>{studio.perche}</p>
+    </div>
+  </section>
+
+  <section class="incontro" aria-labelledby="incontro-titolo">
+    <h2 id="incontro-titolo">Dove ci trovate</h2>
+    <dl>
+      <div>
+        <dt>Siamo a</dt>
+        <dd>
+          {sito.comune} ({sito.siglaProvincia})
+        </dd>
+      </div>
+      <div>
+        <dt>Ci incontriamo</dt>
+        <dd>di persona o in videochiamata</dd>
+      </div>
+      <div>
+        <dt>Rispondiamo entro</dt>
+        <dd>{sito.tempoRisposta}</dd>
+      </div>
+    </dl>
+  </section>
+</div>
+
+<style>
+  .chi-siamo {
+    display: grid;
+    gap: var(--kroma-spazio-10);
+    max-width: var(--kroma-larghezza);
+    margin: 0 auto;
+    padding: var(--kroma-spazio-6) var(--kroma-spazio-2) var(--kroma-spazio-10);
+  }
+
+  h1 {
+    max-width: 12ch;
+    margin: 0;
+    font-size: var(--kroma-testo-xxl);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 0.98;
+  }
+
+  .testa p {
+    max-width: 46ch;
+    margin: var(--kroma-spazio-3) 0 0;
+    font-size: var(--kroma-testo-m);
+    color: var(--kroma-testo-tenue);
+  }
+
+  /* ---------- Le due persone ---------- */
+
+  .persone {
+    display: grid;
+    gap: var(--kroma-spazio-6);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .persona {
+    display: grid;
+    gap: var(--kroma-spazio-1);
+    align-content: start;
+  }
+
+  /* Segnaposto della foto: stesse proporzioni della foto vera (4:5). */
+  .foto {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 5;
+    width: min(100%, calc(4 * var(--kroma-spazio-12)));
+    margin-bottom: var(--kroma-spazio-2);
+    border: var(--kroma-linea-sottile) dashed var(--kroma-bordo);
+    background: var(--kroma-superficie);
+    color: var(--kroma-testo-tenue);
+    font-size: var(--kroma-testo-s);
+  }
+
+  .persona h2 {
+    margin: 0;
+    font-size: var(--kroma-testo-xl);
+  }
+
+  .persona p {
+    margin: 0;
+    max-width: 40ch;
+    color: var(--kroma-testo-tenue);
+  }
+
+  .persona .ruolo {
+    color: var(--kroma-testo);
+    font-weight: 500;
+  }
+
+  /* ---------- Storia e incontro ---------- */
+
+  .storia,
+  .incontro {
+    display: grid;
+    gap: var(--kroma-spazio-3);
+    padding-top: var(--kroma-spazio-4);
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .storia h2,
+  .incontro h2 {
+    margin: 0;
+    font-size: var(--kroma-testo-l);
+  }
+
+  .testi {
+    display: grid;
+    gap: var(--kroma-spazio-2);
+  }
+
+  .testi p {
+    max-width: 60ch;
+    margin: 0;
+    font-size: var(--kroma-testo-m);
+  }
+
+  .incontro dl {
+    display: grid;
+    gap: var(--kroma-spazio-3);
+    margin: 0;
+  }
+
+  .incontro dt {
+    font-size: var(--kroma-testo-s);
+    color: var(--kroma-testo-tenue);
+  }
+
+  .incontro dd {
+    margin: var(--kroma-spazio-1) 0 0;
+    font-size: var(--kroma-testo-l);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  @media (min-width: 960px) {
+    .chi-siamo {
+      gap: var(--kroma-spazio-12);
+      padding: var(--kroma-spazio-10) var(--kroma-spazio-4) var(--kroma-spazio-12);
+    }
+
+    .persone {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--kroma-spazio-8);
+    }
+
+    /* La seconda persona scende un po': griglia asimmetrica, non due schede uguali. */
+    .persona:nth-child(2) {
+      margin-top: var(--kroma-spazio-12);
+    }
+
+    .foto {
+      width: 100%;
+    }
+
+    .storia,
+    .incontro {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+      gap: var(--kroma-spazio-8);
+    }
+
+    .incontro dl {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

@@ -19,3 +19,14 @@ export const squadra: Persona[] = [
   { nome: 'Giovanni', ruolo: DA_SCRIVERE, frase: DA_SCRIVERE, foto: null },
   { nome: 'Andrea', ruolo: DA_SCRIVERE, frase: DA_SCRIVERE, foto: null },
 ];
+
+/**
+ * La storia dello studio, per /chi-siamo. La scrivono Giovanni e Andrea:
+ * finché non c'è resta il segnaposto.
+ */
+export const studio = {
+  /** Come è nato Kroma Web Lab, in due o tre frasi. */
+  storia: DA_SCRIVERE,
+  /** Perché lavoriamo così: due persone, niente reparti, chi ascolta costruisce. */
+  perche: DA_SCRIVERE,
+};
