@@ -1,0 +1,166 @@
+---
+// Servizi della home (direzione Officina): i due lavori che facciamo e la
+// manutenzione che si aggiunge a entrambi. Righe divise da linee sottili,
+// non schede tutte uguali: il nome è un link alla pagina del servizio, a
+// destra le cose concrete che si ricevono. La manutenzione sta su un fondo
+// diverso perché non è un terzo lavoro, è quello che viene dopo.
+// I testi stanno in src/dati/servizi.ts (`offerta`).
+
+import TitoloSezione from '../componenti/TitoloSezione.astro';
+import { offerta } from '../dati/servizi';
+---
+
+<section class="servizi" aria-labelledby="servizi-titolo">
+  <TitoloSezione id="servizi-titolo">Cosa facciamo</TitoloSezione>
+
+  <ul class="elenco">
+    {offerta.map((servizio) => (
+      <li class:list={['servizio', servizio.id]}>
+        <div class="nome">
+          <h3>
+            <a href={servizio.href}>{servizio.nome}</a>
+          </h3>
+          <p>{servizio.frase}</p>
+        </div>
+        <ul class="punti">
+          {servizio.punti.map((punto) => (
+            <li>{punto}</li>
+          ))}
+        </ul>
+      </li>
+    ))}
+  </ul>
+
+  <a class="tutti" href="/servizi">
+    Tutti i servizi, nel dettaglio
+  </a>
+</section>
+
+<style>
+  .servizi {
+    display: grid;
+    gap: var(--kroma-spazio-5);
+    max-width: var(--kroma-larghezza);
+    margin: 0 auto;
+    padding: var(--kroma-spazio-8) var(--kroma-spazio-2);
+  }
+
+  .elenco {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .servizio {
+    display: grid;
+    gap: var(--kroma-spazio-3);
+    padding-block: var(--kroma-spazio-5);
+    border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .manutenzione {
+    margin-top: var(--kroma-spazio-2);
+    padding-inline: var(--kroma-spazio-3);
+    border: var(--kroma-linea-sottile) solid var(--kroma-linea);
+    background: var(--kroma-superficie);
+  }
+
+  h3 {
+    margin: 0;
+    font-size: var(--kroma-testo-l);
+  }
+
+  h3 a {
+    position: relative;
+    text-decoration: none;
+  }
+
+  /* Al passaggio del mouse una linea scorre sotto il nome del servizio. */
+  h3 a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: calc(-1 * var(--kroma-linea-spessa));
+    height: var(--kroma-linea-spessa);
+    background: var(--kroma-arancione);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--kroma-durata-lenta) var(--kroma-curva);
+  }
+
+  h3 a:hover::after,
+  h3 a:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  .nome p {
+    max-width: 46ch;
+    margin: var(--kroma-spazio-1) 0 0;
+    color: var(--kroma-testo-tenue);
+  }
+
+  .punti {
+    display: grid;
+    gap: var(--kroma-spazio-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Ogni punto ha davanti un pixel, come la griglia del marchio. */
+  .punti li {
+    display: grid;
+    grid-template-columns: var(--kroma-spazio-1) 1fr;
+    gap: var(--kroma-spazio-2);
+    align-items: baseline;
+  }
+
+  .punti li::before {
+    content: '';
+    width: var(--kroma-spazio-1);
+    height: var(--kroma-spazio-1);
+    background: var(--kroma-verde);
+  }
+
+  .manutenzione .punti li::before {
+    background: var(--kroma-giallo);
+  }
+
+  .tutti {
+    justify-self: start;
+    color: var(--kroma-testo);
+    font-weight: 600;
+    text-decoration-color: var(--kroma-arancione);
+    text-decoration-thickness: var(--kroma-linea-spessa);
+    text-underline-offset: 0.3em;
+  }
+
+  .tutti:hover {
+    color: var(--kroma-arancione);
+  }
+
+  @media (min-width: 960px) {
+    .servizi {
+      padding: var(--kroma-spazio-12) var(--kroma-spazio-4);
+    }
+
+    .servizio {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: var(--kroma-spazio-8);
+    }
+
+    h3 {
+      font-size: var(--kroma-testo-xl);
+    }
+
+    .nome p {
+      font-size: var(--kroma-testo-m);
+    }
+
+    .punti {
+      padding-top: var(--kroma-spazio-2);
+    }
+  }
+</style>

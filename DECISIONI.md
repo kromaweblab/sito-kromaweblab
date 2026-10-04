@@ -628,3 +628,15 @@ con Casale Allibrio ed Estrò Atelier.
 dalla loro versione ufficiale per fondi scuri (`logo-white.png`, con il
 cerchio giallo), Casale Allibrio dal loro SVG bianco, Estrò Atelier
 ricavato bianco dal logo originale. Niente più filtro di inversione.
+
+## 2026-10-04 — Nuova veste: sezione Servizi
+
+**Scelta:** "Cosa facciamo" al posto di "Non solo prenotazioni": due lavori
+(gestionali e web app su misura → `/gestionali`, siti web → `/siti`) e la
+manutenzione, su fondo superficie, che "si aggiunge a un gestionale o a un
+sito". Righe divise da linee, non schede uguali; il nome è il link alla
+pagina; a destra le cose concrete, con un pixel davanti (verde; giallo per
+la manutenzione, ancora da definire). Testi in `offerta`
+(`src/dati/servizi.ts`). Cosa comprende la manutenzione e il canone:
+`[DA DEFINIRE]`. Pagina `/manutenzione` segnaposto. Tolto
+`CosaFacciamo.astro`.
