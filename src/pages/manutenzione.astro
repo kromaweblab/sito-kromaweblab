@@ -1,5 +1,15 @@
 ---
-import PaginaSegnaposto from '../componenti/PaginaSegnaposto.astro';
+// Manutenzione: cosa comprende il contratto e cosa resta fuori; poi la
+// chiusura, la stessa della home.
+import Base from '../layout/Base.astro';
+import PaginaManutenzione from '../sezioni/PaginaManutenzione.astro';
+import Chiusura from '../sezioni/Chiusura.astro';
 ---
 
-<PaginaSegnaposto titolo="Manutenzione" />
+<Base
+  titolo="Manutenzione di siti e gestionali"
+  descrizione="Dopo la consegna restiamo noi: aggiornamenti, piccole modifiche, assistenza diretta e copie dei dati per siti e gestionali. Kroma Web Lab, Scicli."
+>
+  <PaginaManutenzione />
+  <Chiusura />
+</Base>

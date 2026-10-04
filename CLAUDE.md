@@ -54,7 +54,7 @@ Ogni pagina si chiude con un invito al contatto.
 - Frasi corte. Niente superlativi ("soluzioni innovative", "partner
   strategico", "eccellenza").
 - Dati mancanti: segnaposto evidente `[DA SCRIVERE]` (`[DA DEFINIRE]` per
-  ciò che va ancora deciso, es. il canone di manutenzione). Mai testo finto
+  ciò che va ancora deciso, es. la durata del contratto di manutenzione). Mai testo finto
   verosimile. Nel codice: `DA_SCRIVERE` da `src/dati/sito.ts`.
 
 ## Identità visiva

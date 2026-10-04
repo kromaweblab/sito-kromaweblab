@@ -706,3 +706,19 @@ manutenzione è l'entrata continua da mettere in evidenza.
 permanente (301) la manda a `/gestionali`, così i vecchi collegamenti non
 finiscono su una pagina vuota. In locale `/web-app` dà 404: il
 reindirizzamento lo fa solo Netlify.
+
+## 2026-10-04 — Nuova veste: pagina /manutenzione
+
+**Scelta:** "Dopo la consegna, restiamo noi.", poi "Cosa comprende" in una
+lista unica (opzione A): aggiornamenti e controlli, piccole modifiche,
+assistenza diretta da Giovanni o Andrea, copie dei dati (solo per i
+gestionali, detto nella frase). Poi "Cosa resta fuori": una funzione nuova o
+un cambiamento grande è un lavoro a parte, concordato dopo un colloquio. In
+fondo la Chiusura della home. Gli stessi punti vanno in `offerta`
+(`src/dati/servizi.ts`), quindi anche nella home e in `/servizi`.
+
+**Ancora da decidere:** la durata del contratto (resta `[DA DEFINIRE]` sulla
+pagina) e se seguiamo anche siti o programmi fatti da altri (finché non si
+decide, la pagina non ne parla). Il canone non compare: sul sito non
+mettiamo prezzi. Nessun cliente in manutenzione da citare per ora (Vivai
+Cintoli no).
