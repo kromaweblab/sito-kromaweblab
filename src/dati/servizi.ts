@@ -88,6 +88,8 @@ export interface Offerta {
   href: string;
   frase: string;
   punti: string[];
+  /** Testo del link verso la pagina del servizio. */
+  invito: string;
 }
 
 export const offerta: Offerta[] = [
@@ -103,6 +105,7 @@ export const offerta: Offerta[] = [
       'ognuno vede solo quello che gli serve',
       'la prima formazione è compresa',
     ],
+    invito: 'Come funzionano i gestionali',
   },
   {
     id: 'siti',
@@ -114,6 +117,7 @@ export const offerta: Offerta[] = [
       'pensati per chi vi cerca in zona su Google',
       'telefono e WhatsApp a un tocco dal telefono',
     ],
+    invito: 'Come facciamo i siti',
   },
   {
     id: 'manutenzione',
@@ -122,5 +126,6 @@ export const offerta: Offerta[] = [
     frase:
       'Dopo la consegna restiamo noi: aggiornamenti, modifiche e assistenza, con un contratto chiaro. Si aggiunge a un gestionale o a un sito.',
     punti: ['[DA DEFINIRE] cosa comprende', '[DA DEFINIRE] canone'],
+    invito: 'Come funziona la manutenzione',
   },
 ];
