@@ -3,7 +3,8 @@
  * Solo variabili --kroma-*; le misure in ch seguono i caratteri.
  *
  * Telefono prima: tutto in colonna. Da 60rem di spazio in su (misurato
- * sull'isola: container-type) domande a sinistra e "Parliamone" a destra.
+ * sull'isola: container-type) domande a sinistra e recapiti a destra.
+ * Colori per il fondo scuro della nuova veste (04/10/2026).
  */
 
 /* ---------------------------------------------------------------- impianto */
@@ -42,11 +43,12 @@
     align-items: start;
   }
 
-  /* Da computer "Parliamone" è un riquadro accanto alle domande. */
+  /* Da computer i recapiti sono un riquadro accanto alle domande, un
+     gradino più chiaro del fondo. */
   .parliamone {
     padding: var(--kroma-spazio-4) var(--kroma-spazio-3);
     border: var(--kroma-linea-sottile) solid var(--kroma-linea);
-    background: var(--kroma-fondo);
+    background: var(--kroma-superficie);
   }
 }
 
@@ -114,22 +116,23 @@ fieldset.recapiti {
   min-height: var(--kroma-spazio-6);
   box-sizing: border-box;
   padding: 0 var(--kroma-spazio-2);
-  background: var(--kroma-fondo);
+  background: transparent;
   cursor: pointer;
+  transition: background-color var(--kroma-durata) var(--kroma-curva);
 }
 
+/* La scelta fatta: nelle righe la segna il quadretto giallo, nei riquadri
+   il riquadro si inverte (chiaro su scuro). */
 .radio:checked + .scelta {
-  background: var(--kroma-nero);
-  color: var(--kroma-carta);
   font-weight: 500;
 }
 
 .radio:not(:checked) + .scelta:hover {
-  background: var(--kroma-carta-hover);
+  background: var(--kroma-hover);
 }
 
 .radio:focus-visible + .scelta {
-  outline: var(--kroma-linea-spessa) solid var(--kroma-arancione-testo);
+  outline: var(--kroma-linea-spessa) solid var(--kroma-focus);
   outline-offset: var(--kroma-linea-spessa);
 }
 
@@ -141,7 +144,13 @@ fieldset.recapiti {
 }
 
 .riquadri .scelta {
-  border: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  border: var(--kroma-linea-sottile) solid var(--kroma-bordo);
+}
+
+.riquadri .radio:checked + .scelta {
+  background: var(--kroma-testo);
+  border-color: var(--kroma-testo);
+  color: var(--kroma-fondo);
 }
 
 /* Risposte lunghe: righe separate da linee, con il quadretto del marchio. */
@@ -169,7 +178,7 @@ fieldset.recapiti {
   background: var(--kroma-evidenzia);
 }
 
-/* -------------------------------------------------------------- Parliamone */
+/* --------------------------------------------------------------- recapiti */
 
 .titolo {
   margin: 0;
@@ -213,8 +222,9 @@ fieldset.recapiti {
 .campo textarea {
   width: 100%;
   box-sizing: border-box;
-  background: var(--kroma-bianco);
-  border: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  background: var(--kroma-fondo);
+  border: var(--kroma-linea-sottile) solid var(--kroma-bordo);
+  color: var(--kroma-testo);
 }
 
 .campo input {
@@ -233,8 +243,8 @@ fieldset.recapiti {
 
 /* Campo sbagliato: bordo più spesso senza spostare il layout. */
 .campo [aria-invalid='true'] {
-  border-color: var(--kroma-arancione-testo);
-  box-shadow: inset 0 0 0 var(--kroma-linea-sottile) var(--kroma-arancione-testo);
+  border-color: var(--kroma-link);
+  box-shadow: inset 0 0 0 var(--kroma-linea-sottile) var(--kroma-link);
 }
 
 .facoltativo {
@@ -254,7 +264,7 @@ fieldset.recapiti {
   align-items: center;
   gap: var(--kroma-spazio-1);
   font-size: var(--kroma-testo-s);
-  color: var(--kroma-arancione-testo);
+  color: var(--kroma-link);
 }
 
 .errore::before {
@@ -262,7 +272,7 @@ fieldset.recapiti {
   width: var(--kroma-spazio-1);
   height: var(--kroma-spazio-1);
   flex-shrink: 0;
-  background: var(--kroma-arancione-testo);
+  background: var(--kroma-link);
 }
 
 /* ------------------------------------------------------ cosa succede dopo */
@@ -308,7 +318,6 @@ fieldset.recapiti {
 
 .sintesi {
   margin: 0;
-  font-family: var(--kroma-font-mono);
   font-size: var(--kroma-testo-s);
   color: var(--kroma-testo-tenue);
 }
@@ -327,6 +336,16 @@ fieldset.recapiti {
   color: var(--kroma-su-arancione);
   font-weight: 700;
   cursor: pointer;
+  transition:
+    background-color var(--kroma-durata) var(--kroma-curva),
+    border-color var(--kroma-durata) var(--kroma-curva);
+}
+
+/* Come il pulsante principale del sito: al passaggio diventa chiaro. */
+.pulsante:hover {
+  background: var(--kroma-testo);
+  border-color: var(--kroma-testo);
+  color: var(--kroma-nero);
 }
 
 .pulsante[aria-disabled='true'] {
@@ -344,8 +363,8 @@ fieldset.recapiti {
   flex-direction: column;
   gap: var(--kroma-spazio-1);
   padding: var(--kroma-spazio-3) var(--kroma-spazio-2);
-  border: var(--kroma-linea-spessa) solid var(--kroma-arancione-testo);
-  background: var(--kroma-bianco);
+  border: var(--kroma-linea-spessa) solid var(--kroma-link);
+  background: var(--kroma-superficie);
 }
 
 .nonPartita p {
@@ -357,7 +376,7 @@ fieldset.recapiti {
   align-items: center;
   gap: var(--kroma-spazio-1);
   font-weight: 700;
-  color: var(--kroma-arancione-testo);
+  color: var(--kroma-link);
 }
 
 .titoloNonPartita::before {
@@ -365,7 +384,7 @@ fieldset.recapiti {
   width: var(--kroma-spazio-1);
   height: var(--kroma-spazio-1);
   flex-shrink: 0;
-  background: var(--kroma-arancione-testo);
+  background: var(--kroma-link);
 }
 
 /* ---------------------------------------------------------------- inviata */
@@ -392,16 +411,13 @@ fieldset.recapiti {
   line-height: 1.2;
 }
 
-/* Il quadretto giallo: la cosa importante è fatta. Bordo perché su carta
-   il giallo quasi non si vede. */
+/* Il quadretto giallo: la cosa importante è fatta. */
 .titoloConferma::before {
   content: '';
   width: var(--kroma-pixel-cella);
   height: var(--kroma-pixel-cella);
   flex-shrink: 0;
-  box-sizing: border-box;
   background: var(--kroma-evidenzia);
-  border: var(--kroma-linea-sottile) solid var(--kroma-linea);
 }
 
 /* --------------------------------------------------------------- utilità */

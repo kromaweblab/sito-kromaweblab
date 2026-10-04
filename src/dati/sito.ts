@@ -36,8 +36,10 @@ export const sito = {
   indirizzo: null as string | null,
   /** Entro quanto ricontattiamo chi ci scrive. */
   tempoRisposta: '24 ore',
-  /** Com'è il primo colloquio. */
-  colloquio: 'di persona o in videochiamata, come preferisci',
+  /** Com'è il primo incontro. Senza "come preferisci/preferite": il tu o
+   * il voi lo aggiunge la frase che lo usa (il modulo dà del tu, il resto
+   * del sito del voi). */
+  colloquio: 'di persona o in videochiamata',
   /** Pagina dell'informativa privacy (da scrivere prima del lancio). */
   privacy: '/privacy',
 } as const;

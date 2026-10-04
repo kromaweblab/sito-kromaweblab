@@ -156,7 +156,7 @@ describe('riepilogo', () => {
       servizio: 'Gestionale',
       tempo_perso: "Più di un'ora",
     });
-    expect(riepilogo(r)).toBe("Ristorante o bar · Gestionale · Più di un'ora");
+    expect(riepilogo(r)).toBe("Ristorante o bar, Gestionale, Più di un'ora");
   });
 
   it('nessuna risposta: riepilogo vuoto', () => {
@@ -200,11 +200,11 @@ describe('invio a Netlify', () => {
 describe('frase di conferma', () => {
   it('usa il canale scelto', () => {
     expect(fraseConferma(con({ come_sentirci: 'WhatsApp' }))).toBe(
-      'Grazie. Ti scriviamo su WhatsApp per fissare il colloquio.',
+      'Grazie. Ti scriviamo su WhatsApp per fissare il primo incontro.',
     );
     expect(fraseConferma(con({ come_sentirci: 'Di persona' }))).toContain('dove e quando vederci');
     expect(fraseConferma(risposteVuote())).toBe(
-      'Grazie. Ti ricontattiamo per fissare il colloquio.',
+      'Grazie. Ti ricontattiamo per fissare il primo incontro.',
     );
   });
 });
