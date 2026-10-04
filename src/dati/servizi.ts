@@ -51,7 +51,7 @@ export const servizi: Servizio[] = [
 
 /**
  * I lavori di tutti i giorni che risolviamo, ognuno col suo servizio.
- * Li usano "Non solo prenotazioni" in home (CosaFacciamo.astro) e la
+ * Li usa la
  * pagina /servizi: si scrivono una volta sola qui.
  */
 export interface Lavoro {
@@ -74,5 +74,53 @@ export const lavori: Lavoro[] = [
     lavoro: 'Farti trovare',
     dettaglio: 'un sito che dice chi sei e come contattarti',
     servizio: 'siti',
+  },
+];
+
+/**
+ * Quello che vendiamo, nella nuova veste "Officina" (03/10/2026): due
+ * lavori e la manutenzione che si aggiunge a entrambi. Li usa la sezione
+ * Servizi della home. Ogni punto è una cosa vera, non uno slogan.
+ */
+export interface Offerta {
+  id: 'gestionali' | 'siti' | 'manutenzione';
+  nome: string;
+  href: string;
+  frase: string;
+  punti: string[];
+}
+
+export const offerta: Offerta[] = [
+  {
+    id: 'gestionali',
+    nome: 'Gestionali e web app su misura',
+    href: '/gestionali',
+    frase:
+      "Il lavoro che oggi tenete su Excel, WhatsApp e quaderni, in un'app sola per tutta la squadra.",
+    punti: [
+      "si installa sul telefono e sul computer come un'app",
+      'può funzionare anche senza rete, sul campo',
+      'ognuno vede solo quello che gli serve',
+      'la prima formazione è compresa',
+    ],
+  },
+  {
+    id: 'siti',
+    nome: 'Siti web',
+    href: '/siti',
+    frase: 'Per farvi trovare da chi vi cerca: chi siete, cosa fate, come contattarvi.',
+    punti: [
+      'testi scritti insieme a voi',
+      'pensati per chi vi cerca in zona su Google',
+      'telefono e WhatsApp a un tocco dal telefono',
+    ],
+  },
+  {
+    id: 'manutenzione',
+    nome: 'Manutenzione',
+    href: '/manutenzione',
+    frase:
+      'Dopo la consegna restiamo noi: aggiornamenti, modifiche e assistenza, con un contratto chiaro. Si aggiunge a un gestionale o a un sito.',
+    punti: ['[DA DEFINIRE] cosa comprende', '[DA DEFINIRE] canone'],
   },
 ];
