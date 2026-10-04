@@ -13,7 +13,7 @@ export interface Passo {
 export const passi: Passo[] = [
   {
     titolo: 'Ci fate vedere come lavorate',
-    testo: `Rispondiamo entro ${sito.tempoRisposta} e ci incontriamo ${sito.colloquio}.`,
+    testo: `Rispondiamo entro ${sito.tempoRisposta} e ci incontriamo ${sito.colloquio}, come preferite.`,
   },
   {
     titolo: 'Vi mandiamo una proposta',

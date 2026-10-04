@@ -722,3 +722,26 @@ pagina) e se seguiamo anche siti o programmi fatti da altri (finché non si
 decide, la pagina non ne parla). Il canone non compare: sul sito non
 mettiamo prezzi. Nessun cliente in manutenzione da citare per ora (Vivai
 Cintoli no).
+
+## 2026-10-04 — Nuova veste: pagina /contatti e configuratore
+
+**Scelta:** titolo "Fissa un primo incontro." (riprende il pulsante che ha
+portato lì), sottotitolo al voi; "Scriveteci direttamente" senza quadretto
+giallo, etichette in Geist (il monospazio resta solo sui numeri), "Dove"
+diventa "Di persona a Scicli e dintorni, in videochiamata da tutta Italia".
+Nel configuratore: "Parliamone" → "I tuoi recapiti", "Raccontaci la tua
+attività" → "Due righe sulla tua attività", pulsante "Fissa un primo
+incontro", "colloquio" → "primo incontro"; riepilogo con le virgole al posto
+dei puntini; colori per il fondo scuro (campi su fondo con bordo
+`--kroma-bordo`, scelta fatta chiara su scuro, focus giallo, errori in
+arancione).
+
+**Tu o voi:** tu nel modulo (lo compila una persona sola), voi intorno.
+`sito.colloquio` perde "come preferisci", che ogni frase aggiunge al suo
+registro: corregge anche il primo passo di "Come lavoriamo", che dava del tu
+in mezzo al voi.
+
+**Perché:** "Raccontaci…" e "Parliamone" sono nella lista delle formule da
+evitare; i campi bianchi pieni erano rimasti della veste chiara. I file del
+configuratore sono di Andrea: le modifiche sono concordate con lui e segnate
+nella PR. Nomi dei campi, logica e invio non cambiano.

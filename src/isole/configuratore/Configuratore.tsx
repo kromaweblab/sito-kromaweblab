@@ -145,9 +145,9 @@ export function Configuratore() {
 
         <div className={stili.parliamone}>
           <div>
-            <h2 className={stili.titolo}>Parliamone</h2>
+            <h2 className={stili.titolo}>I tuoi recapiti</h2>
             <p className={stili.sottotitolo}>
-              Lasciaci un recapito: ti ricontattiamo per fissare un colloquio.
+              Lasciaci un recapito: ti ricontattiamo per fissare il primo incontro.
             </p>
           </div>
 
@@ -233,7 +233,7 @@ export function Configuratore() {
 
           <div className={stili.campo}>
             <label htmlFor={id('messaggio')}>
-              Raccontaci la tua attività <span className={stili.facoltativo}>(facoltativo)</span>
+              Due righe sulla tua attività <span className={stili.facoltativo}>(facoltativo)</span>
             </label>
             <textarea
               id={id('messaggio')}
@@ -258,7 +258,9 @@ export function Configuratore() {
             <p className={stili.titoloDopo}>Cosa succede dopo</p>
             <ol>
               <li>Ti ricontattiamo entro {sito.tempoRisposta}, nel modo che hai scelto.</li>
-              <li>Ci incontriamo {sito.colloquio}, e ci racconti come lavori oggi.</li>
+              <li>
+                Ci incontriamo {sito.colloquio}, come preferisci, e ci fai vedere come lavori oggi.
+              </li>
               <li>Ti diciamo cosa faremmo, quanto costa e in quanto tempo.</li>
             </ol>
           </div>
@@ -290,7 +292,7 @@ export function Configuratore() {
                 ? 'Invio in corso…'
                 : stato === 'errore'
                   ? 'Riprova'
-                  : 'Fissiamo un colloquio'}
+                  : 'Fissa un primo incontro'}
             </button>
             <p className={stili.privacy}>
               Usiamo i tuoi dati solo per ricontattarti.{' '}

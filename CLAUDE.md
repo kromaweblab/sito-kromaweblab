@@ -279,12 +279,16 @@ con il modulo di richiesta già compilato.
 - **Il sito non mostra prezzi né tempi di consegna**, né qui né altrove:
   preferiamo parlarne in un colloquio.
 - Tutte le domande in una pagina, una sotto l'altra (non una per
-  schermata), poi "Parliamone" con i recapiti e una riga di riepilogo
-  sopra il pulsante di invio.
-- Sopra il pulsante "Fissiamo un colloquio": "Cosa succede dopo" in tre
-  passi (tempo di risposta e modalità del colloquio da `src/dati/sito.ts`:
+  schermata), poi "I tuoi recapiti" e una riga di riepilogo (risposte
+  separate da virgole) sopra il pulsante di invio.
+- Sopra il pulsante "Fissa un primo incontro": "Cosa succede dopo" in tre
+  passi (tempo di risposta e modalità dell'incontro da `src/dati/sito.ts`:
   `sito.tempoRisposta`, `sito.colloquio`) e
   "Ti rispondiamo noi: Giovanni e Andrea."
+- **Tu nel modulo, voi intorno** (04/10/2026): il configuratore dà del tu
+  (lo compila una persona sola); il resto di `/contatti` e del sito, del
+  voi. Per questo `sito.colloquio` non contiene "come preferisci": il tu
+  o il voi lo aggiunge la frase che lo usa.
 
 ### Moduli e Netlify Forms
 
@@ -334,7 +338,7 @@ In `src/dati/sito.ts`, usati da home, piè di pagina, `/contatti` e
 configuratore: email `kromaweblab@gmail.com`; WhatsApp Giovanni
 348 283 9911 (principale, nei pulsanti) e Andrea 366 936 7721
 (`numeriWhatsapp`); ricontattiamo entro 24 ore (`sito.tempoRisposta`);
-primo colloquio di persona o in videochiamata, sceglie il cliente
+primo incontro di persona o in videochiamata, sceglie il cliente
 (`sito.colloquio`); informativa privacy in `sito.privacy`.
 
 ## Prima del lancio

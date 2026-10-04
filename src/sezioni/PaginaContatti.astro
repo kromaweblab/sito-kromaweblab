@@ -1,7 +1,8 @@
 ---
-// Pagina /contatti: titolo, due righe su cosa succede, poi due colonne:
-// a sinistra lo spazio per il configuratore di Andrea, a destra i contatti
-// diretti. "Cosa succede dopo" sta dentro il configuratore, non qui.
+// Pagina /contatti (direzione Officina): titolo, due righe su cosa succede,
+// poi due colonne: a sinistra lo spazio per il configuratore di Andrea, a
+// destra i contatti diretti. "Cosa succede dopo" sta dentro il configuratore.
+// Qui intorno si dà del voi; il modulo, che compila una persona sola, del tu.
 //
 // Il configuratore entra nello <slot />, come il gestionale in home:
 //
@@ -17,9 +18,10 @@ import { sito, numeriWhatsapp, linkChat, DA_SCRIVERE } from '../dati/sito';
 
 <div class="contatti">
   <header class="testa">
-    <h1>Raccontaci la tua attività.</h1>
+    <h1>Fissa un primo incontro.</h1>
     <p>
-      Ti ricontattiamo entro {sito.tempoRisposta}. Il primo incontro lo scegli tu: {sito.colloquio}.
+      Vi ricontattiamo entro {sito.tempoRisposta}. Il primo incontro lo scegliete voi:{' '}
+      {sito.colloquio}.
     </p>
   </header>
 
@@ -31,7 +33,7 @@ import { sito, numeriWhatsapp, linkChat, DA_SCRIVERE } from '../dati/sito';
     </section>
 
     <aside class="diretti" aria-labelledby="diretti-titolo">
-      <h2 id="diretti-titolo">Scrivici direttamente</h2>
+      <h2 id="diretti-titolo">Scriveteci direttamente</h2>
       <dl>
         <dt>WhatsApp</dt>
         <dd>
@@ -48,9 +50,7 @@ import { sito, numeriWhatsapp, linkChat, DA_SCRIVERE } from '../dati/sito';
         <dt>Email</dt>
         <dd>{sito.email ? <a href={`mailto:${sito.email}`}>{sito.email}</a> : DA_SCRIVERE}</dd>
         <dt>Dove</dt>
-        <dd>
-          {sito.comune} ({sito.siglaProvincia})
-        </dd>
+        <dd>Di persona a {sito.comune} e dintorni, in videochiamata da tutta Italia.</dd>
       </dl>
     </aside>
   </div>
@@ -67,16 +67,16 @@ import { sito, numeriWhatsapp, linkChat, DA_SCRIVERE } from '../dati/sito';
     max-width: 14ch;
     margin: 0;
     font-size: var(--kroma-testo-xxl);
-    line-height: 0.95;
-    letter-spacing: -0.03em;
-    text-wrap: balance;
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 0.98;
   }
 
   .testa p {
     max-width: 48ch;
     margin: var(--kroma-spazio-3) 0 0;
-    font-size: var(--kroma-testo-l);
-    line-height: 1.35;
+    font-size: var(--kroma-testo-m);
+    color: var(--kroma-testo-tenue);
   }
 
   .colonne {
@@ -99,37 +99,24 @@ import { sito, numeriWhatsapp, linkChat, DA_SCRIVERE } from '../dati/sito';
   /* ---------- Contatti diretti ---------- */
 
   h2 {
-    display: flex;
-    align-items: baseline;
-    gap: var(--kroma-spazio-2);
-    margin: 0 0 var(--kroma-spazio-2);
+    margin: 0 0 var(--kroma-spazio-3);
     font-size: var(--kroma-testo-l);
   }
 
-  h2::before {
-    content: '';
-    flex: none;
-    width: var(--kroma-pixel-cella);
-    height: var(--kroma-pixel-cella);
-    background: var(--kroma-giallo);
-  }
-
+  /* Etichetta sopra, dato sotto: come nella chiusura della home. */
   dl {
     display: grid;
-    grid-template-columns: auto 1fr;
-    gap: var(--kroma-spazio-2) var(--kroma-spazio-3);
+    gap: var(--kroma-spazio-3);
     margin: 0;
   }
 
   dt {
-    padding-top: 2px;
-    font-family: var(--kroma-font-mono);
     font-size: var(--kroma-testo-s);
     color: var(--kroma-testo-tenue);
   }
 
   dd {
-    margin: 0;
+    margin: var(--kroma-spazio-1) 0 0;
   }
 
   dd ul {
@@ -141,15 +128,15 @@ import { sito, numeriWhatsapp, linkChat, DA_SCRIVERE } from '../dati/sito';
   }
 
   a {
-    font-weight: 700;
-    text-decoration-color: var(--kroma-arancione-scuro);
+    font-weight: 600;
+    text-decoration-color: var(--kroma-arancione);
     text-decoration-thickness: var(--kroma-linea-spessa);
     text-underline-offset: 0.2em;
     transition: color var(--kroma-durata);
   }
 
   a:hover {
-    color: var(--kroma-arancione-testo);
+    color: var(--kroma-link);
   }
 
   .numero {

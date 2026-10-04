@@ -120,13 +120,13 @@ export function controlla(risposte: Risposte): Errori {
 // ---------------------------------------------------------------------------
 // Riepilogo, invio, conferma
 
-/** "Ristorante o bar · Gestionale · …": solo le domande con una risposta. */
+/** "Ristorante o bar, Gestionale, …": solo le domande con una risposta. */
 export function riepilogo(risposte: Risposte): string {
   const r = normalizza(risposte);
   return domande
     .map((d) => r[d.campo])
     .filter((valore) => valore !== '')
-    .join(' · ');
+    .join(', ');
 }
 
 /**
@@ -147,11 +147,11 @@ export function corpoInvio(risposte: Risposte, esca = ''): string {
 /** La frase dopo l'invio, con il canale che ha scelto. */
 export function fraseConferma(risposte: Risposte): string {
   const come: Record<Preferenza, string> = {
-    Telefonata: 'Ti chiamiamo per fissare il colloquio.',
-    WhatsApp: 'Ti scriviamo su WhatsApp per fissare il colloquio.',
-    Email: 'Ti scriviamo via email per fissare il colloquio.',
+    Telefonata: 'Ti chiamiamo per fissare il primo incontro.',
+    WhatsApp: 'Ti scriviamo su WhatsApp per fissare il primo incontro.',
+    Email: 'Ti scriviamo via email per fissare il primo incontro.',
     'Di persona': 'Ti ricontattiamo per fissare dove e quando vederci.',
   };
   const preferenza = normalizza(risposte).come_sentirci as Preferenza | '';
-  return `Grazie. ${preferenza === '' ? 'Ti ricontattiamo per fissare il colloquio.' : come[preferenza]}`;
+  return `Grazie. ${preferenza === '' ? 'Ti ricontattiamo per fissare il primo incontro.' : come[preferenza]}`;
 }
