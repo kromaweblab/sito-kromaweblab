@@ -1,0 +1,115 @@
+---
+// "Come lavoriamo" (direzione Officina): i passi dal primo incontro alla
+// consegna. Sono numerati perché sono davvero una sequenza.
+// Da computer stanno in fila su una linea, come le tappe di un percorso;
+// da telefono uno sotto l'altro, con la linea che scende a sinistra.
+// I testi stanno in src/dati/metodo.ts (scritti da Andrea).
+
+import TitoloSezione from '../componenti/TitoloSezione.astro';
+import { passi } from '../dati/metodo';
+---
+
+<section class="come" aria-labelledby="come-titolo">
+  <div class="testa">
+    <TitoloSezione id="come-titolo">Come lavoriamo</TitoloSezione>
+    <p>Dal primo incontro alla consegna, sempre con noi due.</p>
+  </div>
+
+  <ol class="passi">
+    {passi.map((passo, i) => (
+      <li class="passo">
+        <span class="numero" aria-hidden="true">
+          {i + 1}
+        </span>
+        <h3>{passo.titolo}</h3>
+        <p>{passo.testo}</p>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .come {
+    display: grid;
+    gap: var(--kroma-spazio-6);
+    max-width: var(--kroma-larghezza);
+    margin: 0 auto;
+    padding: var(--kroma-spazio-8) var(--kroma-spazio-2);
+  }
+
+  .testa p {
+    margin: var(--kroma-spazio-2) 0 0;
+    font-size: var(--kroma-testo-m);
+    color: var(--kroma-testo-tenue);
+  }
+
+  /* Da telefono: una colonna, la linea del percorso scende a sinistra. */
+  .passi {
+    display: grid;
+    gap: var(--kroma-spazio-4);
+    /* Spazio a sinistra perché i quadretti dei numeri non tocchino il bordo. */
+    margin: 0 0 0 var(--kroma-spazio-2);
+    padding: 0 0 0 var(--kroma-spazio-6);
+    list-style: none;
+    border-left: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .passo {
+    position: relative;
+  }
+
+  /* Il numero è un quadretto del marchio: pixel pieno, cifra dentro. */
+  .numero {
+    position: absolute;
+    left: calc(-1 * var(--kroma-spazio-6) - var(--kroma-spazio-2));
+    top: 0;
+    display: grid;
+    place-items: center;
+    width: var(--kroma-spazio-4);
+    height: var(--kroma-spazio-4);
+    background: var(--kroma-superficie);
+    border: var(--kroma-linea-sottile) solid var(--kroma-bordo);
+    font-family: var(--kroma-font-mono);
+    font-size: var(--kroma-testo-s);
+    font-weight: 600;
+  }
+
+  /* L'ultimo passo, la consegna, è il traguardo: pixel giallo. */
+  .passo:last-child .numero {
+    background: var(--kroma-giallo);
+    border-color: var(--kroma-giallo);
+    color: var(--kroma-nero);
+  }
+
+  h3 {
+    margin: 0;
+    font-size: var(--kroma-testo-l);
+    line-height: 1.15;
+  }
+
+  .passo p {
+    margin: var(--kroma-spazio-1) 0 0;
+    color: var(--kroma-testo-tenue);
+  }
+
+  /* Da computer: in fila su una linea orizzontale. */
+  @media (min-width: 960px) {
+    .come {
+      padding: var(--kroma-spazio-12) var(--kroma-spazio-4);
+    }
+
+    .passi {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: var(--kroma-spazio-3);
+      margin: 0;
+      padding: var(--kroma-spazio-6) 0 0;
+      border-left: 0;
+      border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+    }
+
+    .numero {
+      left: 0;
+      top: calc(-1 * var(--kroma-spazio-6) - var(--kroma-spazio-2));
+    }
+  }
+</style>
