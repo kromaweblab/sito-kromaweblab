@@ -30,3 +30,10 @@
   from = "/web-app"
   to = "/gestionali"
   status = 301
+
+# /come-lavoriamo era una pagina provvisoria: "Come lavoriamo" è una sezione
+# della home (nuova veste, 04/10/2026).
+[[redirects]]
+  from = "/come-lavoriamo"
+  to = "/"
+  status = 301

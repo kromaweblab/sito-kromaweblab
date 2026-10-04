@@ -34,6 +34,9 @@ export const sito = {
   /** Numero WhatsApp principale (quello dei pulsanti). */
   whatsapp: numeriWhatsapp[0]?.numero ?? null,
   indirizzo: null as string | null,
+  /** Partita IVA: va mostrata sul sito quando c'è (piè di pagina). Non
+   * inventarne una: finché manca resta [DA SCRIVERE]. */
+  partitaIva: null as string | null,
   /** Entro quanto ricontattiamo chi ci scrive. */
   tempoRisposta: '24 ore',
   /** Com'è il primo incontro. Senza "come preferisci/preferite": il tu o

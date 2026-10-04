@@ -53,6 +53,7 @@ const datiStrutturati = {
   ],
   ...(sito.email && { email: sito.email }),
   ...(sito.telefono && { telephone: sito.telefono }),
+  ...(sito.partitaIva && { vatID: sito.partitaIva }),
 };
 ---
 

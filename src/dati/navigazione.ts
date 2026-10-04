@@ -14,3 +14,10 @@ export const vociMenu: Voce[] = [
 ];
 
 export const voceContatti: Voce = { testo: 'Fissa un incontro', href: '/contatti' };
+
+/** Le pagine dei tre servizi, per il piè di pagina (nomi brevi). */
+export const vociServizi: Voce[] = [
+  { testo: 'Gestionali e web app', href: '/gestionali' },
+  { testo: 'Siti web', href: '/siti' },
+  { testo: 'Manutenzione', href: '/manutenzione' },
+];
