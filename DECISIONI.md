@@ -686,3 +686,23 @@ scritti insieme, pensato per chi vi cerca in zona, telefono e WhatsApp a un
 tocco; dominio/spazio sul web e modifiche autonome `[DA DEFINIRE]`), "Due
 siti che abbiamo fatto" (Casale Allibrio, Estrò Atelier), il rimando alla
 manutenzione, poi "Come lavoriamo" e la Chiusura della home.
+
+## 2026-10-04 — Nuova veste: pagina /servizi
+
+**Scelta:** si tiene l'impaginazione di Andrea (gestionali in grande con gli
+esempi di tutti i giorni, gli altri due affiancati) e si cambiano i
+contenuti: i tre servizi diventano quelli della home (`offerta` in
+`src/dati/servizi.ts`), cioè gestionali e web app, siti, **manutenzione**
+(nuova, con canone e contenuto `[DA DEFINIRE]`). Ogni servizio ha la sua
+frase e i punti concreti; sottotitolo al "voi". Il titolo per Google diventa
+"Gestionali, siti e manutenzione in provincia di Ragusa". Corretto il
+colore al passaggio del mouse sui collegamenti (era un arancione per fondo
+chiaro).
+
+**Perché:** web app e gestionali sono ormai un servizio solo, e la
+manutenzione è l'entrata continua da mettere in evidenza.
+
+**Conseguenza:** `/web-app` è tolta; in `netlify.toml` un reindirizzamento
+permanente (301) la manda a `/gestionali`, così i vecchi collegamenti non
+finiscono su una pagina vuota. In locale `/web-app` dà 404: il
+reindirizzamento lo fa solo Netlify.

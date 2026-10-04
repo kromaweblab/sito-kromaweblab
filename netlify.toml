@@ -23,3 +23,10 @@
   for = "/_astro/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# /web-app è confluita in /gestionali (nuova veste, 04/10/2026): chi ha il
+# vecchio indirizzo arriva alla pagina giusta.
+[[redirects]]
+  from = "/web-app"
+  to = "/gestionali"
+  status = 301
