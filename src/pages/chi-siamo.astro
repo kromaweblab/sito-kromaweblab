@@ -1,5 +1,14 @@
 ---
-import PaginaSegnaposto from '../componenti/PaginaSegnaposto.astro';
+// Chi siamo: Giovanni e Andrea, la storia dello studio, poi la chiusura.
+import Base from '../layout/Base.astro';
+import PaginaChiSiamo from '../sezioni/PaginaChiSiamo.astro';
+import Chiusura from '../sezioni/Chiusura.astro';
 ---
 
-<PaginaSegnaposto titolo="Chi siamo" />
+<Base
+  titolo="Chi siamo"
+  descrizione="Giovanni e Andrea: due sviluppatori a Scicli. Costruiamo gestionali, web app e siti, e chi vi ascolta al primo incontro è chi poi li costruisce."
+>
+  <PaginaChiSiamo />
+  <Chiusura />
+</Base>

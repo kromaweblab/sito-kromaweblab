@@ -669,3 +669,12 @@ pulsante al caso completo); sotto, "Siti web" con Casale Allibrio ed Estrò
 Atelier in righe con logo; in fondo la Chiusura. Nei loghi `alt=""` perché
 il nome è già scritto accanto. Le tre pagine dei casi completi restano
 segnaposto finché non ci sono i materiali.
+
+## 2026-10-04 — Nuova veste: pagina /chi-siamo
+
+**Scelta:** titolo "Giovanni e Andrea." e "Due sviluppatori, a Scicli. Chi
+vi ascolta al primo incontro è chi poi costruisce l'app."; le due persone in
+grande con foto (4:5), ruolo e frase, la seconda più in basso da computer
+(griglia asimmetrica); "Come è nato Kroma Web Lab" con storia e perché
+(`studio` in `src/dati/squadra.ts`); "Dove ci trovate" con i fatti; la
+Chiusura. Foto, ruoli, frasi e storia sono segnaposto: li scrivono loro.
