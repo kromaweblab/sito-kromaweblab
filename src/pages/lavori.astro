@@ -1,5 +1,14 @@
 ---
-import PaginaSegnaposto from '../componenti/PaginaSegnaposto.astro';
+// Pagina dei lavori: elenco con Vivai Cintoli in evidenza, poi la chiusura.
+import Base from '../layout/Base.astro';
+import PaginaLavori from '../sezioni/PaginaLavori.astro';
+import Chiusura from '../sezioni/Chiusura.astro';
 ---
 
-<PaginaSegnaposto titolo="Lavori" />
+<Base
+  titolo="Lavori"
+  descrizione="Il gestionale che la squadra di Vivai Cintoli usa ogni giorno, e i siti di Casale Allibrio ed Estrò Atelier. Lavori di Kroma Web Lab, Scicli."
+>
+  <PaginaLavori />
+  <Chiusura />
+</Base>
