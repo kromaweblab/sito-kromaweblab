@@ -1,0 +1,98 @@
+---
+// Gli altri lavori (direzione Officina): Casale Allibrio ed Estrò Atelier,
+// una riga ciascuno con il logo, la descrizione e il tipo di lavoro.
+
+import { Image } from 'astro:assets';
+import TitoloSezione from '../componenti/TitoloSezione.astro';
+import { lavori } from '../dati/lavori';
+
+const altri = lavori.slice(1);
+---
+
+<section class="altri-lavori" aria-labelledby="altri-titolo">
+  <TitoloSezione id="altri-titolo">Anche siti, per chi deve farsi trovare.</TitoloSezione>
+  <ul class="altri">
+    {altri.map((lavoro) => (
+      <li>
+        <a href={lavoro.href}>
+          <span class="logo-altro">
+            <Image src={lavoro.logo} alt={lavoro.nome} width={224} densities={[1, 2]} />
+          </span>
+          <span class="descrizione">{lavoro.descrizione}</span>
+          <span class="tipo">{lavoro.tipo}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .altri-lavori {
+    max-width: var(--kroma-larghezza);
+    margin: 0 auto;
+    padding: var(--kroma-spazio-8) var(--kroma-spazio-2);
+  }
+
+  .altri {
+    margin: var(--kroma-spazio-4) 0 0;
+    padding: 0;
+    list-style: none;
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .altri li {
+    border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .altri a {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--kroma-spazio-1) var(--kroma-spazio-2);
+    align-items: center;
+    padding: var(--kroma-spazio-3) var(--kroma-spazio-1);
+    text-decoration: none;
+    transition: background-color var(--kroma-durata);
+  }
+
+  .logo-altro {
+    display: block;
+  }
+
+  .altri .descrizione {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    color: var(--kroma-testo-tenue);
+  }
+
+  .altri .tipo {
+    color: var(--kroma-testo-tenue);
+    font-size: var(--kroma-testo-s);
+    white-space: nowrap;
+  }
+
+  .altri a:hover {
+    background: var(--kroma-hover);
+  }
+
+  .logo-altro img {
+    width: auto;
+    height: var(--kroma-spazio-8);
+  }
+
+  @media (min-width: 960px) {
+    .altri-lavori {
+      padding: var(--kroma-spazio-12) var(--kroma-spazio-4);
+    }
+
+    .altri a {
+      grid-template-columns: calc(2 * var(--kroma-spazio-16)) 1fr auto;
+      gap: var(--kroma-spazio-3);
+      padding-inline: var(--kroma-spazio-2);
+    }
+
+    .altri .descrizione {
+      grid-column: auto;
+      grid-row: auto;
+    }
+  }
+</style>

@@ -51,5 +51,8 @@ export const lavori: Lavoro[] = [
 /** Dati veri sull'uso dell'app di Vivai Cintoli (forniti da Giovanni, 28/09/2026). */
 export const usoVivai = {
   inUsoDa: 'settembre 2026',
-  persone: 'una ventina di operatori, 2 persone in ufficio, 3 amministratori',
+  /** Account Operatore: circa 20-25. */
+  operatori: '20-25',
+  /** 2 account Ufficio e 3 Admin. */
+  ufficio: '5 persone',
 };

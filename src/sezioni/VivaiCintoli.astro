@@ -1,8 +1,7 @@
 ---
-// "I nostri lavori": Vivai Cintoli in evidenza, con una ricostruzione di
-// quello che vede ciascun ruolo nell'app; sotto, gli altri due lavori in una
-// riga. Al posto dei nomi, i loghi dei clienti (il nome resta nel testo
-// alternativo, per gli screen reader e per Google).
+// Vivai Cintoli (direzione Officina): il lavoro di punta, con i fatti veri e
+// una ricostruzione di quello che vede ciascun ruolo nell'app. Gli altri
+// lavori stanno più giù nella home, in AltriLavori.astro.
 //
 // La ricostruzione:
 // - è disegnata in HTML dal codice dell'app vera, con DATI DI ESEMPIO:
@@ -16,24 +15,35 @@
 //   dell'apertura: pulsanti radio + CSS :has().
 
 import { Image } from 'astro:assets';
-import TitoloSezione from '../componenti/TitoloSezione.astro';
 import Pulsante from '../componenti/Pulsante.astro';
 import { lavori, usoVivai } from '../dati/lavori';
 
-const [vivai, ...altri] = lavori;
+const vivai = lavori[0]!;
 ---
 
 <section class="lavoro" aria-labelledby="lavoro-titolo">
-  <TitoloSezione id="lavoro-titolo">I nostri lavori</TitoloSezione>
-
   <div class="testa">
-    <h3 class="logo-vivai">
-      <Image src={vivai.logo} alt={vivai.nome} width={320} densities={[1, 2]} />
-    </h3>
-    <p class="dati">
-      {vivai.tipo} · in uso da {usoVivai.inUsoDa} · {usoVivai.persone}
-    </p>
+    <Image class="logo-vivai" src={vivai.logo} alt={vivai.nome} width={360} densities={[1, 2]} />
+    <h2 id="lavoro-titolo">L'app con cui lavora ogni giorno la squadra di Vivai Cintoli.</h2>
     <p class="frase">{vivai.descrizione}</p>
+    <dl class="fatti">
+      <div>
+        <dt>In uso da</dt>
+        <dd>{usoVivai.inUsoDa}</dd>
+      </div>
+      <div>
+        <dt>Operatori sul campo</dt>
+        <dd>{usoVivai.operatori}</dd>
+      </div>
+      <div>
+        <dt>Ufficio e amministrazione</dt>
+        <dd>{usoVivai.ufficio}</dd>
+      </div>
+      <div>
+        <dt>Prima</dt>
+        <dd>WhatsApp, fogli a mano, Excel</dd>
+      </div>
+    </dl>
   </div>
 
   <fieldset class="ruoli">
@@ -173,26 +183,10 @@ const [vivai, ...altri] = lavori;
   <p class="avvertenza">ricostruzione dell'app con dati di esempio</p>
 
   <div class="azioni">
-    <Pulsante href={vivai.href} variante="secondario" freccia>
+    <Pulsante href={vivai.href} variante="secondario">
       Leggi il caso completo
     </Pulsante>
   </div>
-
-  <ul class="altri" aria-label="Altri lavori">
-    {altri.map((lavoro) => (
-      <li>
-        <a href={lavoro.href}>
-          <span class="logo-altro">
-            <Image src={lavoro.logo} alt={lavoro.nome} width={224} densities={[1, 2]} />
-          </span>
-          <span class="descrizione">{lavoro.descrizione}</span>
-          <span class="tipo">
-            {lavoro.tipo} <span aria-hidden="true">→</span>
-          </span>
-        </a>
-      </li>
-    ))}
-  </ul>
 </section>
 
 <style>
@@ -204,42 +198,49 @@ const [vivai, ...altri] = lavori;
   }
 
   .testa {
-    margin-top: var(--kroma-spazio-5);
+    display: grid;
+    gap: var(--kroma-spazio-3);
   }
 
   .logo-vivai {
-    margin: 0;
-  }
-
-  /* Loghi alla stessa altezza, larghezza libera: nessun logo deformato. */
-  /* I loghi sono neri su trasparente: sul fondo scuro si mostrano chiari. */
-  .logo-vivai img,
-  .logo-altro img {
-    filter: invert(1);
-  }
-
-  .logo-vivai img {
-    width: auto;
-    height: var(--kroma-spazio-10);
-  }
-
-  .logo-altro img {
     width: auto;
     height: var(--kroma-spazio-8);
   }
 
-  .dati {
+  h2 {
+    max-width: 20ch;
+    margin: 0;
+    font-size: var(--kroma-testo-xl);
+  }
+
+  .frase {
+    max-width: 52ch;
+    margin: 0;
+    font-size: var(--kroma-testo-m);
+    color: var(--kroma-testo-tenue);
+  }
+
+  /* I fatti: dati veri, quindi i valori in grande. */
+  .fatti {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kroma-spazio-3) var(--kroma-spazio-4);
     margin: var(--kroma-spazio-2) 0 0;
-    font-family: var(--kroma-font-mono);
+    padding-top: var(--kroma-spazio-3);
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .fatti dt {
     font-size: var(--kroma-testo-s);
     color: var(--kroma-testo-tenue);
   }
 
-  .frase {
-    max-width: 46ch;
-    margin: var(--kroma-spazio-2) 0 0;
+  .fatti dd {
+    margin: var(--kroma-spazio-1) 0 0;
     font-size: var(--kroma-testo-l);
-    line-height: 1.35;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
   }
 
   /* ---------- Selettore dei ruoli ---------- */
@@ -280,9 +281,9 @@ const [vivai, ...altri] = lavori;
 
   .ruoli small {
     display: block;
-    font-family: var(--kroma-font-mono);
     font-size: var(--kroma-testo-s);
     font-weight: 400;
+    opacity: 0.75;
   }
 
   .quadretto {
@@ -357,7 +358,6 @@ const [vivai, ...altri] = lavori;
 
   .avvertenza {
     margin: var(--kroma-spazio-1) 0 0;
-    font-family: var(--kroma-font-mono);
     font-size: var(--kroma-testo-s);
     color: var(--kroma-testo-tenue);
   }
@@ -505,59 +505,13 @@ const [vivai, ...altri] = lavori;
     margin-top: var(--kroma-spazio-4);
   }
 
-  .altri {
-    margin: var(--kroma-spazio-6) 0 0;
-    padding: 0;
-    list-style: none;
-    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
-  }
-
-  .altri li {
-    border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
-  }
-
-  .altri a {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: var(--kroma-spazio-1) var(--kroma-spazio-2);
-    align-items: center;
-    padding: var(--kroma-spazio-3) var(--kroma-spazio-1);
-    text-decoration: none;
-    transition: background-color var(--kroma-durata);
-  }
-
-  .logo-altro {
-    display: block;
-  }
-
-  .altri .descrizione {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    color: var(--kroma-testo-tenue);
-  }
-
-  .altri .tipo {
-    font-family: var(--kroma-font-mono);
-    font-size: var(--kroma-testo-s);
-    white-space: nowrap;
-  }
-
-  .altri .tipo span {
-    display: inline-block;
-    transition: transform var(--kroma-durata);
-  }
-
-  .altri a:hover {
-    background: var(--kroma-hover);
-  }
-
-  .altri a:hover .tipo span {
-    transform: translateX(4px);
-  }
-
   /* ---------- Da computer ---------- */
 
   @media (min-width: 960px) {
+    .fatti {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
     .lavoro {
       padding: var(--kroma-spazio-12) var(--kroma-spazio-4);
     }
@@ -577,17 +531,6 @@ const [vivai, ...altri] = lavori;
       align-items: start;
       gap: var(--kroma-spazio-3);
       padding: var(--kroma-spazio-3);
-    }
-
-    .altri a {
-      grid-template-columns: calc(2 * var(--kroma-spazio-16)) 1fr auto;
-      gap: var(--kroma-spazio-3);
-      padding-inline: var(--kroma-spazio-2);
-    }
-
-    .altri .descrizione {
-      grid-column: auto;
-      grid-row: auto;
     }
   }
 </style>
