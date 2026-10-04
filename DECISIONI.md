@@ -640,3 +640,13 @@ la manutenzione, ancora da definire). Testi in `offerta`
 (`src/dati/servizi.ts`). Cosa comprende la manutenzione e il canone:
 `[DA DEFINIRE]`. Pagina `/manutenzione` segnaposto. Tolto
 `CosaFacciamo.astro`.
+
+## 2026-10-04 — Nuova veste: Come lavoriamo
+
+**Scelta:** sezione "Come lavoriamo" dopo i Servizi: cinque passi numerati
+(sono una sequenza), in fila su una linea da computer e in colonna da
+telefono; il numero sta in un quadretto, l'ultimo (consegna) è giallo.
+**Testi:** quelli di Andrea in `src/dati/metodo.ts` (dalla sua PR #26),
+portati al "voi" della nuova veste, più il passo "Consegna e formazione"
+dal suo `fattiGestionale.formazione`. Le domande frequenti e i fatti del
+file restano al "tu": li usa `/gestionali`, da rivedere con quella pagina.
