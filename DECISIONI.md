@@ -789,3 +789,26 @@ somiglia a tanti siti generati. Il campo risponde a un gesto e usa il marchio.
 
 **Titoli senza punto finale**, in tutto il sito: il punto in fondo ai titoli
 sa di testo generato.
+
+## 2026-10-05 — Nuova impostazione della home, passo 2: i lavori in riquadri
+
+**Scelta:** subito dopo l'apertura, la sezione "Lavori" con tutti e tre i
+lavori in riquadri (`componenti/RiquadroLavoro.astro`): Vivai Cintoli largo
+(cornice di telefono a sinistra, testo e tre fatti veri a destra), Casale
+Allibrio ed Estrò Atelier sotto, affiancati e più piccoli (cornice di
+browser sopra). Ogni riquadro ha il pulsante "Vedi il lavoro" verso il caso
+completo. `/lavori` usa lo stesso riquadro, tutti nella disposizione larga.
+Tolte dalla home "Voi due" (voi restate in `/chi-siamo`), la ricostruzione
+di Vivai Cintoli e "Anche siti…". Descrizione di Vivai riscritta con ciò che
+l'app fa davvero.
+
+**Contro le "schede da IA":** niente icone, niente ombre, niente schede
+identiche: due disposizioni diverse, cornici che dicono cosa sono (telefono
+per l'app, browser con l'indirizzo del sito al posto dei tre pallini),
+fatti veri al posto degli slogan.
+
+**In sospeso:** le schermate (segnaposto `[DA SCRIVERE]` nelle cornici, se
+ne riparla), gli indirizzi dei due siti, qualche fatto vero su Casale ed
+Estrò. Il pulsante porta alle pagine dei casi, ancora provvisorie. Il file
+`sezioni/VivaiCintoli.astro` (la ricostruzione) resta per la pagina del caso
+Vivai.

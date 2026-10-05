@@ -1,0 +1,246 @@
+---
+// Riquadro di un lavoro: la schermata nella sua cornice (telefono per le
+// app, browser per i siti), il logo, cosa è, una descrizione, i fatti veri e
+// il pulsante verso il caso completo. Lo usano la home e /lavori.
+//
+// Due disposizioni, perché i riquadri non devono sembrare tutti uguali:
+// - "larga": cornice a sinistra e testo a destra (da telefono uno sotto
+//   l'altro). Per il lavoro in evidenza in home e per tutti in /lavori.
+// - "stretta": cornice sopra e testo sotto. Per i siti in home, affiancati.
+
+import { Image } from 'astro:assets';
+import Pulsante from './Pulsante.astro';
+import { segnapostoSchermata, type Lavoro } from '../dati/lavori';
+import { DA_SCRIVERE } from '../dati/sito';
+
+interface Props {
+  lavoro: Lavoro;
+  disposizione: 'larga' | 'stretta';
+  /** Livello del titolo: 3 sotto un titolo di sezione, 2 in una pagina. */
+  livello?: 2 | 3;
+}
+
+const { lavoro, disposizione, livello = 3 } = Astro.props;
+const Titolo = livello === 2 ? 'h2' : 'h3';
+const idTitolo = `lavoro-${lavoro.id}`;
+---
+
+<article class:list={['riquadro', disposizione, lavoro.cornice]} aria-labelledby={idTitolo}>
+  <div class="cornice" aria-hidden={lavoro.schermata ? undefined : 'true'}>
+    {lavoro.cornice === 'browser' && (
+      <p class="barra">{lavoro.indirizzo ?? `${DA_SCRIVERE} indirizzo`}</p>
+    )}
+    <div class="schermo">
+      {lavoro.schermata ? (
+        <Image
+          src={lavoro.schermata}
+          alt={`Schermata di ${lavoro.nome}`}
+          width={lavoro.cornice === 'telefono' ? 320 : 640}
+          densities={[1, 2]}
+        />
+      ) : (
+        <p class="segnaposto">{segnapostoSchermata(lavoro)}</p>
+      )}
+    </div>
+  </div>
+
+  <div class="testo">
+    <Titolo id={idTitolo} class="nome">
+      <Image class="logo" src={lavoro.logo} alt={lavoro.nome} height={96} densities={[1, 2]} />
+    </Titolo>
+    <p class="tipo">{lavoro.tipo}</p>
+    <p class="descrizione">{lavoro.descrizione}</p>
+    {lavoro.fatti.length > 0 && (
+      <dl class="fatti">
+        {lavoro.fatti.map((f) => (
+          <div>
+            <dt>{f.etichetta}</dt>
+            <dd>{f.valore}</dd>
+          </div>
+        ))}
+      </dl>
+    )}
+    <div class="azione">
+      <Pulsante href={lavoro.href} variante="secondario">
+        Vedi il lavoro <span class="solo-lettori">: {lavoro.nome}</span>
+      </Pulsante>
+    </div>
+  </div>
+</article>
+
+<style>
+  .riquadro {
+    display: grid;
+    gap: var(--kroma-spazio-3);
+    padding: var(--kroma-spazio-3);
+    background: var(--kroma-superficie);
+    border: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  /* ---------- Le cornici ---------- */
+
+  .cornice {
+    display: grid;
+    background: var(--kroma-fondo);
+    border: var(--kroma-linea-spessa) solid var(--kroma-bordo);
+  }
+
+  /* Telefono: in piedi, con l'altoparlante in alto. Stretto e centrato,
+     così da telefono non occupa tutto lo schermo. */
+  .telefono .cornice {
+    justify-self: center;
+    /* Da telefono più stretto: altrimenti la cornice riempie lo schermo. */
+    width: min(64%, calc(4 * var(--kroma-spazio-8)));
+    padding: var(--kroma-spazio-3) var(--kroma-spazio-1) var(--kroma-spazio-2);
+  }
+
+  .telefono .cornice::before {
+    content: '';
+    justify-self: center;
+    width: var(--kroma-spazio-5);
+    height: var(--kroma-linea-spessa);
+    margin-bottom: var(--kroma-spazio-1);
+    background: var(--kroma-bordo);
+  }
+
+  .telefono .schermo {
+    aspect-ratio: 9 / 16;
+  }
+
+  /* Browser: la barra porta l'indirizzo vero del sito, non tre pallini. */
+  .barra {
+    margin: 0;
+    padding: var(--kroma-spazio-1) var(--kroma-spazio-2);
+    border-bottom: var(--kroma-linea-sottile) solid var(--kroma-bordo);
+    font-size: var(--kroma-testo-s);
+    color: var(--kroma-testo-tenue);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .browser .schermo {
+    aspect-ratio: 16 / 10;
+  }
+
+  .schermo {
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: var(--kroma-notte-superficie);
+  }
+
+  .schermo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .segnaposto {
+    max-width: 24ch;
+    margin: 0;
+    padding: var(--kroma-spazio-2);
+    font-size: var(--kroma-testo-s);
+    text-align: center;
+    color: var(--kroma-testo-tenue);
+  }
+
+  /* ---------- Il testo ---------- */
+
+  .testo {
+    display: grid;
+    gap: var(--kroma-spazio-2);
+    align-content: start;
+  }
+
+  .nome {
+    margin: 0;
+  }
+
+  .logo {
+    width: auto;
+    max-width: 100%;
+    height: var(--kroma-spazio-6);
+  }
+
+  .tipo {
+    margin: 0;
+    font-weight: 600;
+    color: var(--kroma-verde);
+  }
+
+  .descrizione {
+    max-width: 48ch;
+    margin: 0;
+    color: var(--kroma-testo-tenue);
+  }
+
+  .fatti {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kroma-spazio-2) var(--kroma-spazio-3);
+    margin: var(--kroma-spazio-1) 0;
+  }
+
+  .fatti dt {
+    font-size: var(--kroma-testo-s);
+    color: var(--kroma-testo-tenue);
+  }
+
+  .fatti dd {
+    margin: var(--kroma-spazio-1) 0 0;
+    font-size: var(--kroma-testo-m);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .azione {
+    margin-top: var(--kroma-spazio-1);
+  }
+
+  .solo-lettori {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* ---------- Disposizioni da computer ---------- */
+
+  @media (min-width: 960px) {
+    .riquadro {
+      padding: var(--kroma-spazio-4);
+    }
+
+    .larga {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: var(--kroma-spazio-6);
+      align-items: center;
+    }
+
+    /* Nella disposizione larga il telefono sta a sinistra, più alto del
+       testo: è la cosa da guardare. */
+    .larga.telefono .cornice {
+      width: min(100%, calc(4 * var(--kroma-spazio-8)));
+    }
+
+    .larga .fatti {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .fatti dd {
+      font-size: var(--kroma-testo-l);
+    }
+
+    .larga .logo {
+      height: var(--kroma-spazio-8);
+    }
+
+    .stretta {
+      align-content: start;
+    }
+  }
+</style>
