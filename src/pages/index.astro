@@ -7,7 +7,7 @@ import ProvaGestionale from '../sezioni/ProvaGestionale.astro';
 import Servizi from '../sezioni/Servizi.astro';
 import ComeLavoriamo from '../sezioni/ComeLavoriamo.astro';
 import Chiusura from '../sezioni/Chiusura.astro';
-import { GestionaleDimostrativo } from '../isole/gestionale-dimostrativo/GestionaleDimostrativo';
+import { SquadraUfficio } from '../isole/squadra-ufficio/SquadraUfficio';
 import { DA_SCRIVERE } from '../dati/sito';
 ---
 
@@ -15,7 +15,7 @@ import { DA_SCRIVERE } from '../dati/sito';
   <Apertura />
   <Lavori />
   <ProvaGestionale>
-    <GestionaleDimostrativo client:visible />
+    <SquadraUfficio client:visible />
   </ProvaGestionale>
   <Servizi />
   <ComeLavoriamo />

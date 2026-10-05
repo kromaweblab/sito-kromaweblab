@@ -175,7 +175,7 @@ vanno committati. Si rilancia solo se cambia il marchio.
 - **Astro 7** con TypeScript (strict). Le pagine sono `.astro`: HTML e CSS
   statici, nessun JavaScript inviato al browser.
 - **React 19 solo come isole interattive** (`client:visible`), solo per il
-  gestionale dimostrativo e il configuratore.
+  prova "dal campo all'ufficio" e il configuratore.
 - Fuori dalle isole, JavaScript solo **per comodità e mai indispensabile**:
   piccoli script senza librerie, e la pagina deve funzionare anche se non
   partono (es. il menu da telefono è un `<details>`; lo script aggiunge solo
@@ -200,7 +200,8 @@ src/
   stili/        [Giovanni] tokens.css (originale), base.css
   dati/         [condiviso] dati dell'attività in .ts
   isole/        [Andrea] componenti React
-    gestionale-dimostrativo/
+    squadra-ufficio/          prova in home (fatta da Giovanni, ok di Andrea)
+    gestionale-dimostrativo/  vecchia prova, fuori dalla home
     configuratore/
 public/         file copiati così come sono (favicon, marchio)
   brand/        SVG del marchio + kroma-tokens.css (COPIA generata, non modificare)
@@ -232,7 +233,7 @@ lo si dice nella pull request.
 
 ```
 /                        Home (Officina): apertura, lavori (riquadri),
-                         provalo (gestionale dimostrativo), cosa facciamo
+                         provalo (dal campo all'ufficio), cosa facciamo
                          (linguette), come lavoriamo, chiusura
 /lavori                  Elenco lavori, e una pagina per ogni lavoro
 /servizi                 Panoramica dei servizi
@@ -244,34 +245,33 @@ lo si dice nella pull request.
 /privacy                 Informativa privacy (DA SCRIVERE prima del lancio)
 ```
 
-## Isola 1 — Gestionale dimostrativo (Andrea)
+## Isola 1 — Prova "dal campo all'ufficio" (05/10/2026)
 
-Sta in home. Lavagna di prenotazioni funzionante con dati finti.
+Sta in home, nella sezione "Provalo: dal campo all'ufficio"
+(`sezioni/ProvaGestionale.astro`), in `src/isole/squadra-ufficio/`. L'ha
+costruita Giovanni (con l'assistente), d'accordo con Andrea. Prende il
+posto della lavagna di prenotazioni di Andrea (`gestionale-dimostrativo/`),
+che esce dalla home ma resta nel repository: decide Andrea se riusarla.
 
-- In cima si sceglie il tipo di attività: ristorante, parrucchiere, centro
-  estetico, agriturismo, studio medico, studio professionale. La scelta
-  cambia le etichette e i dati di esempio:
-
-  | Attività             | Chi      | Quanti  | Dove / con chi | Cosa         |
-  | -------------------- | -------- | ------- | -------------- | ------------ |
-  | Ristorante           | cliente  | coperti | tavolo         | —            |
-  | Parrucchiere         | cliente  | —       | postazione     | servizio     |
-  | Centro estetico      | cliente  | —       | estetista      | trattamento  |
-  | Agriturismo          | ospite   | persone | camera         | notti        |
-  | Studio medico        | paziente | —       | —              | visita       |
-  | Studio professionale | cliente  | —       | —              | appuntamento |
-
-- Si può: aggiungere una prenotazione, spostarla di stato (richiesta →
-  confermata → completata), eliminarla, filtrare per giorno.
-- Tutto in memoria: nessun database, nessun salvataggio.
-- Deve funzionare bene da telefono.
-- Accanto, una riga che spiega in italiano semplice cosa sta succedendo.
-- Sobria: deve convincere, non stupire.
-- **Dati di esempio**: cognomi comuni e dati plausibili ("20:30 · Bianchi ·
-  4 coperti · Tavolo 7"), con la scritta "Dati di esempio" sempre visibile
-  sopra la lavagna. È l'unica eccezione a "mai testo finto verosimile":
-  quella regola vale per i dati mancanti del sito (email, telefono,
-  indirizzo), che restano `[DA SCRIVERE]`.
+- Il telefono di un operatore e il computer dell'ufficio, collegati.
+  Dal telefono si manda un rapporto (cantiere, lavoro, ore, materiale,
+  nota): in ufficio arriva evidenziato, ore per cantiere e materiali si
+  sommano da soli. Dall'ufficio si assegna un lavoro: compare sul telefono
+  in "Da fare"; l'operatore lo segna come fatto e l'ufficio lo vede.
+- In cima si sceglie il settore: Verde e giardini, Edilizia, Pulizie,
+  Impianti (`settori.ts`): cambiano lavori, cantieri, materiali e dati di
+  partenza.
+- Da computer telefono e ufficio affiancati; quando l'isola è stretta
+  (container query) uno alla volta, con un interruttore che segnala le
+  novità dell'altro ("1 nuovo").
+- Sotto, una riga che spiega in italiano semplice cosa è appena successo.
+- **App chiara dentro le cornici** (token `--kroma-app-*`, angoli tondi):
+  si capisce che sono schermi. Stessa eccezione delle ricostruzioni, vale
+  solo lì dentro. Intorno, la prova veste come il sito.
+- Tutto in memoria, orologio finto che parte alle 11:00. "Dati di esempio.
+  Niente viene salvato." sempre visibile. **Niente cognomi** ("Operatore 1",
+  "squadra A") e niente indirizzi veri.
+- Logica in `logica.ts`, con i test in `logica.test.ts`.
 
 ## Isola 2 — Configuratore (Andrea)
 

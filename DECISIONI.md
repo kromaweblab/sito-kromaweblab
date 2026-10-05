@@ -831,3 +831,28 @@ frecce. Nei browser senza `:has()` si vedono tutti e tre i riquadri.
 **Pulizia:** tolta da `src/dati/servizi.ts` la vecchia lista `servizi`, che
 non usava più nessuna pagina; `offerta` ha in più `breve` (nome per la
 linguetta) e `nota`.
+
+## 2026-10-05 — Nuova impostazione della home, passo 4: prova "dal campo all'ufficio"
+
+**Scelta:** al posto della lavagna di prenotazioni, una prova che mostra il
+lavoro che ci fa lavorare di più: il telefono di un operatore e il computer
+dell'ufficio, collegati, come in Vivai Cintoli ma con dati di esempio.
+Dal telefono si manda un rapporto e lo si vede arrivare in ufficio (riga
+evidenziata, ore per cantiere e materiali sommati); dall'ufficio si assegna
+un lavoro e compare sul telefono, che lo segna come fatto. In cima la scelta
+del settore (Verde e giardini, Edilizia, Pulizie, Impianti). Isola nuova in
+`src/isole/squadra-ufficio/`, fatta da Giovanni con l'assistente, d'accordo
+con Andrea; logica pura con 14 test.
+
+**App chiara dentro le cornici** (opzione A): fondo carta, angoli tondi,
+arancione per i pulsanti (token `--kroma-app-*`). Sul sito scuro si capisce
+che sono schermi veri; la versione scura si confondeva con la pagina.
+
+**Da telefono:** una vista alla volta, con l'interruttore Telefono / Ufficio
+che segnala le novità dell'altra ("1 nuovo") e, sotto la spiegazione, un
+pulsante "Guardate in ufficio". Nell'ufficio stretto il materiale scende
+sotto "Chi e dove" e la tabella perde una colonna.
+
+**Resta:** la vecchia lavagna di Andrea (`gestionale-dimostrativo/`) esce
+dalla home ma non si cancella: decide lui se riusarla (per esempio in
+`/gestionali`). Lighthouse home: 100 in tutte e quattro le voci, in locale.

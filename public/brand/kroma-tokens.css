@@ -49,6 +49,23 @@
   --kroma-vivai-raggio: 8px; /* l'app ha gli angoli tondi: eccezione voluta */
 
   /*
+   * App di esempio della prova "dal campo all'ufficio" in home (05/10/2026):
+   * dentro le cornici di telefono e computer l'app è chiara, così si capisce
+   * che sono schermi e non un pezzo di pagina. Stessa eccezione delle
+   * ricostruzioni: angoli tondi, valgono solo lì dentro.
+   * Contrasti sul bianco: testo 18:1, tenue 6,6:1, bordo 3,6:1,
+   * arancione-testo 5,3:1.
+   */
+  --kroma-app-fondo: #f5f2ee; /* = carta: fondo dello schermo */
+  --kroma-app-superficie: #ffffff; /* riquadri e campi */
+  --kroma-app-linea: #e4dfd8; /* separatori, solo grafica */
+  --kroma-app-bordo: #8a847c; /* bordi dei campi */
+  --kroma-app-testo: #101010;
+  --kroma-app-tenue: #5e5a55;
+  --kroma-app-nuovo: #fff1c7; /* riga appena arrivata (giallo tenue) */
+  --kroma-app-raggio: 8px;
+
+  /*
    * Officina (scelta del 03/10/2026): il sito è scuro. Contrasti sul fondo
    * --kroma-notte: testo 15:1, testo tenue 7,5:1, arancione 5,3:1,
    * verde 6,8:1, giallo 11:1.
