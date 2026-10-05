@@ -1,0 +1,671 @@
+/*
+ * Stili della prova "dal campo all'ufficio". CSS Modules: le classi valgono
+ * solo qui. Solo variabili --kroma-*.
+ *
+ * Due mondi: intorno alle cornici la prova veste come il sito (scuro, angoli
+ * vivi); dentro le cornici c'è l'app di esempio, chiara e con gli angoli
+ * tondi (token --kroma-app-*), così si capisce che sono schermi veri.
+ *
+ * Impianto misurato sull'isola (container query "prova"): da 60rem in su
+ * telefono e ufficio affiancati; sotto, uno alla volta con l'interruttore.
+ * Dentro l'ufficio una seconda misura ("schermo") decide le colonne del
+ * cruscotto.
+ */
+
+/* ------------------------------------------------------------ impianto */
+
+.prova {
+  container: prova / inline-size;
+  scroll-margin-top: var(--kroma-spazio-2);
+}
+
+.impianto {
+  display: grid;
+  gap: var(--kroma-spazio-3);
+}
+
+.impianto[data-vista='telefono'] .ufficio,
+.impianto[data-vista='ufficio'] .telefono {
+  display: none;
+}
+
+.telefono {
+  display: grid;
+}
+
+@container prova (min-width: 60rem) {
+  .impianto {
+    grid-template-columns: calc(46 * var(--kroma-spazio-1)) minmax(0, 1fr);
+    grid-template-areas:
+      'testa testa'
+      'telefono ufficio'
+      'spiegazione spiegazione';
+    column-gap: var(--kroma-spazio-4);
+    align-items: start;
+  }
+
+  .testa {
+    grid-area: testa;
+  }
+
+  .telefono {
+    grid-area: telefono;
+  }
+
+  .ufficio {
+    grid-area: ufficio;
+  }
+
+  .spiegazione {
+    grid-area: spiegazione;
+  }
+
+  /* C'è spazio per tutti e due: niente interruttore, si vedono insieme.
+     (.impianto davanti: deve vincere sulla regola di base, scritta dopo.) */
+  .impianto .interruttore {
+    display: none;
+  }
+
+  .impianto[data-vista] .ufficio,
+  .impianto[data-vista] .telefono {
+    display: grid;
+  }
+}
+
+/* ------------------------------------------- intorno: come il sito */
+
+.testa {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: end;
+  gap: var(--kroma-spazio-2) var(--kroma-spazio-4);
+}
+
+.settori {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.settori legend {
+  margin-bottom: var(--kroma-spazio-1);
+  padding: 0;
+  font-size: var(--kroma-testo-s);
+  color: var(--kroma-testo-tenue);
+}
+
+.scelte {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kroma-spazio-1);
+}
+
+.scelta {
+  position: relative;
+}
+
+.scelta input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+}
+
+.scelta span {
+  display: flex;
+  align-items: center;
+  min-height: var(--kroma-spazio-5);
+  padding: 0 var(--kroma-spazio-2);
+  border: var(--kroma-linea-sottile) solid var(--kroma-bordo);
+  cursor: pointer;
+  transition: background-color var(--kroma-durata) var(--kroma-curva);
+}
+
+.scelta input:not(:checked) + span:hover {
+  background: var(--kroma-hover);
+}
+
+.scelta input:checked + span {
+  background: var(--kroma-testo);
+  border-color: var(--kroma-testo);
+  color: var(--kroma-fondo);
+  font-weight: 600;
+}
+
+.scelta input:focus-visible + span {
+  outline: var(--kroma-linea-spessa) solid var(--kroma-focus);
+  outline-offset: var(--kroma-linea-spessa);
+}
+
+.avviso {
+  margin: 0;
+  font-size: var(--kroma-testo-s);
+  color: var(--kroma-testo-tenue);
+}
+
+/* L'interruttore: due metà, quella scelta chiara su scuro. */
+.interruttore {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: var(--kroma-linea-sottile) solid var(--kroma-bordo);
+}
+
+.interruttore button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--kroma-spazio-1);
+  min-height: var(--kroma-spazio-6);
+  padding: 0 var(--kroma-spazio-1);
+  border: 0;
+  background: transparent;
+  color: var(--kroma-testo);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.interruttore button[aria-pressed='true'] {
+  background: var(--kroma-testo);
+  color: var(--kroma-fondo);
+}
+
+.interruttore button:focus-visible {
+  outline: var(--kroma-linea-spessa) solid var(--kroma-focus);
+  outline-offset: calc(-1 * var(--kroma-linea-spessa));
+}
+
+/* Le novità dell'altra vista: il giallo del marchio, testo nero. */
+.contatore {
+  padding: 0 var(--kroma-spazio-1);
+  background: var(--kroma-giallo);
+  color: var(--kroma-nero);
+  font-size: var(--kroma-testo-s);
+  font-weight: 600;
+}
+
+.spiegazione {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--kroma-spazio-2);
+  padding: var(--kroma-spazio-2) var(--kroma-spazio-3);
+  background: var(--kroma-superficie);
+  border-left: var(--kroma-linea-spessa) solid var(--kroma-arancione);
+}
+
+.spiegazione p {
+  max-width: 70ch;
+  margin: 0;
+}
+
+.vaiAltrove {
+  min-height: var(--kroma-spazio-5);
+  padding: 0 var(--kroma-spazio-2);
+  border: var(--kroma-linea-sottile) solid var(--kroma-testo);
+  background: transparent;
+  color: var(--kroma-testo);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color var(--kroma-durata) var(--kroma-curva),
+    color var(--kroma-durata) var(--kroma-curva);
+}
+
+.vaiAltrove:hover {
+  background: var(--kroma-testo);
+  color: var(--kroma-fondo);
+}
+
+/* Da computer si vedono tutti e due: il pulsante non serve. */
+@container prova (min-width: 60rem) {
+  .vaiAltrove {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------- cornici */
+
+.cornice {
+  border: var(--kroma-linea-spessa) solid var(--kroma-bordo);
+  background: var(--kroma-nero);
+}
+
+.corniceTelefono {
+  justify-self: center;
+  width: 100%;
+  max-width: calc(46 * var(--kroma-spazio-1));
+  padding: var(--kroma-spazio-3) var(--kroma-spazio-1) var(--kroma-spazio-2);
+}
+
+/* L'altoparlante in alto: basta questo a dire "telefono". */
+.corniceTelefono::before {
+  content: '';
+  display: block;
+  width: var(--kroma-spazio-5);
+  height: var(--kroma-linea-spessa);
+  margin: 0 auto var(--kroma-spazio-2);
+  background: var(--kroma-bordo);
+}
+
+.corniceUfficio {
+  padding: 0 var(--kroma-spazio-1) var(--kroma-spazio-1);
+}
+
+.barraFinestra {
+  margin: 0;
+  padding: var(--kroma-spazio-1);
+  font-size: var(--kroma-testo-s);
+  color: var(--kroma-testo-tenue);
+}
+
+/* --------------------------------------------- dentro: l'app chiara */
+
+.schermo {
+  display: grid;
+  align-content: start;
+  gap: var(--kroma-spazio-1);
+  padding-bottom: var(--kroma-spazio-1);
+  overflow: hidden;
+  border-radius: var(--kroma-app-raggio);
+  background: var(--kroma-app-fondo);
+  color: var(--kroma-app-testo);
+  font-size: var(--kroma-testo-s);
+  line-height: 1.4;
+}
+
+.corniceUfficio .schermo {
+  container: schermo / inline-size;
+}
+
+.barraApp {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--kroma-spazio-2);
+  padding: var(--kroma-spazio-1) var(--kroma-spazio-2);
+  background: var(--kroma-app-testo);
+  color: var(--kroma-app-superficie);
+}
+
+.barraApp p {
+  margin: 0;
+}
+
+.chi {
+  font-weight: 600;
+}
+
+.blocco {
+  display: grid;
+  align-content: start;
+  gap: var(--kroma-spazio-1);
+  margin: 0 var(--kroma-spazio-1);
+  padding: var(--kroma-spazio-2);
+  border: var(--kroma-linea-sottile) solid var(--kroma-app-linea);
+  border-radius: var(--kroma-app-raggio);
+  background: var(--kroma-app-superficie);
+}
+
+.blocco h3,
+.titoletto {
+  margin: 0;
+  font-size: var(--kroma-testo-s);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.4;
+}
+
+.dato {
+  font-family: var(--kroma-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.lavoro {
+  display: block;
+  font-weight: 600;
+}
+
+.dove {
+  display: block;
+  color: var(--kroma-app-tenue);
+}
+
+.nota {
+  display: block;
+  color: var(--kroma-app-tenue);
+  font-style: italic;
+}
+
+.etichettaNuovo {
+  display: inline-block;
+  margin-left: var(--kroma-spazio-1);
+  padding: 0 var(--kroma-spazio-1);
+  border-radius: calc(var(--kroma-app-raggio) / 2);
+  background: var(--kroma-giallo);
+  color: var(--kroma-nero);
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* ------------------------------------------------- telefono: da fare */
+
+.compiti {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.compiti:focus-visible {
+  outline: var(--kroma-linea-spessa) solid var(--kroma-arancione-testo);
+  outline-offset: var(--kroma-linea-spessa);
+}
+
+.compiti li,
+.assegnati li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: var(--kroma-spazio-1);
+  padding: var(--kroma-spazio-1);
+  border-top: var(--kroma-linea-sottile) solid var(--kroma-app-linea);
+  border-radius: calc(var(--kroma-app-raggio) / 2);
+}
+
+.compiti li:first-child,
+.assegnati li:first-child {
+  border-top: 0;
+}
+
+.compiti li.nuovo,
+.tabella tr.nuovo td {
+  background: var(--kroma-app-nuovo);
+}
+
+.fatto .lavoro {
+  text-decoration: line-through;
+  color: var(--kroma-app-tenue);
+}
+
+.stato {
+  color: var(--kroma-app-tenue);
+}
+
+.statoFatto {
+  color: var(--kroma-verde-testo);
+  font-weight: 600;
+}
+
+.pulsantePiccolo {
+  min-height: var(--kroma-spazio-5);
+  padding: 0 var(--kroma-spazio-2);
+  border: var(--kroma-linea-sottile) solid var(--kroma-app-bordo);
+  border-radius: calc(var(--kroma-app-raggio) / 2);
+  background: var(--kroma-app-superficie);
+  color: var(--kroma-app-testo);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pulsantePiccolo:hover {
+  background: var(--kroma-app-fondo);
+}
+
+/* --------------------------------------------------------- moduli */
+
+.campo {
+  display: grid;
+  gap: var(--kroma-spazio-1);
+}
+
+.campo label {
+  font-weight: 600;
+}
+
+.campo select,
+.campo textarea {
+  width: 100%;
+  min-height: var(--kroma-spazio-5);
+  box-sizing: border-box;
+  padding: 0 var(--kroma-spazio-1);
+  border: var(--kroma-linea-sottile) solid var(--kroma-app-bordo);
+  border-radius: calc(var(--kroma-app-raggio) / 2);
+  background: var(--kroma-app-superficie);
+  color: var(--kroma-app-testo);
+  font: inherit;
+}
+
+.campo textarea {
+  padding: var(--kroma-spazio-1);
+  resize: vertical;
+}
+
+.facoltativo {
+  font-weight: 400;
+  color: var(--kroma-app-tenue);
+}
+
+/* − valore +: pulsanti grandi, da usare con il pollice. */
+.contatoreCampo {
+  display: grid;
+  grid-template-columns: var(--kroma-spazio-5) minmax(0, 1fr) var(--kroma-spazio-5);
+  align-items: center;
+  gap: var(--kroma-spazio-1);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.contatoreCampo legend {
+  margin-bottom: var(--kroma-spazio-1);
+  padding: 0;
+  font-weight: 600;
+}
+
+.contatoreCampo button {
+  height: var(--kroma-spazio-5);
+  border: var(--kroma-linea-sottile) solid var(--kroma-app-bordo);
+  border-radius: calc(var(--kroma-app-raggio) / 2);
+  background: var(--kroma-app-superficie);
+  color: var(--kroma-app-testo);
+  font: inherit;
+  font-size: var(--kroma-testo-m);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.contatoreCampo button:disabled {
+  color: var(--kroma-app-tenue);
+  cursor: not-allowed;
+}
+
+.contatoreCampo output {
+  text-align: center;
+  font-size: var(--kroma-testo-m);
+}
+
+.pulsante {
+  min-height: var(--kroma-spazio-6);
+  margin-top: var(--kroma-spazio-1);
+  padding: 0 var(--kroma-spazio-2);
+  border: 0;
+  border-radius: calc(var(--kroma-app-raggio) / 2);
+  background: var(--kroma-arancione);
+  /* Sull'arancione il testo è sempre nero. */
+  color: var(--kroma-su-arancione);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color var(--kroma-durata) var(--kroma-curva);
+}
+
+.pulsante:hover {
+  background: var(--kroma-arancione-scuro);
+}
+
+.schermo :focus-visible {
+  outline: var(--kroma-linea-spessa) solid var(--kroma-arancione-testo);
+  outline-offset: var(--kroma-linea-sottile);
+}
+
+.errore {
+  margin: 0;
+  color: var(--kroma-arancione-testo);
+  font-weight: 600;
+}
+
+.inviato {
+  margin: 0;
+  color: var(--kroma-app-tenue);
+}
+
+/* --------------------------------------------------------- ufficio */
+
+.cruscotto {
+  display: grid;
+  gap: var(--kroma-spazio-1);
+}
+
+@container schermo (min-width: 40rem) {
+  .cruscotto {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    align-items: start;
+    margin: 0 var(--kroma-spazio-1);
+  }
+
+  .cruscotto .blocco {
+    margin: 0;
+  }
+
+  /* I rapporti occupano la colonna larga, per tutta l'altezza. */
+  .rapporti {
+    grid-row: span 3;
+  }
+}
+
+.tabella {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabella th {
+  padding: 0 var(--kroma-spazio-1) var(--kroma-spazio-1);
+  color: var(--kroma-app-tenue);
+  font-weight: 600;
+  text-align: left;
+}
+
+.tabella td {
+  padding: var(--kroma-spazio-1);
+  border-top: var(--kroma-linea-sottile) solid var(--kroma-app-linea);
+  vertical-align: top;
+}
+
+/* Schermo stretto: il materiale scende sotto "Chi e dove" e la quarta
+   colonna sparisce, così i nomi non vanno a capo. */
+.soloStretto {
+  display: none;
+}
+
+@container schermo (width < 32rem) {
+  .colonnaMateriale {
+    display: none;
+  }
+
+  .tabella .soloStretto {
+    display: block;
+  }
+}
+
+.tabella .numero {
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Ore per cantiere: una barra sola, un colore solo, il numero scritto. */
+.barre,
+.materiali {
+  display: grid;
+  gap: var(--kroma-spazio-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.barre li {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 4fr) auto;
+  align-items: center;
+  gap: var(--kroma-spazio-1);
+}
+
+.binario {
+  display: block;
+  height: var(--kroma-spazio-1);
+  border-radius: calc(var(--kroma-app-raggio) / 2);
+  background: var(--kroma-app-linea);
+  overflow: hidden;
+}
+
+.barra {
+  display: block;
+  height: 100%;
+  border-radius: calc(var(--kroma-app-raggio) / 2);
+  background: var(--kroma-arancione);
+  transition: inline-size var(--kroma-durata-lenta) var(--kroma-curva);
+}
+
+.valoreBarra {
+  text-align: right;
+}
+
+.materiali li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--kroma-spazio-2);
+  padding-top: var(--kroma-spazio-1);
+  border-top: var(--kroma-linea-sottile) solid var(--kroma-app-linea);
+}
+
+.materiali li:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.assegnati {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.assegnati li {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.assegna {
+  display: grid;
+  gap: var(--kroma-spazio-1);
+  margin-top: var(--kroma-spazio-1);
+  padding-top: var(--kroma-spazio-2);
+  border-top: var(--kroma-linea-sottile) solid var(--kroma-app-linea);
+}
+
+/* ---------------------------------------------------------- utilità */
+
+.soloLettori {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

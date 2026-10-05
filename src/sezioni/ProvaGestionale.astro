@@ -1,23 +1,24 @@
 ---
-// Cornice della sezione "Provalo adesso": titolo, riga d'introduzione e
-// spazio per l'isola di Andrea, che la pagina inserisce nello <slot />.
+// Cornice della sezione "Provalo": titolo, riga d'introduzione e spazio
+// per l'isola, che la pagina inserisce nello <slot />.
 //
 //   <ProvaGestionale>
-//     <GestionaleDimostrativo client:visible />
+//     <SquadraUfficio client:visible />
 //   </ProvaGestionale>
 //
-// La cornice è di Giovanni, il gestionale di Andrea: così nessuno dei due
-// tocca il file dell'altro.
+// Dal 05/10/2026 l'isola è la prova "dal campo all'ufficio" (telefono
+// dell'operatore e computer dell'ufficio collegati), al posto della lavagna
+// di prenotazioni di Andrea.
 
 import TitoloSezione from '../componenti/TitoloSezione.astro';
 ---
 
 <section class="prova" aria-labelledby="prova-titolo">
   <div class="testa">
-    <TitoloSezione id="prova-titolo">Provalo adesso</TitoloSezione>
+    <TitoloSezione id="prova-titolo">Provalo: dal campo all'ufficio</TitoloSezione>
     <p>
-      Una lavagna di prenotazioni vera, con dati di esempio. Scegli la tua attività e usala:
-      aggiungi, conferma, sposta.
+      Fate l'operatore: mandate un rapporto dal telefono e guardate cosa succede in ufficio. Poi,
+      dall'ufficio, mandate un lavoro al telefono.
     </p>
   </div>
   <slot />
@@ -38,8 +39,8 @@ import TitoloSezione from '../componenti/TitoloSezione.astro';
   .testa p {
     max-width: 52ch;
     margin: var(--kroma-spazio-2) 0 0;
-    font-size: var(--kroma-testo-l);
-    line-height: 1.35;
+    font-size: var(--kroma-testo-m);
+    color: var(--kroma-testo-tenue);
   }
 
   @media (min-width: 960px) {
