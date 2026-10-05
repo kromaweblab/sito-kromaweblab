@@ -140,7 +140,8 @@ le nostre facce, il marchio a pixel usato con misura.
 - **Zona**: di persona a Scicli e dintorni, in videochiamata da tutta
   Italia (detto con parole nostre, non con la formula del concorrente).
   Mai "Val di Noto". Nei dati per Google: Scicli, provincia di Ragusa, Italia.
-- **Ricostruzioni delle app dei clienti** (es. Vivai Cintoli in "I nostri lavori"):
+- **Ricostruzioni delle app dei clienti** (es. Vivai Cintoli nella pagina
+  del caso, `componenti/RicostruzioneVivai.astro`):
   disegnate in HTML con dati di esempio, nei colori dell'app del cliente
   (token `--kroma-vivai-*`) e con i suoi angoli tondi. È l'unica eccezione
   ad angoli vivi e palette Kroma, e vale solo dentro la ricostruzione.
@@ -236,6 +237,7 @@ lo si dice nella pull request.
                          provalo (dal campo all'ufficio), cosa facciamo
                          (linguette), come lavoriamo, chiusura
 /lavori                  Elenco lavori, e una pagina per ogni lavoro
+                         (/lavori/[id].astro, dati in src/dati/lavori.ts)
 /servizi                 Panoramica dei servizi
 /gestionali              Gestionali e web app su misura (assorbe /web-app)
 /siti                    Siti web

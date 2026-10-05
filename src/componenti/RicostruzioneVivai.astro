@@ -1,51 +1,20 @@
 ---
-// Vivai Cintoli (direzione Officina): il lavoro di punta, con i fatti veri e
-// una ricostruzione di quello che vede ciascun ruolo nell'app. Gli altri
-// lavori stanno più giù nella home, in AltriLavori.astro.
+// Ricostruzione dell'app di Vivai Cintoli, per ruolo: cosa vede l'ufficio
+// dal computer e cosa vede un operatore dal telefono. Sta nella pagina del
+// caso (/lavori/vivai-cintoli); fino al 05/10/2026 era in home.
 //
-// La ricostruzione:
-// - è disegnata in HTML dal codice dell'app vera, con DATI DI ESEMPIO:
+// - È disegnata in HTML dal codice dell'app vera, con DATI DI ESEMPIO:
 //   nessun nome di dipendente, prodotto o dato reale del vivaio. Niente
 //   cognomi, nemmeno inventati: solo "Operatore 1", "Squadra B" (i cognomi
-//   comuni rischiano di essere quelli di dipendenti veri);
-// - usa i colori dell'app (token --kroma-vivai-*) e i suoi angoli tondi:
+//   comuni rischiano di essere quelli di dipendenti veri).
+// - Usa i colori dell'app (token --kroma-vivai-*) e i suoi angoli tondi:
 //   è "una fotografia" dell'app del cliente, per questo fa eccezione alle
-//   regole di stile del sito (DECISIONI.md);
-// - il selettore dei ruoli funziona senza JavaScript, come quello
-//   dell'apertura: pulsanti radio + CSS :has().
-
-import { Image } from 'astro:assets';
-import Pulsante from '../componenti/Pulsante.astro';
-import { lavori, usoVivai } from '../dati/lavori';
-
-const vivai = lavori[0]!;
+//   regole di stile del sito (DECISIONI.md).
+// - Il selettore dei ruoli funziona senza JavaScript: pulsanti radio + CSS
+//   :has().
 ---
 
-<section class="lavoro" aria-labelledby="lavoro-titolo">
-  <div class="testa">
-    <Image class="logo-vivai" src={vivai.logo} alt={vivai.nome} width={360} densities={[1, 2]} />
-    <h2 id="lavoro-titolo">L'app con cui lavora ogni giorno la squadra di Vivai Cintoli</h2>
-    <p class="frase">{vivai.descrizione}</p>
-    <dl class="fatti">
-      <div>
-        <dt>In uso da</dt>
-        <dd>{usoVivai.inUsoDa}</dd>
-      </div>
-      <div>
-        <dt>Operatori sul campo</dt>
-        <dd>{usoVivai.operatori}</dd>
-      </div>
-      <div>
-        <dt>Ufficio e amministrazione</dt>
-        <dd>{usoVivai.ufficio}</dd>
-      </div>
-      <div>
-        <dt>Prima</dt>
-        <dd>WhatsApp, fogli a mano, Excel</dd>
-      </div>
-    </dl>
-  </div>
-
+<div class="ricostruzione">
   <fieldset class="ruoli">
     <legend class="solo-lettori">Cosa vede ogni ruolo nell'app</legend>
     <input type="radio" name="ruolo-vivai" id="ruolo-ufficio" checked />
@@ -181,68 +150,9 @@ const vivai = lavori[0]!;
   </div>
 
   <p class="avvertenza">ricostruzione dell'app con dati di esempio</p>
-
-  <div class="azioni">
-    <Pulsante href={vivai.href} variante="secondario">
-      Leggi il caso completo
-    </Pulsante>
-  </div>
-</section>
+</div>
 
 <style>
-  .lavoro {
-    max-width: var(--kroma-larghezza);
-    margin: 0 auto;
-    padding: var(--kroma-spazio-8) var(--kroma-spazio-2);
-    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
-  }
-
-  .testa {
-    display: grid;
-    gap: var(--kroma-spazio-3);
-  }
-
-  .logo-vivai {
-    width: auto;
-    height: var(--kroma-spazio-8);
-  }
-
-  h2 {
-    max-width: 20ch;
-    margin: 0;
-    font-size: var(--kroma-testo-xl);
-  }
-
-  .frase {
-    max-width: 52ch;
-    margin: 0;
-    font-size: var(--kroma-testo-m);
-    color: var(--kroma-testo-tenue);
-  }
-
-  /* I fatti: dati veri, quindi i valori in grande. */
-  .fatti {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--kroma-spazio-3) var(--kroma-spazio-4);
-    margin: var(--kroma-spazio-2) 0 0;
-    padding-top: var(--kroma-spazio-3);
-    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
-  }
-
-  .fatti dt {
-    font-size: var(--kroma-testo-s);
-    color: var(--kroma-testo-tenue);
-  }
-
-  .fatti dd {
-    margin: var(--kroma-spazio-1) 0 0;
-    font-size: var(--kroma-testo-l);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    line-height: 1.15;
-  }
-
   /* ---------- Selettore dei ruoli ---------- */
 
   .ruoli {
@@ -338,8 +248,8 @@ const vivai = lavori[0]!;
       margin-top: 0;
     }
 
-    .lavoro:has(#ruolo-ufficio:checked) .schermata-ufficio,
-    .lavoro:has(#ruolo-operatore:checked) .schermata-operatore {
+    .ricostruzione:has(#ruolo-ufficio:checked) .schermata-ufficio,
+    .ricostruzione:has(#ruolo-operatore:checked) .schermata-operatore {
       display: block;
     }
   }
@@ -499,23 +409,9 @@ const vivai = lavori[0]!;
     color: var(--kroma-vivai-testo-tenue);
   }
 
-  /* ---------- Chiusura e altri lavori ---------- */
-
-  .azioni {
-    margin-top: var(--kroma-spazio-4);
-  }
-
   /* ---------- Da computer ---------- */
 
   @media (min-width: 960px) {
-    .fatti {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-
-    .lavoro {
-      padding: var(--kroma-spazio-12) var(--kroma-spazio-4);
-    }
-
     .ruoli label {
       padding: var(--kroma-spazio-2) var(--kroma-spazio-3);
       font-size: var(--kroma-testo-l);

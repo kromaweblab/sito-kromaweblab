@@ -29,6 +29,17 @@ export interface Lavoro {
   indirizzo: string | null;
   /** Fatti veri, in breve. Vuoto finché non ce ne sono. */
   fatti: { etichetta: string; valore: string }[];
+  /** La pagina del caso completo (/lavori/<id>). */
+  caso: {
+    /** Descrizione per Google. */
+    descrizione: string;
+    /** Com'era prima: punti brevi. */
+    prima: string[];
+    /** Cosa abbiamo fatto: punti brevi, cose vere. */
+    fatto: string[];
+    /** Come si usa oggi, in una o due frasi. */
+    oggi: string;
+  };
 }
 
 /** Dati veri sull'uso dell'app di Vivai Cintoli (forniti da Giovanni, 28/09/2026). */
@@ -57,6 +68,22 @@ export const lavori: Lavoro[] = [
       { etichetta: 'In ufficio', valore: usoVivai.ufficio },
       { etichetta: 'In uso da', valore: usoVivai.inUsoDa },
     ],
+    caso: {
+      descrizione:
+        'Il gestionale di Vivai Cintoli: rapporti dal telefono, ore già sommate in ufficio, programma del giorno dopo. Fatto da Kroma Web Lab, Scicli.',
+      prima: [
+        'I rapporti arrivavano su WhatsApp, uno per uno.',
+        'Le ore si segnavano su fogli a mano.',
+        'In ufficio si ricopiava tutto in Excel e si sommava a mano.',
+      ],
+      fatto: [
+        'Ogni operatore manda il rapporto dal telefono, a fine turno.',
+        "L'ufficio riceve i rapporti di tutti e scarica il PDF con le ore già sommate.",
+        'Nel programma di domani si vede subito chi è in permesso, quale mezzo è fermo e chi è già impegnato.',
+        "Ognuno vede solo i moduli che gli servono: li sceglie l'ufficio, persona per persona.",
+      ],
+      oggi: `In uso da ${usoVivai.inUsoDa}: ${usoVivai.operatori} operatori dal telefono, ${usoVivai.ufficio} tra ufficio e amministrazione dal computer.`,
+    },
   },
   {
     id: 'casale-allibrio',
@@ -70,6 +97,13 @@ export const lavori: Lavoro[] = [
     // Va online insieme al nostro sito (CLAUDE.md, "Lavori mostrati").
     indirizzo: null,
     fatti: [],
+    caso: {
+      descrizione:
+        'Il sito di Casale Allibrio, agriturismo, rifatto da capo da Kroma Web Lab, Scicli.',
+      prima: [DA_SCRIVERE],
+      fatto: [DA_SCRIVERE],
+      oggi: DA_SCRIVERE,
+    },
   },
   {
     id: 'estro-atelier',
@@ -82,6 +116,13 @@ export const lavori: Lavoro[] = [
     schermata: null,
     indirizzo: null,
     fatti: [],
+    caso: {
+      descrizione:
+        'Il sito di Estrò Atelier, atelier di abiti da sposa, fatto da Kroma Web Lab, Scicli.',
+      prima: [DA_SCRIVERE],
+      fatto: [DA_SCRIVERE],
+      oggi: DA_SCRIVERE,
+    },
   },
 ];
 
