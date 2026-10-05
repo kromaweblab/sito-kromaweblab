@@ -1,0 +1,82 @@
+---
+// Lavori in home (nuova impostazione, 05/10/2026): subito dopo l'apertura,
+// tutti i lavori in riquadri. Vivai Cintoli largo, in evidenza; i due siti
+// sotto, affiancati e più piccoli. Ogni riquadro porta al caso completo.
+// I dati stanno in src/dati/lavori.ts, gli stessi di /lavori.
+
+import TitoloSezione from '../componenti/TitoloSezione.astro';
+import RiquadroLavoro from '../componenti/RiquadroLavoro.astro';
+import { lavori } from '../dati/lavori';
+
+const [inEvidenza, ...altri] = lavori;
+---
+
+<section class="lavori" aria-labelledby="lavori-titolo">
+  <div class="testa">
+    <TitoloSezione id="lavori-titolo">Lavori</TitoloSezione>
+    <p>Un gestionale che una squadra usa ogni giorno, e due siti.</p>
+  </div>
+
+  {inEvidenza && <RiquadroLavoro lavoro={inEvidenza} disposizione="larga" />}
+
+  <div class="altri">
+    {altri.map((lavoro) => (
+      <RiquadroLavoro lavoro={lavoro} disposizione="stretta" />
+    ))}
+  </div>
+
+  <a class="tutti" href="/lavori">
+    Tutti i lavori, uno per pagina
+  </a>
+</section>
+
+<style>
+  .lavori {
+    display: grid;
+    gap: var(--kroma-spazio-3);
+    max-width: var(--kroma-larghezza);
+    margin: 0 auto;
+    padding: var(--kroma-spazio-8) var(--kroma-spazio-2);
+  }
+
+  .testa {
+    margin-bottom: var(--kroma-spazio-2);
+  }
+
+  .testa p {
+    margin: var(--kroma-spazio-2) 0 0;
+    font-size: var(--kroma-testo-m);
+    color: var(--kroma-testo-tenue);
+  }
+
+  .altri {
+    display: grid;
+    gap: var(--kroma-spazio-3);
+  }
+
+  .tutti {
+    justify-self: start;
+    margin-top: var(--kroma-spazio-2);
+    font-weight: 600;
+    text-decoration-color: var(--kroma-arancione);
+    text-decoration-thickness: var(--kroma-linea-spessa);
+    text-underline-offset: 0.3em;
+    transition: color var(--kroma-durata) var(--kroma-curva);
+  }
+
+  .tutti:hover {
+    color: var(--kroma-link);
+  }
+
+  @media (min-width: 720px) {
+    .altri {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 960px) {
+    .lavori {
+      padding: var(--kroma-spazio-12) var(--kroma-spazio-4);
+    }
+  }
+</style>

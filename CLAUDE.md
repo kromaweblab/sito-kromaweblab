@@ -231,9 +231,9 @@ lo si dice nella pull request.
 ## Mappa del sito
 
 ```
-/                        Home (Officina): apertura, voi due, Vivai Cintoli,
+/                        Home (Officina): apertura, lavori (riquadri),
                          provalo (gestionale dimostrativo), servizi, come
-                         lavoriamo, altri lavori, chiusura
+                         lavoriamo, chiusura
 /lavori                  Elenco lavori, e una pagina per ogni lavoro
 /servizi                 Panoramica dei servizi
 /gestionali              Gestionali e web app su misura (assorbe /web-app)
@@ -338,8 +338,15 @@ un modulo disegnato solo da React non lo vede. Quindi:
   `src/assets/lavori/` (Astro li ottimizza). Il nome resta nel testo
   alternativo. Estrò Atelier: logo bianco su nero convertito in nero su
   trasparente (stesso logo, colori invertiti) per stare su carta. Vivai
-  Cintoli: dalla versione bianca su trasparente dell'app, colorata in nero
-  (quella a colori aveva il fondo bianco).
+  Cintoli: dalla versione bianca su trasparente dell'app. Con la veste
+  scura tutti e tre i loghi sono **bianchi** su trasparente.
+- **Riquadri dei lavori** (`componenti/RiquadroLavoro.astro`, home e
+  `/lavori`): schermata nella sua cornice (telefono per le app, browser con
+  l'indirizzo vero per i siti), logo, tipo, descrizione, fatti veri,
+  pulsante "Vedi il lavoro". Due disposizioni, larga e stretta, perché non
+  sembrino tutti uguali. Finché le schermate non ci sono: segnaposto
+  `[DA SCRIVERE]` dentro la cornice (`schermata: null` in
+  `src/dati/lavori.ts`).
 
 ## Dati condivisi di contatto
 
