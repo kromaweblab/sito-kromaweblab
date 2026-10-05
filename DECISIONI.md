@@ -763,3 +763,29 @@ la Chiusura, così nessuna pagina resta senza contatti. Nuovo campo
 `vatID`): la legge chiede di mostrarla sul sito. Tolta la pagina provvisoria
 `/come-lavoriamo`, che non era nella mappa: reindirizzamento 301 alla home
 in `netlify.toml`.
+
+## 2026-10-05 — Nuova impostazione della home, passo 1: apertura e titoli
+
+**Contesto:** guardando lo scheletro intero, Giovanni ha deciso una nuova
+impostazione della home: apertura con più movimento e impatto, via la
+sezione "Voi due" e quella dei siti, i lavori subito dopo l'apertura in
+riquadri, una nuova prova "squadra e ufficio", "Cosa facciamo" interattiva,
+nuovo titolo di `/servizi`. Si fa una sezione alla volta; questo è il primo
+passo.
+
+**Scelta:** dietro l'apertura un **campo di pixel**: una griglia di quadretti
+(passo `--kroma-spazio-4`, quadretto 14 su 16 come nel marchio), invisibile da
+ferma, che si accende in arancione, verde o giallo dove passa il mouse e si
+spegne piano (il doppio di `--kroma-durata-lenta`). Da telefono si accende
+sotto il dito, con un piccolo gruppo al tocco. Lo disegna un piccolo script su
+`<canvas>`: senza script, o con il movimento ridotto, l'apertura è identica e
+ferma. Opacità massima 0,55, per non coprire il titolo. Lighthouse home
+invariato (100 in tutte e quattro le voci, in locale).
+
+**Perché così:** le alternative erano un'anteprima dell'app che si muove da
+sola o pixel che restano vivi sullo sfondo; tutte e due sarebbero state un
+secondo movimento automatico (contro "un solo momento animato") e la seconda
+somiglia a tanti siti generati. Il campo risponde a un gesto e usa il marchio.
+
+**Titoli senza punto finale**, in tutto il sito: il punto in fondo ai titoli
+sa di testo generato.

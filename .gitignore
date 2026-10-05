@@ -154,3 +154,6 @@ vite.config.ts.timestamp-*
 # Configurazione locale di Claude Code
 .claude/launch.json
 .claude/settings.local.json
+
+# Fotografie locali del sito per le panoramiche (non si committano)
+anteprime-sito/
