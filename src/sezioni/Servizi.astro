@@ -1,9 +1,17 @@
 ---
-// Servizi della home (direzione Officina): i due lavori che facciamo e la
-// manutenzione che si aggiunge a entrambi. Righe divise da linee sottili,
-// non schede tutte uguali: il nome è un link alla pagina del servizio, a
-// destra le cose concrete che si ricevono. La manutenzione sta su un fondo
-// diverso perché non è un terzo lavoro, è quello che viene dopo.
+// "Cosa facciamo" in home (interattiva, 05/10/2026): tre linguette in alto,
+// Gestionali, Siti, Manutenzione; toccandone una cambia il riquadro sotto
+// (frase, punti concreti, un esempio vero o un limite, il collegamento alla
+// pagina del servizio).
+//
+// Niente JavaScript: le linguette sono pulsanti di scelta (radio) e il CSS
+// mostra il riquadro di quella scelta con :has(). Da tastiera si va da una
+// linguetta all'altra con le frecce, come in ogni gruppo di scelte.
+// Nei browser senza :has() si vedono tutti e tre i riquadri, uno sotto
+// l'altro: niente si perde.
+//
+// Ogni servizio ha il colore di una lettera del marchio: gestionali
+// arancione (W), siti verde (L), manutenzione giallo (il cursore).
 // I testi stanno in src/dati/servizi.ts (`offerta`).
 
 import TitoloSezione from '../componenti/TitoloSezione.astro';
@@ -11,59 +19,199 @@ import { offerta } from '../dati/servizi';
 ---
 
 <section class="servizi" aria-labelledby="servizi-titolo">
-  <TitoloSezione id="servizi-titolo">Cosa facciamo</TitoloSezione>
+  <div class="testa">
+    <TitoloSezione id="servizi-titolo">Cosa facciamo</TitoloSezione>
+    <a class="tutti" href="/servizi">
+      Tutti i servizi, nel dettaglio
+    </a>
+  </div>
 
-  <ul class="elenco">
-    {offerta.map((servizio) => (
-      <li class:list={['servizio', servizio.id]}>
-        <div class="nome">
-          <h3>
-            <a href={servizio.href}>{servizio.nome}</a>
-          </h3>
-          <p>{servizio.frase}</p>
-        </div>
-        <ul class="punti">
-          {servizio.punti.map((punto) => (
-            <li>{punto}</li>
-          ))}
-        </ul>
-      </li>
+  <fieldset class="linguette">
+    <legend class="solo-lettori">Scegliete un servizio</legend>
+    {offerta.map((s, i) => (
+      <label class:list={['linguetta', s.id]}>
+        <input
+          type="radio"
+          name="cosa-facciamo"
+          value={s.id}
+          id={`scelta-${s.id}`}
+          checked={i === 0}
+        />
+        <span class="quadretto" aria-hidden="true" />
+        <span class="corto">{s.breve}</span>
+      </label>
     ))}
-  </ul>
+  </fieldset>
 
-  <a class="tutti" href="/servizi">
-    Tutti i servizi, nel dettaglio
-  </a>
+  <div class="pannelli">
+    {offerta.map((s) => (
+      <article class:list={['pannello', s.id]} aria-labelledby={`pannello-${s.id}`}>
+        <div class="principale">
+          <h3 id={`pannello-${s.id}`}>{s.nome}</h3>
+          <p class="frase">{s.frase}</p>
+          <ul class="punti">
+            {s.punti.map((punto) => (
+              <li>{punto}</li>
+            ))}
+          </ul>
+          <a class="invito" href={s.href}>
+            {s.invito}
+          </a>
+        </div>
+        <aside class="nota" aria-label={s.nota.titolo}>
+          <p class="titolo-nota">{s.nota.titolo}</p>
+          <p>{s.nota.testo}</p>
+          {s.nota.link && (
+            <a class="invito" href={s.nota.link.href}>
+              {s.nota.link.testo}
+            </a>
+          )}
+        </aside>
+      </article>
+    ))}
+  </div>
 </section>
 
 <style>
   .servizi {
+    --colore-gestionali: var(--kroma-arancione);
+    --colore-siti: var(--kroma-verde);
+    --colore-manutenzione: var(--kroma-giallo);
+
     display: grid;
-    gap: var(--kroma-spazio-5);
+    gap: var(--kroma-spazio-4);
     max-width: var(--kroma-larghezza);
     margin: 0 auto;
     padding: var(--kroma-spazio-8) var(--kroma-spazio-2);
   }
 
-  .elenco {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  .gestionali {
+    --colore: var(--colore-gestionali);
   }
 
-  .servizio {
-    display: grid;
-    gap: var(--kroma-spazio-3);
-    padding-block: var(--kroma-spazio-5);
-    border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  .siti {
+    --colore: var(--colore-siti);
   }
 
   .manutenzione {
-    margin-top: var(--kroma-spazio-2);
-    padding-inline: var(--kroma-spazio-3);
-    border: var(--kroma-linea-sottile) solid var(--kroma-linea);
-    background: var(--kroma-superficie);
+    --colore: var(--colore-manutenzione);
+  }
+
+  .testa {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--kroma-spazio-2) var(--kroma-spazio-4);
+  }
+
+  /* ---------- Le linguette ---------- */
+
+  /* Ogni linguetta larga quanto il suo nome: da telefono ci stanno tutte
+     e tre in una riga. */
+  .linguette {
+    display: flex;
+    gap: var(--kroma-spazio-3);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
+    min-width: 0;
+  }
+
+  .linguetta {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--kroma-spazio-1);
+    min-height: var(--kroma-spazio-6);
+    padding: var(--kroma-spazio-1) 0 var(--kroma-spazio-2);
+    color: var(--kroma-testo-tenue);
+    font-weight: 600;
+    cursor: pointer;
+    transition: color var(--kroma-durata) var(--kroma-curva);
+  }
+
+  /* Il pulsante di scelta vero resta, invisibile, per tastiera e lettori. */
+  .linguetta input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+  }
+
+  .quadretto {
+    flex: none;
+    width: var(--kroma-spazio-1);
+    height: var(--kroma-spazio-1);
+    background: var(--colore);
+  }
+
+  /* La barra sotto la linguetta scelta, nel colore del servizio: cresce
+     da sinistra quando la si sceglie. */
+  .linguetta::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: calc(-1 * var(--kroma-linea-sottile));
+    height: var(--kroma-linea-spessa);
+    background: var(--colore);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--kroma-durata-lenta) var(--kroma-curva);
+  }
+
+  .linguetta:hover {
+    color: var(--kroma-testo);
+  }
+
+  .linguetta:has(input:checked) {
+    color: var(--kroma-testo);
+  }
+
+  .linguetta:has(input:checked)::after {
+    transform: scaleX(1);
+  }
+
+  .linguetta:has(input:focus-visible) {
+    outline: var(--kroma-linea-spessa) solid var(--kroma-focus);
+    outline-offset: var(--kroma-linea-spessa);
+  }
+
+  /* ---------- I riquadri ---------- */
+
+  .pannelli {
+    display: grid;
+    gap: var(--kroma-spazio-4);
+  }
+
+  .pannello {
+    display: grid;
+    gap: var(--kroma-spazio-4);
+  }
+
+  /* Dove :has() funziona, si vede solo il riquadro scelto; entra con un
+     piccolo movimento, in risposta al tocco. */
+  @supports selector(:has(*)) {
+    .pannello {
+      display: none;
+    }
+
+    .servizi:has(#scelta-gestionali:checked) .pannello.gestionali,
+    .servizi:has(#scelta-siti:checked) .pannello.siti,
+    .servizi:has(#scelta-manutenzione:checked) .pannello.manutenzione {
+      display: grid;
+      animation: entra var(--kroma-durata-lenta) var(--kroma-curva);
+    }
+  }
+
+  @keyframes entra {
+    from {
+      opacity: 0;
+      transform: translateY(var(--kroma-spazio-1));
+    }
   }
 
   h3 {
@@ -71,96 +219,119 @@ import { offerta } from '../dati/servizi';
     font-size: var(--kroma-testo-l);
   }
 
-  h3 a {
-    position: relative;
-    text-decoration: none;
-  }
-
-  /* Al passaggio del mouse una linea scorre sotto il nome del servizio. */
-  h3 a::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: calc(-1 * var(--kroma-linea-spessa));
-    height: var(--kroma-linea-spessa);
-    background: var(--kroma-arancione);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform var(--kroma-durata-lenta) var(--kroma-curva);
-  }
-
-  h3 a:hover::after,
-  h3 a:focus-visible::after {
-    transform: scaleX(1);
-  }
-
-  .nome p {
-    max-width: 46ch;
-    margin: var(--kroma-spazio-1) 0 0;
-    color: var(--kroma-testo-tenue);
+  .frase {
+    max-width: 30ch;
+    margin: var(--kroma-spazio-2) 0 0;
+    font-size: var(--kroma-testo-l);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
   }
 
   .punti {
     display: grid;
     gap: var(--kroma-spazio-1);
-    margin: 0;
+    margin: var(--kroma-spazio-3) 0 0;
     padding: 0;
     list-style: none;
   }
 
-  /* Ogni punto ha davanti un pixel, come la griglia del marchio. */
+  /* Ogni punto ha davanti un pixel nel colore del servizio. */
   .punti li {
     display: grid;
     grid-template-columns: var(--kroma-spazio-1) 1fr;
     gap: var(--kroma-spazio-2);
     align-items: baseline;
+    color: var(--kroma-testo-tenue);
   }
 
   .punti li::before {
     content: '';
     width: var(--kroma-spazio-1);
     height: var(--kroma-spazio-1);
-    background: var(--kroma-verde);
+    background: var(--colore);
   }
 
-  .manutenzione .punti li::before {
-    background: var(--kroma-giallo);
-  }
-
-  .tutti {
-    justify-self: start;
-    color: var(--kroma-testo);
+  .invito {
+    display: inline-block;
+    margin-top: var(--kroma-spazio-3);
     font-weight: 600;
     text-decoration-color: var(--kroma-arancione);
     text-decoration-thickness: var(--kroma-linea-spessa);
     text-underline-offset: 0.3em;
+    transition: color var(--kroma-durata) var(--kroma-curva);
   }
 
+  .invito:hover,
   .tutti:hover {
-    color: var(--kroma-arancione);
+    color: var(--kroma-link);
+  }
+
+  .tutti {
+    font-weight: 600;
+    text-decoration-color: var(--kroma-arancione);
+    text-decoration-thickness: var(--kroma-linea-spessa);
+    text-underline-offset: 0.3em;
+    transition: color var(--kroma-durata) var(--kroma-curva);
+  }
+
+  /* La nota accanto: un gradino più chiara, con il filo del colore del
+     servizio a sinistra. */
+  .nota {
+    align-self: start;
+    padding: var(--kroma-spazio-3);
+    background: var(--kroma-superficie);
+    border-left: var(--kroma-linea-spessa) solid var(--colore);
+  }
+
+  .nota p {
+    margin: 0;
+    color: var(--kroma-testo-tenue);
+  }
+
+  .nota .titolo-nota {
+    margin-bottom: var(--kroma-spazio-1);
+    font-weight: 600;
+    color: var(--kroma-testo);
+  }
+
+  .nota .invito {
+    margin-top: var(--kroma-spazio-2);
   }
 
   @media (min-width: 960px) {
     .servizi {
+      gap: var(--kroma-spazio-5);
       padding: var(--kroma-spazio-12) var(--kroma-spazio-4);
     }
 
-    .servizio {
-      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-      gap: var(--kroma-spazio-8);
+    .linguette {
+      gap: var(--kroma-spazio-6);
     }
 
-    h3 {
-      font-size: var(--kroma-testo-xl);
-    }
-
-    .nome p {
+    .linguetta {
       font-size: var(--kroma-testo-m);
     }
 
-    .punti {
-      padding-top: var(--kroma-spazio-2);
+    .pannello {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+      gap: var(--kroma-spazio-8);
+    }
+
+    .frase {
+      font-size: var(--kroma-testo-xl);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    .nota {
+      margin-top: var(--kroma-spazio-6);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pannello {
+      animation: none !important;
     }
   }
 </style>
