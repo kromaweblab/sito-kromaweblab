@@ -84,10 +84,13 @@ pixel come protagonista dell'apertura. Nei componenti si usano i **ruoli**:
   parti chiare, come le ricostruzioni delle app dei clienti.
 - Testo sopra l'arancione: **sempre nero** (bianco su arancione = 3,33).
 - Caratteri: **Geist** per titoli e testo (`--kroma-font-testo`), titoli
-  in peso 650 e spaziatura stretta. **JetBrains Mono** (`--kroma-font-mono`)
-  **solo per dati veri** (orari, numeri), mai per etichette.
+  in peso 650 e spaziatura stretta, **senza punto finale** (05/10/2026: il
+  punto in fondo ai titoli sa di testo generato). **JetBrains Mono**
+  (`--kroma-font-mono`) **solo per dati veri** (orari, numeri), mai per
+  etichette.
 - **Nessuna trama di fondo**: fondo pieno. Le sezioni si distinguono con il
-  passaggio fondo / superficie.
+  passaggio fondo / superficie. Unica eccezione: il campo di pixel
+  dell'apertura, invisibile da fermo (vedi Movimento).
 - Spaziature: solo multipli di 8px → `--kroma-spazio-1` (8) …
   `--kroma-spazio-16` (128). Uniche eccezioni: le linee da 1–2px.
 - Angoli vivi (`--kroma-raggio: 0`), tranne dentro le ricostruzioni delle
@@ -95,8 +98,11 @@ pixel come protagonista dell'apertura. Nei componenti si usano i **ruoli**:
 - **Movimento (scelta C)**: transizioni morbide in risposta a un gesto
   (`--kroma-durata`, `--kroma-curva`), passaggio tra le pagine con le View
   Transitions del browser (CSS, niente JS), e **un solo momento animato**
-  all'apertura della home: i pixel del marchio che si compongono. Sempre
-  spento con `prefers-reduced-motion`.
+  all'apertura della home: i pixel del marchio che si compongono. In più,
+  dietro l'apertura, il **campo di pixel**: quadretti grandi come quelli del
+  marchio che si accendono dove passa il mouse o il dito e si spengono piano
+  (risponde a un gesto, non parte da solo; piccolo script con `<canvas>`).
+  Sempre spento con `prefers-reduced-motion`.
 
 ### Divieti di design (importantissimo)
 
@@ -122,7 +128,8 @@ le nostre facce, il marchio a pixel usato con misura.
 ### Scelte già fatte (dettagli in DECISIONI.md)
 
 - **Apertura della home (Officina)**: marchio a pixel grande che si compone
-  all'apertura, titolo "Software per chi lavora con una squadra.", due
+  all'apertura, campo di pixel dietro, titolo "Software per chi lavora con
+  una squadra", due
   pulsanti: "Fissa un primo incontro" → `/contatti`, "Vedi i lavori".
 - **Menu**: Lavori, Servizi, Chi siamo, e il pulsante arancione "Fissa un
   incontro" (`/contatti`); da telefono pulsante a 9 quadretti che diventa

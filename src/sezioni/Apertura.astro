@@ -4,9 +4,14 @@
 //
 // È l'unico momento animato del sito (scelta C): all'apertura i pixel del
 // marchio arrivano da punti sparsi e si compongono, poi il cursore giallo
-// lampeggia qualche volta. Tutto in CSS, nessun JavaScript. Con "riduci
-// movimento" attivo nel telefono o nel computer il marchio è già fermo e
-// composto.
+// lampeggia qualche volta. Tutto in CSS. Con "riduci movimento" attivo nel
+// telefono o nel computer il marchio è già fermo e composto.
+//
+// Dietro, il "campo di pixel" (05/10/2026): una griglia di quadretti
+// invisibile che si accende dove passa il mouse o il dito e si spegne piano.
+// È movimento in risposta a un gesto, non un'animazione che parte da sola.
+// Lo disegna il piccolo script in fondo su un <canvas>: se lo script non
+// parte, o il movimento è ridotto, l'apertura resta identica e ferma.
 
 import Pulsante from '../componenti/Pulsante.astro';
 
@@ -40,45 +45,187 @@ const partenza = (i: number) => ({
 ---
 
 <section class="apertura" aria-labelledby="apertura-titolo">
-  <svg class="marchio" viewBox="-8 -8 302 94" role="img" aria-label="Kroma Web Lab">
-    {celle.map(({ c, r, ruolo }, i) => {
-      const { dx, dy } = partenza(i);
-      return (
-        <rect
-          class:list={['pixel', ruolo]}
-          style={`--i:${i};--dx:${dx}px;--dy:${dy}px`}
-          x={c * 16}
-          y={r * 16}
-          width="14"
-          height="14"
-        />
-      );
-    })}
-    <rect
-      class="pixel giallo cursore"
-      style={`--i:${celle.length};--dx:120px;--dy:-90px`}
-      x="272"
-      y="64"
-      width="14"
-      height="14"
-    ></rect>
-  </svg>
+  <canvas class="campo" aria-hidden="true"></canvas>
+  <div class="contenuto">
+    <svg class="marchio" viewBox="-8 -8 302 94" role="img" aria-label="Kroma Web Lab">
+      {celle.map(({ c, r, ruolo }, i) => {
+        const { dx, dy } = partenza(i);
+        return (
+          <rect
+            class:list={['pixel', ruolo]}
+            style={`--i:${i};--dx:${dx}px;--dy:${dy}px`}
+            x={c * 16}
+            y={r * 16}
+            width="14"
+            height="14"
+          />
+        );
+      })}
+      <rect
+        class="pixel giallo cursore"
+        style={`--i:${celle.length};--dx:120px;--dy:-90px`}
+        x="272"
+        y="64"
+        width="14"
+        height="14"
+      ></rect>
+    </svg>
 
-  <h1 id="apertura-titolo">Software per chi lavora con una squadra.</h1>
-  <p class="sotto">
-    Web app, siti e gestionali per aziende della provincia di Ragusa e di tutta Italia. Li
-    progettiamo, li costruiamo e li seguiamo nel tempo, in due, da Scicli.
-  </p>
-  <div class="azioni">
-    <Pulsante href="/contatti">Fissa un primo incontro</Pulsante>
-    <Pulsante href="/lavori" variante="secondario">
-      Vedi i lavori
-    </Pulsante>
+    <h1 id="apertura-titolo">Software per chi lavora con una squadra</h1>
+    <p class="sotto">
+      Web app, siti e gestionali per aziende della provincia di Ragusa e di tutta Italia. Li
+      progettiamo, li costruiamo e li seguiamo nel tempo, in due, da Scicli.
+    </p>
+    <div class="azioni">
+      <Pulsante href="/contatti">Fissa un primo incontro</Pulsante>
+      <Pulsante href="/lavori" variante="secondario">
+        Vedi i lavori
+      </Pulsante>
+    </div>
   </div>
 </section>
 
+<script>
+  // Campo di pixel dell'apertura. Solo comodità visiva: niente di quello che
+  // serve alla pagina dipende da qui.
+  const sezione = document.querySelector<HTMLElement>('.apertura');
+  const tela = sezione?.querySelector<HTMLCanvasElement>('.campo');
+  const contesto = tela?.getContext('2d');
+  const movimentoRidotto = matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (sezione && tela && contesto) {
+    // Misure e colori vengono dai token, come nel resto del sito.
+    const token = getComputedStyle(document.documentElement);
+    const leggi = (nome: string) => token.getPropertyValue(nome).trim();
+    const passo = parseFloat(leggi('--kroma-spazio-4')); // 32px
+    // Quadretto 14 su 16, come nel marchio.
+    const lato = (passo * 14) / 16;
+    const margine = (passo - lato) / 2;
+    // Quanto resta acceso un quadretto: il doppio della durata lenta. Il
+    // browser può restituire "420ms" come ".42s": si leggono tutti e due.
+    const durata = leggi('--kroma-durata-lenta');
+    const durataMs = durata.endsWith('ms') ? parseFloat(durata) : parseFloat(durata) * 1000;
+    const vitaMs = durataMs * 2;
+    // Arancione e verde più spesso, il giallo ogni tanto: come nel marchio.
+    const colori = [
+      leggi('--kroma-arancione'),
+      leggi('--kroma-arancione'),
+      leggi('--kroma-verde'),
+      leggi('--kroma-verde'),
+      leggi('--kroma-giallo'),
+    ];
+    // Abbastanza tenui da non coprire il titolo.
+    const opacitaMassima = 0.55;
+
+    type Quadretto = { c: number; r: number; vita: number; colore: string };
+    const accesi = new Map<string, Quadretto>();
+    let ultimo: { c: number; r: number } | null = null;
+    let inCorso = false;
+    let prima = 0;
+
+    const ridimensiona = () => {
+      const { width, height } = sezione.getBoundingClientRect();
+      const densita = Math.min(devicePixelRatio || 1, 2);
+      tela.width = Math.round(width * densita);
+      tela.height = Math.round(height * densita);
+      contesto.setTransform(densita, 0, 0, densita, 0, 0);
+    };
+    new ResizeObserver(ridimensiona).observe(sezione);
+
+    const accendi = (c: number, r: number, vita = 1) => {
+      const chiave = `${c},${r}`;
+      const gia = accesi.get(chiave);
+      if (gia) gia.vita = Math.max(gia.vita, vita);
+      else {
+        const colore = colori[Math.floor(Math.random() * colori.length)]!;
+        accesi.set(chiave, { c, r, vita, colore });
+      }
+    };
+
+    const disegna = (ora: number) => {
+      const trascorso = prima ? ora - prima : 0;
+      prima = ora;
+      contesto.clearRect(0, 0, tela.width, tela.height);
+      for (const [chiave, q] of accesi) {
+        q.vita -= trascorso / vitaMs;
+        if (q.vita <= 0) {
+          accesi.delete(chiave);
+          continue;
+        }
+        contesto.globalAlpha = q.vita * opacitaMassima;
+        contesto.fillStyle = q.colore;
+        contesto.fillRect(q.c * passo + margine, q.r * passo + margine, lato, lato);
+      }
+      if (accesi.size) requestAnimationFrame(disegna);
+      else {
+        inCorso = false;
+        prima = 0;
+      }
+    };
+
+    const tocca = (evento: PointerEvent) => {
+      if (movimentoRidotto.matches) return;
+      const area = sezione.getBoundingClientRect();
+      const c = Math.floor((evento.clientX - area.left) / passo);
+      const r = Math.floor((evento.clientY - area.top) / passo);
+      // Se il mouse corre, accende anche i quadretti saltati: la scia resta
+      // continua invece di diventare una fila di puntini.
+      const da = evento.type === 'pointerdown' ? { c, r } : (ultimo ?? { c, r });
+      const passi = Math.max(Math.abs(c - da.c), Math.abs(r - da.r), 1);
+      for (let i = 1; i <= passi; i++) {
+        accendi(
+          Math.round(da.c + ((c - da.c) * i) / passi),
+          Math.round(da.r + ((r - da.r) * i) / passi),
+        );
+      }
+      // Al tocco del dito (non del mouse) si accende un piccolo gruppo
+      // intorno: un quadretto solo, sotto il dito, non si vedrebbe.
+      if (evento.type === 'pointerdown' && evento.pointerType !== 'mouse') {
+        for (let dc = -1; dc <= 1; dc++) {
+          for (let dr = -1; dr <= 1; dr++) {
+            if ((dc || dr) && Math.random() < 0.6) accendi(c + dc, r + dr, 0.7);
+          }
+        }
+      }
+      // Ogni tanto un vicino, più tenue: la scia non è una riga perfetta.
+      if (Math.random() < 0.3) {
+        accendi(c + Math.round(Math.random() * 2 - 1), r + Math.round(Math.random() * 2 - 1), 0.6);
+      }
+      ultimo = { c, r };
+      if (!inCorso) {
+        inCorso = true;
+        requestAnimationFrame(disegna);
+      }
+    };
+
+    sezione.addEventListener('pointermove', tocca, { passive: true });
+    sezione.addEventListener('pointerdown', tocca, { passive: true });
+    // Due tocchi separati non vanno uniti da una scia.
+    for (const fine of ['pointerleave', 'pointerup', 'pointercancel']) {
+      sezione.addEventListener(fine, () => (ultimo = null));
+    }
+  }
+</script>
+
 <style>
+  /* La sezione prende tutta la larghezza, così il campo di pixel arriva ai
+     bordi dello schermo; il contenuto resta nella colonna del sito. */
   .apertura {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .campo {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .contenuto {
     display: grid;
     gap: var(--kroma-spazio-4);
     max-width: var(--kroma-larghezza);
@@ -173,7 +320,7 @@ const partenza = (i: number) => ({
   }
 
   @media (min-width: 960px) {
-    .apertura {
+    .contenuto {
       gap: var(--kroma-spazio-5);
       padding: var(--kroma-spazio-10) var(--kroma-spazio-4) var(--kroma-spazio-16);
     }
