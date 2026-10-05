@@ -1,0 +1,325 @@
+---
+// Pagina di un lavoro (/lavori/<id>): lo stesso scheletro per tutti, così
+// chi passa da un caso all'altro ritrova lo stesso ordine.
+//   1. apertura: logo, cosa è, la frase, i fatti veri;
+//   2. com'era prima / cosa abbiamo fatto, affiancati da computer;
+//   3. come si usa oggi: per Vivai la ricostruzione a ruoli, per i siti la
+//      schermata nella cornice del browser (segnaposto finché non c'è);
+//   4. gli altri lavori, nei riquadri stretti della home.
+// La chiusura la aggiunge la pagina. I testi stanno in src/dati/lavori.ts
+// (`caso`): ciò che non sappiamo ancora resta [DA SCRIVERE].
+
+import { Image } from 'astro:assets';
+import RiquadroLavoro from '../componenti/RiquadroLavoro.astro';
+import RicostruzioneVivai from '../componenti/RicostruzioneVivai.astro';
+import { lavori, segnapostoSchermata, type Lavoro } from '../dati/lavori';
+import { DA_SCRIVERE } from '../dati/sito';
+
+interface Props {
+  lavoro: Lavoro;
+}
+
+const { lavoro } = Astro.props;
+const altri = lavori.filter((l) => l.id !== lavoro.id);
+---
+
+<article class="caso">
+  <header class="testa">
+    <a class="indietro" href="/lavori">
+      Lavori
+    </a>
+    <h1>
+      <Image class="logo" src={lavoro.logo} alt={lavoro.nome} height={160} densities={[1, 2]} />
+    </h1>
+    <p class="tipo">{lavoro.tipo}</p>
+    <p class="frase">{lavoro.descrizione}</p>
+    {lavoro.fatti.length > 0 && (
+      <dl class="fatti">
+        {lavoro.fatti.map((f) => (
+          <div>
+            <dt>{f.etichetta}</dt>
+            <dd>{f.valore}</dd>
+          </div>
+        ))}
+      </dl>
+    )}
+  </header>
+
+  <div class="prima-dopo">
+    <section aria-labelledby="prima-titolo">
+      <h2 id="prima-titolo">Com'era prima</h2>
+      <ul class="punti prima">
+        {lavoro.caso.prima.map((p) => (
+          <li>{p}</li>
+        ))}
+      </ul>
+    </section>
+    <section aria-labelledby="fatto-titolo">
+      <h2 id="fatto-titolo">Cosa abbiamo fatto</h2>
+      <ul class="punti fatto">
+        {lavoro.caso.fatto.map((p) => (
+          <li>{p}</li>
+        ))}
+      </ul>
+    </section>
+  </div>
+
+  <section class="oggi" aria-labelledby="oggi-titolo">
+    <h2 id="oggi-titolo">Come si usa oggi</h2>
+    <p class="frase-oggi">{lavoro.caso.oggi}</p>
+    {lavoro.id === 'vivai-cintoli' ? (
+      <RicostruzioneVivai />
+    ) : (
+      <div class="browser" aria-hidden={lavoro.schermata ? undefined : 'true'}>
+        <p class="barra">{lavoro.indirizzo ?? `${DA_SCRIVERE} indirizzo`}</p>
+        <div class="schermo">
+          {lavoro.schermata ? (
+            <Image
+              src={lavoro.schermata}
+              alt={`Il sito di ${lavoro.nome}`}
+              width={1100}
+              densities={[1, 2]}
+            />
+          ) : (
+            <p class="segnaposto">{segnapostoSchermata(lavoro)}</p>
+          )}
+        </div>
+      </div>
+    )}
+  </section>
+
+  <section class="altri" aria-labelledby="altri-titolo">
+    <h2 id="altri-titolo">Gli altri lavori</h2>
+    <div class="riquadri">
+      {altri.map((l) => (
+        <RiquadroLavoro lavoro={l} disposizione="stretta" />
+      ))}
+    </div>
+  </section>
+</article>
+
+<style>
+  .caso {
+    display: grid;
+    gap: var(--kroma-spazio-10);
+    max-width: var(--kroma-larghezza);
+    margin: 0 auto;
+    padding: var(--kroma-spazio-4) var(--kroma-spazio-2) var(--kroma-spazio-10);
+  }
+
+  /* ---------- Apertura ---------- */
+
+  .testa {
+    display: grid;
+    gap: var(--kroma-spazio-2);
+    justify-items: start;
+  }
+
+  .indietro {
+    margin-bottom: var(--kroma-spazio-3);
+    font-size: var(--kroma-testo-s);
+    color: var(--kroma-testo-tenue);
+    text-decoration-color: var(--kroma-bordo);
+    text-underline-offset: 0.3em;
+    transition: color var(--kroma-durata) var(--kroma-curva);
+  }
+
+  .indietro:hover {
+    color: var(--kroma-link);
+  }
+
+  h1 {
+    margin: 0;
+  }
+
+  .logo {
+    width: auto;
+    max-width: 100%;
+    height: var(--kroma-spazio-10);
+  }
+
+  .tipo {
+    margin: var(--kroma-spazio-2) 0 0;
+    font-weight: 600;
+    color: var(--kroma-verde);
+  }
+
+  .frase {
+    max-width: 34ch;
+    margin: 0;
+    font-size: var(--kroma-testo-l);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+
+  .fatti {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--kroma-spazio-3) var(--kroma-spazio-4);
+    width: 100%;
+    margin: var(--kroma-spazio-3) 0 0;
+    padding-top: var(--kroma-spazio-3);
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .fatti dt {
+    font-size: var(--kroma-testo-s);
+    color: var(--kroma-testo-tenue);
+  }
+
+  .fatti dd {
+    margin: var(--kroma-spazio-1) 0 0;
+    font-size: var(--kroma-testo-m);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  /* ---------- Prima e dopo ---------- */
+
+  h2 {
+    margin: 0;
+    font-size: var(--kroma-testo-xl);
+  }
+
+  .prima-dopo {
+    display: grid;
+    gap: var(--kroma-spazio-6);
+  }
+
+  .punti {
+    display: grid;
+    gap: var(--kroma-spazio-2);
+    margin: var(--kroma-spazio-3) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .punti li {
+    display: grid;
+    grid-template-columns: var(--kroma-spazio-1) 1fr;
+    gap: var(--kroma-spazio-2);
+    align-items: baseline;
+    max-width: 48ch;
+  }
+
+  .punti li::before {
+    content: '';
+    width: var(--kroma-spazio-1);
+    height: var(--kroma-spazio-1);
+  }
+
+  /* Prima: pixel spento, testo tenue. Dopo: pixel verde, testo pieno. */
+  .prima li {
+    color: var(--kroma-testo-tenue);
+  }
+
+  .prima li::before {
+    background: var(--kroma-bordo);
+  }
+
+  .fatto li::before {
+    background: var(--kroma-verde);
+  }
+
+  /* ---------- Come si usa oggi ---------- */
+
+  .oggi {
+    display: grid;
+    gap: var(--kroma-spazio-3);
+  }
+
+  .frase-oggi {
+    max-width: 52ch;
+    margin: 0;
+    font-size: var(--kroma-testo-m);
+    color: var(--kroma-testo-tenue);
+  }
+
+  /* La cornice del browser, come nei riquadri: l'indirizzo vero nella barra. */
+  .browser {
+    border: var(--kroma-linea-spessa) solid var(--kroma-bordo);
+    background: var(--kroma-fondo);
+  }
+
+  .barra {
+    margin: 0;
+    padding: var(--kroma-spazio-1) var(--kroma-spazio-2);
+    border-bottom: var(--kroma-linea-sottile) solid var(--kroma-bordo);
+    font-size: var(--kroma-testo-s);
+    color: var(--kroma-testo-tenue);
+  }
+
+  .schermo {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--kroma-superficie);
+  }
+
+  .schermo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .segnaposto {
+    margin: 0;
+    padding: var(--kroma-spazio-2);
+    font-size: var(--kroma-testo-s);
+    text-align: center;
+    color: var(--kroma-testo-tenue);
+  }
+
+  /* ---------- Gli altri lavori ---------- */
+
+  .altri {
+    display: grid;
+    gap: var(--kroma-spazio-3);
+    padding-top: var(--kroma-spazio-6);
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .riquadri {
+    display: grid;
+    gap: var(--kroma-spazio-3);
+  }
+
+  @media (min-width: 720px) {
+    .riquadri {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 960px) {
+    .caso {
+      gap: var(--kroma-spazio-12);
+      padding: var(--kroma-spazio-6) var(--kroma-spazio-4) var(--kroma-spazio-12);
+    }
+
+    .logo {
+      height: var(--kroma-spazio-12);
+    }
+
+    .frase {
+      font-size: var(--kroma-testo-xl);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    .fatti {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .fatti dd {
+      font-size: var(--kroma-testo-l);
+    }
+
+    .prima-dopo {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--kroma-spazio-8);
+    }
+  }
+</style>

@@ -1,0 +1,30 @@
+---
+// Le pagine dei lavori: un solo file per tutte. Le parentesi quadre nel
+// nome dicono ad Astro che la pagina si ripete; getStaticPaths elenca
+// quali pagine creare durante la build (una per lavoro in src/dati/lavori.ts:
+// /lavori/vivai-cintoli, /lavori/casale-allibrio, /lavori/estro-atelier).
+// Il sito resta statico: le tre pagine escono già pronte in dist/.
+
+import type { GetStaticPaths } from 'astro';
+import Base from '../../layout/Base.astro';
+import PaginaLavoro from '../../sezioni/PaginaLavoro.astro';
+import Chiusura from '../../sezioni/Chiusura.astro';
+import { lavori, type Lavoro } from '../../dati/lavori';
+
+export const getStaticPaths = (() =>
+  lavori.map((lavoro) => ({
+    params: { id: lavoro.id },
+    props: { lavoro },
+  }))) satisfies GetStaticPaths;
+
+interface Props {
+  lavoro: Lavoro;
+}
+
+const { lavoro } = Astro.props;
+---
+
+<Base titolo={`${lavoro.nome}, ${lavoro.tipo}`} descrizione={lavoro.caso.descrizione}>
+  <PaginaLavoro lavoro={lavoro} />
+  <Chiusura />
+</Base>

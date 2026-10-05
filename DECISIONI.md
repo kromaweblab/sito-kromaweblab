@@ -873,3 +873,23 @@ resta "Gestionali, siti e manutenzione in provincia di Ragusa".
 rimpicciolisce sotto i 420px circa quel tanto che basta a non uscire dallo
 schermo. Con lo stesso controllo a 320px è emerso che anche le linguette di
 "Cosa facciamo" uscivano: ora sui telefoni più stretti l'ultima va a capo.
+
+## 2026-10-05 — Nuova veste: le pagine dei lavori
+
+**Scelta:** uno scheletro comune per i tre casi (`sezioni/PaginaLavoro.astro`):
+apertura (logo, tipo, frase, fatti veri), "Com'era prima" e "Cosa abbiamo
+fatto" affiancati, "Come si usa oggi", "Gli altri lavori" (i riquadri stretti
+della home), Chiusura. Per Vivai Cintoli "Come si usa oggi" è la
+ricostruzione a ruoli che stava in home (ora `componenti/RicostruzioneVivai.astro`);
+per i siti la cornice del browser con la schermata (segnaposto). Testi in
+`src/dati/lavori.ts` (`caso`): per Vivai solo cose già dette e approvate
+(WhatsApp, fogli a mano, Excel prima; rapporti dal telefono, PDF con le ore
+sommate, programma di domani, moduli scelti dall'ufficio dopo); per Casale ed
+Estrò `[DA SCRIVERE]`.
+
+**Tecnica:** un solo file, `src/pages/lavori/[id].astro`, con
+`getStaticPaths`: Astro crea in fase di build una pagina per ogni lavoro dei
+dati. Il sito resta statico; per aggiungere un lavoro basta aggiungerlo ai
+dati.
+
+**Non si dice** che Giovanni lavora in Vivai Cintoli (scelta di Giovanni).
