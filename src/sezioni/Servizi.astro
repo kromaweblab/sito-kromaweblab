@@ -111,7 +111,10 @@ import { offerta } from '../dati/servizi';
      e tre in una riga. */
   .linguette {
     display: flex;
-    gap: var(--kroma-spazio-3);
+    /* Sui telefoni più stretti (sotto i 360px) l'ultima va a capo invece di
+       uscire dallo schermo. */
+    flex-wrap: wrap;
+    gap: 0 var(--kroma-spazio-2);
     margin: 0;
     padding: 0;
     border: 0;
