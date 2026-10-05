@@ -232,8 +232,8 @@ lo si dice nella pull request.
 
 ```
 /                        Home (Officina): apertura, lavori (riquadri),
-                         provalo (gestionale dimostrativo), servizi, come
-                         lavoriamo, chiusura
+                         provalo (gestionale dimostrativo), cosa facciamo
+                         (linguette), come lavoriamo, chiusura
 /lavori                  Elenco lavori, e una pagina per ogni lavoro
 /servizi                 Panoramica dei servizi
 /gestionali              Gestionali e web app su misura (assorbe /web-app)

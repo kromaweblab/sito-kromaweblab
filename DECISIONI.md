@@ -812,3 +812,22 @@ ne riparla), gli indirizzi dei due siti, qualche fatto vero su Casale ed
 Estrò. Il pulsante porta alle pagine dei casi, ancora provvisorie. Il file
 `sezioni/VivaiCintoli.astro` (la ricostruzione) resta per la pagina del caso
 Vivai.
+
+## 2026-10-05 — Nuova impostazione della home, passo 3: "Cosa facciamo" interattiva
+
+**Scelta:** tre linguette in alto (Gestionali, Siti, Manutenzione), ognuna
+con il quadretto del suo colore del marchio (arancione, verde, giallo).
+Toccandone una cambia il riquadro sotto: nome intero, frase, punti concreti,
+collegamento alla pagina del servizio e, accanto, una nota su fondo
+superficie con il filo del colore del servizio: un esempio vero (Vivai
+Cintoli; Casale Allibrio ed Estrò Atelier) o, per la manutenzione, cosa
+resta fuori. Il riquadro entra con un piccolo movimento, in risposta al
+tocco (spento con il movimento ridotto).
+
+**Come:** solo CSS. Le linguette sono pulsanti di scelta (radio) e il riquadro
+giusto si mostra con `:has()`; da tastiera si passa da una all'altra con le
+frecce. Nei browser senza `:has()` si vedono tutti e tre i riquadri.
+
+**Pulizia:** tolta da `src/dati/servizi.ts` la vecchia lista `servizi`, che
+non usava più nessuna pagina; `offerta` ha in più `breve` (nome per la
+linguetta) e `nota`.
