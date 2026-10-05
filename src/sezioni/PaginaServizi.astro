@@ -19,10 +19,10 @@ const lavoriGestionali = lavori.filter((l) => l.servizio !== 'siti');
 
 <div class="servizi">
   <header class="testa">
-    <h1>Gestionali, app e siti per le attività della provincia di Ragusa</h1>
+    <h1>Automatizziamo il lavoro ripetitivo della vostra attività</h1>
     <p>
-      Un gestionale per la squadra, un sito per farvi trovare, e la manutenzione per non pensarci
-      più dopo la consegna.
+      Gestite la squadra con un'app collegata al gestionale dell'ufficio. O, più semplicemente,
+      fatevi trovare online. E dopo la consegna restiamo noi, con la manutenzione.
     </p>
   </header>
 
@@ -88,9 +88,11 @@ const lavoriGestionali = lavori.filter((l) => l.servizio !== 'siti');
   /* ---------- Apertura ---------- */
 
   h1 {
-    max-width: 16ch;
+    max-width: 20ch;
     margin: 0;
-    font-size: var(--kroma-testo-xxl);
+    /* "Automatizziamo" è una parola lunga: sui telefoni stretti il titolo
+       si rimpicciolisce quel tanto che basta a non uscire dallo schermo. */
+    font-size: min(var(--kroma-testo-xxl), 11.5vw);
     line-height: 0.95;
     letter-spacing: -0.03em;
     text-wrap: balance;
@@ -99,8 +101,8 @@ const lavoriGestionali = lavori.filter((l) => l.servizio !== 'siti');
   .testa p {
     max-width: 48ch;
     margin: var(--kroma-spazio-3) 0 0;
-    font-size: var(--kroma-testo-l);
-    line-height: 1.35;
+    font-size: var(--kroma-testo-m);
+    color: var(--kroma-testo-tenue);
   }
 
   /* ---------- Testi comuni ai servizi ---------- */
@@ -232,6 +234,11 @@ const lavoriGestionali = lavori.filter((l) => l.servizio !== 'siti');
   /* ---------- Da computer ---------- */
 
   @media (min-width: 960px) {
+    .testa p {
+      font-size: var(--kroma-testo-l);
+      line-height: 1.35;
+    }
+
     .servizi {
       padding: var(--kroma-spazio-10) var(--kroma-spazio-4) var(--kroma-spazio-12);
     }

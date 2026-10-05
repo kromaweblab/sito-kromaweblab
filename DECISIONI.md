@@ -856,3 +856,20 @@ sotto "Chi e dove" e la tabella perde una colonna.
 **Resta:** la vecchia lavagna di Andrea (`gestionale-dimostrativo/`) esce
 dalla home ma non si cancella: decide lui se riusarla (per esempio in
 `/gestionali`). Lighthouse home: 100 in tutte e quattro le voci, in locale.
+
+## 2026-10-05 — Nuova impostazione, passo 5: titolo di /servizi
+
+**Scelta:** titolo "Automatizziamo il lavoro ripetitivo della vostra
+attività", sottotitolo "Gestite la squadra con un'app collegata al gestionale
+dell'ufficio. O, più semplicemente, fatevi trovare online. E dopo la
+consegna restiamo noi, con la manutenzione." Dall'idea di Giovanni
+("Automatizziamo i processi lavorativi della tua attività e molto altro"):
+"lavoro ripetitivo" al posto di "processi lavorativi" perché un titolare lo
+capisce subito, il voi come nel resto del sito, niente "e molto altro"
+(formula vaga), e la manutenzione nel sottotitolo. Il titolo per Google
+resta "Gestionali, siti e manutenzione in provincia di Ragusa".
+
+**Da telefono:** "Automatizziamo" è una parola lunga; il titolo si
+rimpicciolisce sotto i 420px circa quel tanto che basta a non uscire dallo
+schermo. Con lo stesso controllo a 320px è emerso che anche le linguette di
+"Cosa facciamo" uscivano: ora sui telefoni più stretti l'ultima va a capo.
