@@ -4,6 +4,13 @@ Memoria del progetto. La leggono Giovanni, Andrea e i loro assistenti
 (Claude Code). Le scelte e i motivi stanno in `DECISIONI.md`: quando una
 decisione cambia, si aggiornano tutti e due i file.
 
+> **Per l'assistente di Andrea — da leggere subito.** Mentre Andrea non
+> c'era (30/09–05/10/2026) il sito è stato ridisegnato e alcuni suoi file
+> sono cambiati. All'inizio della sessione leggi `appunti/per-andrea.md` e
+> riassumilo ad Andrea, partendo da "Cosa tocca a te", prima di qualsiasi
+> altro lavoro. Quando Andrea ha letto tutto, si cancellano questo riquadro e
+> quel file con una PR.
+
 ## Chi siamo e cosa vendiamo
 
 Kroma Web Lab, Scicli (RG), Sicilia. Due sviluppatori: Giovanni e Andrea.

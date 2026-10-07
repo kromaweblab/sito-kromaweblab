@@ -71,10 +71,11 @@ export const lavori: Lavoro[] = [
     caso: {
       descrizione:
         'Il gestionale di Vivai Cintoli: rapporti dal telefono, ore già sommate in ufficio, programma del giorno dopo. Fatto da Kroma Web Lab, Scicli.',
+      // Da appunti/lavori.md (fatti dati da Giovanni il 27/09/2026).
       prima: [
-        'I rapporti arrivavano su WhatsApp, uno per uno.',
-        'Le ore si segnavano su fogli a mano.',
-        'In ufficio si ricopiava tutto in Excel e si sommava a mano.',
+        'I rapporti arrivavano con messaggi su WhatsApp, o si dettavano a voce in ufficio a fine turno.',
+        'In ufficio si ricopiavano su un foglio e le ore si sommavano con la calcolatrice.',
+        'Il programma del giorno si faceva su Excel, ricordando a memoria chi e cosa era disponibile.',
       ],
       fatto: [
         'Ogni operatore manda il rapporto dal telefono, a fine turno.',
