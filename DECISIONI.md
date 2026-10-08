@@ -893,3 +893,30 @@ dati. Il sito resta statico; per aggiungere un lavoro basta aggiungerlo ai
 dati.
 
 **Non si dice** che Giovanni lavora in Vivai Cintoli (scelta di Giovanni).
+
+## 2026-10-08 — Vivai Cintoli: schermate vere e "una giornata con l'app"
+
+**Scelta:** la pagina del caso Vivai Cintoli usa le schermate vere dell'app,
+fatte da Giovanni su un database di prova (dipendenti e mezzi rinominati,
+numero di dipendenti e mezzi oscurato nella dashboard dell'ufficio, nessun
+dato reale dell'azienda). La ricostruzione in HTML (`RicostruzioneVivai`)
+è tolta; con lei sparisce anche lo stato "Ricevuto", che nell'app non
+esiste più.
+
+**Com'è fatta la pagina:** apertura; "Com'è nata" (le giacenze in serra con
+blocco e penna, poi il QR su ogni partita, poi il resto), raccontata
+**senza dire chi in azienda ci lavora** (scelta A di Giovanni); com'era
+prima / cosa abbiamo fatto; "Come si usa oggi" come **una giornata in
+quattro momenti**: il giorno prima il programma, in campo, a fine turno il
+rapporto (con la modalità semplice in tre schermate), la mattina dopo
+l'ufficio; "Fatta per chi la usa" (quattro lingue, senza campo, account e
+PIN, pagina iniziale personale). Nel riquadro di Vivai in home e in
+`/lavori` la schermata "Oggi hai fatto questo lavoro?".
+
+**Da non scrivere:** quanti operatori usano la modalità semplice; il numero
+di dipendenti e di mezzi dell'azienda (Giovanni, 07/10/2026).
+
+**Tecnica:** immagini in `src/assets/lavori/vivai/` (senza i dati nascosti
+dei file), mostrate con `componenti/Schermata.astro`. Lighthouse in locale:
+pagina del caso e home 100 in tutte e quattro le voci; la pagina del caso
+pesa 170 KB con tutte le immagini.

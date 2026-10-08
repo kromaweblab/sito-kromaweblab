@@ -2,16 +2,19 @@
 // Pagina di un lavoro (/lavori/<id>): lo stesso scheletro per tutti, così
 // chi passa da un caso all'altro ritrova lo stesso ordine.
 //   1. apertura: logo, cosa è, la frase, i fatti veri;
-//   2. com'era prima / cosa abbiamo fatto, affiancati da computer;
-//   3. come si usa oggi: per Vivai la ricostruzione a ruoli, per i siti la
-//      schermata nella cornice del browser (segnaposto finché non c'è);
-//   4. gli altri lavori, nei riquadri stretti della home.
+//   2. com'è nata, se c'è una storia da raccontare;
+//   3. com'era prima / cosa abbiamo fatto, affiancati da computer;
+//   4. come si usa oggi: se ci sono le schermate, una giornata con l'app
+//      momento per momento (Vivai); altrimenti la cornice del browser con
+//      la schermata del sito (segnaposto finché non c'è);
+//   5. le scelte fatte per chi la usa, se ci sono;
+//   6. gli altri lavori, nei riquadri stretti della home.
 // La chiusura la aggiunge la pagina. I testi stanno in src/dati/lavori.ts
 // (`caso`): ciò che non sappiamo ancora resta [DA SCRIVERE].
 
 import { Image } from 'astro:assets';
 import RiquadroLavoro from '../componenti/RiquadroLavoro.astro';
-import RicostruzioneVivai from '../componenti/RicostruzioneVivai.astro';
+import Schermata from '../componenti/Schermata.astro';
 import { lavori, segnapostoSchermata, type Lavoro } from '../dati/lavori';
 import { DA_SCRIVERE } from '../dati/sito';
 
@@ -21,6 +24,10 @@ interface Props {
 
 const { lavoro } = Astro.props;
 const altri = lavori.filter((l) => l.id !== lavoro.id);
+const { nascita, giornata, perChiLaUsa } = lavoro.caso;
+/** Solo telefoni: in fila. Con un computer o un documento: uno sotto l'altro. */
+const disposizione = (schermate: { cornice: string }[]) =>
+  schermate.every((x) => x.cornice === 'telefono') ? 'fila' : 'colonna';
 ---
 
 <article class="caso">
@@ -45,6 +52,17 @@ const altri = lavori.filter((l) => l.id !== lavoro.id);
     )}
   </header>
 
+  {nascita && (
+    <section class="nascita" aria-labelledby="nascita-titolo">
+      <h2 id="nascita-titolo">Com'è nata</h2>
+      <div class="racconto">
+        {nascita.map((paragrafo) => (
+          <p>{paragrafo}</p>
+        ))}
+      </div>
+    </section>
+  )}
+
   <div class="prima-dopo">
     <section aria-labelledby="prima-titolo">
       <h2 id="prima-titolo">Com'era prima</h2>
@@ -67,8 +85,22 @@ const altri = lavori.filter((l) => l.id !== lavoro.id);
   <section class="oggi" aria-labelledby="oggi-titolo">
     <h2 id="oggi-titolo">Come si usa oggi</h2>
     <p class="frase-oggi">{lavoro.caso.oggi}</p>
-    {lavoro.id === 'vivai-cintoli' ? (
-      <RicostruzioneVivai />
+    {giornata ? (
+      <ol class="giornata">
+        {giornata.map((momento) => (
+          <li class="momento">
+            <div class="testo-momento">
+              <h3>{momento.titolo}</h3>
+              <p>{momento.testo}</p>
+            </div>
+            <div class:list={['schermate', disposizione(momento.schermate)]}>
+              {momento.schermate.map((x) => (
+                <Schermata schermata={x} />
+              ))}
+            </div>
+          </li>
+        ))}
+      </ol>
     ) : (
       <div class="browser" aria-hidden={lavoro.schermata ? undefined : 'true'}>
         <p class="barra">{lavoro.indirizzo ?? `${DA_SCRIVERE} indirizzo`}</p>
@@ -87,6 +119,24 @@ const altri = lavori.filter((l) => l.id !== lavoro.id);
       </div>
     )}
   </section>
+
+  {perChiLaUsa && (
+    <section class="per-chi" aria-labelledby="per-chi-titolo">
+      <h2 id="per-chi-titolo">Fatta per chi la usa</h2>
+      <div class="per-chi-corpo">
+        <ul class="punti fatto">
+          {perChiLaUsa.punti.map((p) => (
+            <li>{p}</li>
+          ))}
+        </ul>
+        <div class="schermate fila-mista">
+          {perChiLaUsa.schermate.map((x) => (
+            <Schermata schermata={x} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
   <section class="altri" aria-labelledby="altri-titolo">
     <h2 id="altri-titolo">Gli altri lavori</h2>
@@ -273,6 +323,105 @@ const altri = lavori.filter((l) => l.id !== lavoro.id);
     color: var(--kroma-testo-tenue);
   }
 
+  /* ---------- Com'è nata ---------- */
+
+  .nascita {
+    display: grid;
+    gap: var(--kroma-spazio-3);
+  }
+
+  .racconto {
+    display: grid;
+    gap: var(--kroma-spazio-2);
+  }
+
+  .racconto p {
+    max-width: 60ch;
+    margin: 0;
+    font-size: var(--kroma-testo-m);
+  }
+
+  .racconto p + p {
+    color: var(--kroma-testo-tenue);
+  }
+
+  /* ---------- Una giornata con l'app ---------- */
+
+  .giornata {
+    display: grid;
+    gap: var(--kroma-spazio-8);
+    margin: var(--kroma-spazio-3) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .momento {
+    display: grid;
+    gap: var(--kroma-spazio-3);
+    padding-top: var(--kroma-spazio-4);
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .testo-momento h3 {
+    margin: 0;
+    font-size: var(--kroma-testo-l);
+    line-height: 1.15;
+  }
+
+  .testo-momento p {
+    max-width: 44ch;
+    margin: var(--kroma-spazio-2) 0 0;
+    color: var(--kroma-testo-tenue);
+  }
+
+  /* Le schermate: i telefoni in fila (da telefono si scorrono di lato),
+     computer e documenti uno sotto l'altro, a tutta larghezza. */
+  .schermate {
+    display: flex;
+    gap: var(--kroma-spazio-2);
+    align-items: flex-start;
+    min-width: 0;
+  }
+
+  .fila,
+  .fila-mista {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: var(--kroma-spazio-1);
+  }
+
+  .fila > :global(.telefono),
+  .fila-mista > :global(.telefono) {
+    flex: 0 0 calc(30 * var(--kroma-spazio-1));
+    scroll-snap-align: start;
+  }
+
+  .fila-mista > :global(.computer) {
+    flex: 0 0 calc(60 * var(--kroma-spazio-1));
+    scroll-snap-align: start;
+  }
+
+  .colonna {
+    flex-direction: column;
+  }
+
+  .colonna > :global(figure) {
+    width: 100%;
+  }
+
+  /* ---------- Fatta per chi la usa ---------- */
+
+  .per-chi {
+    display: grid;
+    gap: var(--kroma-spazio-3);
+  }
+
+  .per-chi-corpo {
+    display: grid;
+    gap: var(--kroma-spazio-4);
+    min-width: 0;
+  }
+
   /* ---------- Gli altri lavori ---------- */
 
   .altri {
@@ -320,6 +469,37 @@ const altri = lavori.filter((l) => l.id !== lavoro.id);
     .prima-dopo {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: var(--kroma-spazio-8);
+    }
+
+    .momento {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+      gap: var(--kroma-spazio-6);
+      align-items: start;
+    }
+
+    /* Da computer c'è spazio: niente scorrimento, i telefoni si stringono. */
+    .fila,
+    .fila-mista {
+      overflow: visible;
+      padding-bottom: 0;
+    }
+
+    .fila > :global(.telefono) {
+      flex: 0 1 calc(30 * var(--kroma-spazio-1));
+    }
+
+    .per-chi-corpo {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+      gap: var(--kroma-spazio-6);
+      align-items: start;
+    }
+
+    .fila-mista > :global(.telefono) {
+      flex: 0 1 calc(26 * var(--kroma-spazio-1));
+    }
+
+    .fila-mista > :global(.computer) {
+      flex: 1 1 0;
     }
   }
 </style>

@@ -1,0 +1,66 @@
+---
+// Una schermata vera nella sua cornice: telefono, computer o documento
+// (un PDF). La cornice dice cosa si sta guardando; l'immagine si vede
+// intera, senza tagli. Astro la rimpicciolisce per ogni schermo.
+
+import { Image } from 'astro:assets';
+import type { Schermata } from '../dati/lavori';
+
+interface Props {
+  schermata: Schermata;
+}
+
+const { schermata } = Astro.props;
+// Larghezze di partenza: Astro crea le versioni più piccole da queste.
+const larghezza = schermata.cornice === 'telefono' ? 360 : 1100;
+---
+
+<figure class:list={['schermata', schermata.cornice]}>
+  <Image
+    src={schermata.src}
+    alt={schermata.alt}
+    width={larghezza}
+    densities={[1, 2]}
+    loading="lazy"
+  />
+</figure>
+
+<style>
+  .schermata {
+    margin: 0;
+    border: var(--kroma-linea-spessa) solid var(--kroma-bordo);
+    background: var(--kroma-nero);
+  }
+
+  .schermata :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Telefono: bordo spesso e l'altoparlante in alto, come nei riquadri. */
+  .telefono {
+    padding: var(--kroma-spazio-3) var(--kroma-spazio-1) var(--kroma-spazio-1);
+  }
+
+  .telefono::before {
+    content: '';
+    display: block;
+    width: var(--kroma-spazio-5);
+    height: var(--kroma-linea-spessa);
+    margin: 0 auto var(--kroma-spazio-2);
+    background: var(--kroma-bordo);
+  }
+
+  /* Computer: una barra sottile in alto, niente pallini finti. */
+  .computer {
+    padding: var(--kroma-spazio-2) var(--kroma-linea-spessa) var(--kroma-linea-spessa);
+  }
+
+  /* Documento: il foglio del PDF, chiaro, con un margine bianco. */
+  .documento {
+    padding: var(--kroma-spazio-1);
+    background: var(--kroma-bianco);
+    border-color: var(--kroma-linea);
+  }
+</style>
