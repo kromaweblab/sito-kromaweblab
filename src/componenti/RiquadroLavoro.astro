@@ -107,6 +107,12 @@ const idTitolo = `lavoro-${lavoro.id}`;
     aspect-ratio: 9 / 16;
   }
 
+  /* Con la schermata vera il telefono prende le sue proporzioni: si vede
+     tutta, senza tagli. */
+  .telefono .schermo:has(img) {
+    aspect-ratio: auto;
+  }
+
   /* Browser: la barra porta l'indirizzo vero del sito, non tre pallini. */
   .barra {
     margin: 0;

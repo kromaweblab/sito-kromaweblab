@@ -147,14 +147,21 @@ le nostre facce, il marchio a pixel usato con misura.
 - **Zona**: di persona a Scicli e dintorni, in videochiamata da tutta
   Italia (detto con parole nostre, non con la formula del concorrente).
   Mai "Val di Noto". Nei dati per Google: Scicli, provincia di Ragusa, Italia.
-- **Ricostruzioni delle app dei clienti** (es. Vivai Cintoli nella pagina
-  del caso, `componenti/RicostruzioneVivai.astro`):
-  disegnate in HTML con dati di esempio, nei colori dell'app del cliente
-  (token `--kroma-vivai-*`) e con i suoi angoli tondi. È l'unica eccezione
-  ad angoli vivi e palette Kroma, e vale solo dentro la ricostruzione.
-  Sempre marcate "ricostruzione con dati di esempio". Niente emoji.
-  **Niente cognomi, nemmeno inventati** ("Operatore 1", "Squadra B"): quelli
-  comuni rischiano di essere di dipendenti veri.
+- **Schermate vere delle app dei clienti** (dal 08/10/2026 per Vivai
+  Cintoli, al posto della ricostruzione in HTML): fatte su un **database di
+  prova**, con dipendenti e mezzi rinominati ("Operatore 1", "Mezzo 1"),
+  niente clienti, prezzi, sedi o quantità reali, e i numeri dell'azienda
+  oscurati. Stanno in `src/assets/lavori/<id>/` (Astro le alleggerisce) e si
+  mostrano con `componenti/Schermata.astro`, nella cornice di telefono,
+  computer o documento. Le spiegazioni di Giovanni stanno in
+  `appunti/vivai-schermate.md`.
+- **Ricostruzioni delle app dei clienti** (se servisse ancora, per un cliente
+  senza schermate): disegnate in HTML con dati di esempio, nei colori dell'app
+  del cliente e con i suoi angoli tondi. È l'unica eccezione ad angoli vivi e
+  palette Kroma, e vale solo dentro la ricostruzione. Sempre marcate
+  "ricostruzione con dati di esempio". Niente emoji. **Niente cognomi,
+  nemmeno inventati** ("Operatore 1", "Squadra B"): quelli comuni rischiano
+  di essere di dipendenti veri.
 
 ## Il marchio: griglia a pixel
 

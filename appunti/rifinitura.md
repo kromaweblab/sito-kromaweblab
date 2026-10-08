@@ -31,9 +31,6 @@ punto lo cancella da qui nella stessa PR.
 
 - [ ] Logo di Casale Allibrio più piccolo degli altri nei riquadri (il disegno
       ha molto spazio vuoto intorno): ritagliarlo o dargli un'altezza sua.
-- [ ] Ricostruzione di Vivai Cintoli: ci sono i puntini ("Squadra B · 3
-      persone", "Riga 1 · Potatura siepi"). Se l'app vera mostra i dati così
-      restano (è una fotografia dell'app); altrimenti si tolgono.
 - [ ] La home da telefono è lunga: rivalutare quando ci sono i contenuti veri.
 
 ## Pulizia del codice
@@ -55,3 +52,6 @@ punto lo cancella da qui nella stessa PR.
 - [ ] `src/dati/metodo.ts`: `fattiGestionale` e `domandeGestionali` danno del
       tu, e "Il server lo acquisti tu, insieme al dominio" è una promessa non
       ancora decisa (su `/siti` è `[DA DEFINIRE]`).
+- [ ] Token `--kroma-vivai-*` in `tokens.css`: dall'08/10/2026 non li usa
+      più nessuno (la ricostruzione di Vivai è stata sostituita dalle
+      schermate vere). Toglierli, o tenerli se torna una ricostruzione.
