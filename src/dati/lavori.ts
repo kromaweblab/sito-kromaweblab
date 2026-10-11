@@ -16,7 +16,9 @@ import { DA_SCRIVERE } from './sito';
 // su un database di prova: dipendenti e mezzi rinominati ("Operatore N"),
 // numeri dell'azienda oscurati. Spiegazioni in appunti/vivai-schermate.md.
 import vivaiAccesso from '../assets/lavori/vivai/accesso-telefono.jpg';
-import vivaiProgrammaAvvisi from '../assets/lavori/vivai/programma-avvisi.png';
+// Ritaglio della sola colonna "Dipendenti" di programma-avvisi.png (Andrea,
+// 11/10/2026): intera, la schermata era una striscia illeggibile.
+import vivaiProgrammaDipendenti from '../assets/lavori/vivai/programma-dipendenti.png';
 import vivaiProgrammaPdf from '../assets/lavori/vivai/programma-pdf.png';
 import vivaiOperatore from '../assets/lavori/vivai/operatore-dashboard.jpg';
 import vivaiSempliceDashboard from '../assets/lavori/vivai/semplice-dashboard.jpg';
@@ -30,7 +32,14 @@ export interface Schermata {
   src: ImageMetadata;
   /** Cosa si vede, per chi non vede l'immagine. */
   alt: string;
-  cornice: 'telefono' | 'computer' | 'documento';
+  /**
+   * telefono e computer: lo schermo intero nella sagoma di iPhone o MacBook.
+   * dettaglio: un pezzo di schermo ingrandito, perché si legga. documento:
+   * un foglio (un PDF).
+   */
+  cornice: 'telefono' | 'computer' | 'dettaglio' | 'documento';
+  /** Cosa guardare, scritto sotto l'immagine (per tutti, non solo per chi non vede). */
+  didascalia?: string;
 }
 
 export interface Lavoro {
@@ -124,14 +133,18 @@ export const lavori: Lavoro[] = [
             "Il titolare prepara le attività del vivaio, il responsabile quelle dei cantieri: ognuno aggiunge le sue righe, anche dal telefono, e l'altro le ritrova. Mentre scelgono persone e mezzi, l'app segna da sola chi è già occupato, chi è in permesso e quale mezzo è fermo. Il PDF finito va nel gruppo WhatsApp dello staff.",
           schermate: [
             {
-              src: vivaiProgrammaAvvisi,
-              alt: 'Una riga del programma: accanto ai nomi degli operatori compaiono "occupato: riga 3" e "in permesso".',
-              cornice: 'computer',
+              src: vivaiProgrammaDipendenti,
+              alt: 'L\'elenco dei dipendenti mentre si prepara una riga del programma: Operatore 1 e 2 scelti; accanto agli altri compaiono "occupato: riga 3", "occupato: riga 2" e "in permesso".',
+              cornice: 'dettaglio',
+              didascalia:
+                "Mentre si sceglie chi mandare, l'app scrive da sola accanto a ogni nome chi è già occupato in un'altra riga del programma e chi è in permesso. Lo stesso per i mezzi.",
             },
             {
               src: vivaiProgrammaPdf,
-              alt: 'Il PDF del programma del giorno, con attività, persone e priorità.',
+              alt: 'Il PDF del programma: data, area, attività (pulizia e irrigazione), chi (Operatore 1 e Operatore 10), mezzi, ore, priorità.',
               cornice: 'documento',
+              didascalia:
+                'Il programma finito diventa un PDF: attività, chi le fa, mezzi, priorità. Va nel gruppo WhatsApp dello staff.',
             },
           ],
         },
@@ -247,4 +260,4 @@ export const lavori: Lavoro[] = [
 
 /** Testo del segnaposto nella cornice, finché la schermata non c'è. */
 export const segnapostoSchermata = (lavoro: Lavoro) =>
-  `${DA_SCRIVERE} schermata ${lavoro.cornice === 'telefono' ? "dell'app dal telefono" : 'del sito'}`;
+  `${DA_SCRIVERE} schermata ${lavoro.cornice === 'telefono' ? "dell'app" : 'del sito'} dal telefono`;

@@ -28,6 +28,9 @@ Cosa vendiamo, in ordine di come ci fa lavorare oggi:
 
 1. **Web app e gestionali su misura** per chi lavora con una squadra:
    rapporti, programma, turni, ordini, magazzino. La prova è Vivai Cintoli.
+   Due modi (11/10/2026, Andrea): l'**app di prenotazione pronta**, con nome,
+   colori, logo, servizi e orari del cliente; oppure, come servizio in più,
+   un **gestionale tutto su misura**. Nessun prezzo sul sito.
 2. **Siti web**, che fanno guadagnare prima.
 3. **Manutenzione** con contratto: aggiornamenti, modifiche, assistenza.
    Entrata continua, da mettere in evidenza.
@@ -132,6 +135,21 @@ le nostre facce, il marchio a pixel usato con misura.
 
 **Se una richiesta contraddice questi divieti, segnalarlo invece di eseguire.**
 
+### Sagome dei dispositivi (11/10/2026)
+
+Ogni telefono del sito è un **iPhone 17** (proporzioni vere, Dynamic Island,
+ora "9:41"), ogni computer un **MacBook Air** (schermo 16:10 con il notch,
+base argentata): schermate vere e le due prove. I **riquadri dei lavori** e
+le pagine dei siti usano sempre l'iPhone, anche per i siti (con la barra
+dell'indirizzo in cima). Un pezzo di schermo troppo piccolo per leggersi
+si mostra come **dettaglio** (ritagliato e ingrandito) con una didascalia
+che dice cosa guardare (`cornice: 'dettaglio'`, `didascalia`). Le
+classi stanno in `src/stili/dispositivi.css` (globali, perché servono sia
+ai `.astro` sia alle isole): `.iphone > .iphone-schermo > .iphone-contenuto`
+e `.macbook > .macbook-schermo > .macbook-contenuto`. Se il contenuto è più
+alto dello schermo, scorre dentro, come su un dispositivo vero. Gli angoli
+tondi sono un'eccezione voluta agli angoli vivi: disegnano un oggetto vero.
+
 ### Scelte già fatte (dettagli in DECISIONI.md)
 
 - **Apertura della home (Officina)**: marchio a pixel grande che si compone
@@ -189,8 +207,9 @@ vanno committati. Si rilancia solo se cambia il marchio.
 
 - **Astro 7** con TypeScript (strict). Le pagine sono `.astro`: HTML e CSS
   statici, nessun JavaScript inviato al browser.
-- **React 19 solo come isole interattive** (`client:visible`), solo per il
-  prova "dal campo all'ufficio" e il configuratore.
+- **React 19 solo come isole interattive** (`client:visible`), solo per le
+  prove "dal campo all'ufficio" (home) e "dal cliente all'attività"
+  (`/gestionali`) e per il configuratore.
 - Fuori dalle isole, JavaScript solo **per comodità e mai indispensabile**:
   piccoli script senza librerie, e la pagina deve funzionare anche se non
   partono (es. il menu da telefono è un `<details>`; lo script aggiunge solo
@@ -212,11 +231,12 @@ src/
   layout/       [Giovanni] Base.astro: <head>, SEO, JSON-LD, caratteri
   sezioni/      [Giovanni] blocchi .astro delle pagine
   componenti/   [Giovanni] piccoli pezzi .astro riutilizzabili
-  stili/        [Giovanni] tokens.css (originale), base.css
+  stili/        [Giovanni] tokens.css (originale), base.css,
+                dispositivi.css (sagome iPhone e MacBook, Andrea)
   dati/         [condiviso] dati dell'attività in .ts
   isole/        [Andrea] componenti React
     squadra-ufficio/          prova in home (fatta da Giovanni, ok di Andrea)
-    gestionale-dimostrativo/  vecchia prova, fuori dalla home
+    gestionale-dimostrativo/  prova "dal cliente all'attività" su /gestionali
     configuratore/
 public/         file copiati così come sono (favicon, marchio)
   brand/        SVG del marchio + kroma-tokens.css (COPIA generata, non modificare)
@@ -253,7 +273,9 @@ lo si dice nella pull request.
 /lavori                  Elenco lavori, e una pagina per ogni lavoro
                          (/lavori/[id].astro, dati in src/dati/lavori.ts)
 /servizi                 Panoramica dei servizi
-/gestionali              Gestionali e web app su misura (assorbe /web-app)
+/gestionali              Gestionali e web app su misura (assorbe /web-app):
+                         cosa fanno, prova "dal cliente all'attività", due
+                         modi di averlo, Vivai Cintoli, domande frequenti
 /siti                    Siti web
 /manutenzione            NUOVA: cosa comprende il contratto
 /chi-siamo               Giovanni e Andrea, foto vere e storia
@@ -267,7 +289,8 @@ Sta in home, nella sezione "Provalo: dal campo all'ufficio"
 (`sezioni/ProvaGestionale.astro`), in `src/isole/squadra-ufficio/`. L'ha
 costruita Giovanni (con l'assistente), d'accordo con Andrea. Prende il
 posto della lavagna di prenotazioni di Andrea (`gestionale-dimostrativo/`),
-che esce dalla home ma resta nel repository: decide Andrea se riusarla.
+che dall'11/10/2026 è diventata la prova "dal cliente all'attività" su
+`/gestionali` (Isola 3).
 
 - Il telefono di un operatore e il computer dell'ufficio, collegati.
   Dal telefono si manda un rapporto (cantiere, lavoro, ore, materiale,
@@ -288,6 +311,42 @@ che esce dalla home ma resta nel repository: decide Andrea se riusarla.
   Niente viene salvato." sempre visibile. **Niente cognomi** ("Operatore 1",
   "squadra A") e niente indirizzi veri.
 - Logica in `logica.ts`, con i test in `logica.test.ts`.
+
+## Isola 3 — Prova "dal cliente all'attività" (Andrea, 11/10/2026)
+
+Sta in `/gestionali`, in `src/isole/gestionale-dimostrativo/` (il nome
+della cartella viene dalla vecchia lavagna). Si monta con
+`<GestionaleDimostrativo client:visible oggi={Date.now()} />`: `oggi` è il
+giorno della build, così il primo disegno coincide; nel browser la prova
+passa da sola alla data vera.
+
+- Il telefono di un cliente (iPhone) e il computer dell'attività (MacBook),
+  collegati. Il cliente sceglie servizio, giorno nel calendario del mese e
+  orario libero, lascia il nome e invia: all'attività arriva "Da
+  confermare", evidenziata. L'attività conferma (il telefono mostra
+  "confermata"), completa, elimina ("non accettata"), o aggiunge a mano chi
+  telefona.
+- Sei attività (`attivita.ts`): servizi con orari, posti per orario, giorni
+  di chiusura. Si prenota da domani a quattro settimane; per oggi si
+  telefona. Esempi attorno a oggi, mai nei giorni chiusi, e un giorno pieno.
+- **Calendario accessibile** (schema "date picker" del W3C): un solo giorno
+  raggiungibile con Tab, frecce, Pagina su/giù, Inizio/Fine; ogni giorno si
+  legge per intero ("Martedì 13 ottobre, 3 orari liberi").
+- **Personalizza: nome, colore e logo** (pulsante giallo come il punto del
+  marchio, chiuso finché non serve): nome dell'attività, un colore qualsiasi
+  (`<input type="color">`) e il logo del visitatore (PNG, JPG, SVG, WebP,
+  al massimo 2 MB; resta nel suo browser, non viene caricato). Testo sopra il colore e scritte
+  colorate si calcolano in `logica.ts` perché restino leggibili; il colore
+  di partenza è `--kroma-app-tema`.
+- **Tu nel telefono, voi intorno**: l'app del cliente gli dà del tu; il
+  computer dell'attività, i messaggi d'errore e la riga di spiegazione
+  danno del voi.
+- Da computer i due schermi affiancati; quando l'isola è stretta uno alla
+  volta, con l'interruttore "Il cliente / L'attività" e le novità ("1
+  nuova"), come nella prova di Giovanni.
+- Solo nomi di battesimo (un test lo controlla), "Dati di esempio. Niente
+  viene salvato." sempre visibile. Logica in `logica.ts`, test in
+  `logica.test.ts`.
 
 ## Isola 2 — Configuratore (Andrea)
 
@@ -357,8 +416,8 @@ un modulo disegnato solo da React non lo vede. Quindi:
   Cintoli: dalla versione bianca su trasparente dell'app. Con la veste
   scura tutti e tre i loghi sono **bianchi** su trasparente.
 - **Riquadri dei lavori** (`componenti/RiquadroLavoro.astro`, home e
-  `/lavori`): schermata nella sua cornice (telefono per le app, browser con
-  l'indirizzo vero per i siti), logo, tipo, descrizione, fatti veri,
+  `/lavori`): schermata in un iPhone 17 (per i siti con la barra
+  dell'indirizzo vero in cima), logo, tipo, descrizione, fatti veri,
   pulsante "Vedi il lavoro". Due disposizioni, larga e stretta, perché non
   sembrino tutti uguali. Finché le schermate non ci sono: segnaposto
   `[DA SCRIVERE]` dentro la cornice (`schermata: null` in

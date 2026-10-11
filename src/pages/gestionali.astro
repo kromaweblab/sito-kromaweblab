@@ -1,5 +1,51 @@
 ---
-import PaginaSegnaposto from '../componenti/PaginaSegnaposto.astro';
+// Gestionali e web app su misura, il servizio principale; poi "Come
+// lavoriamo" e la chiusura, le stesse della home. Dati per Google: il
+// servizio (Service) e le domande frequenti (FAQPage), generati dagli
+// stessi dati del testo visibile.
+import Base from '../layout/Base.astro';
+import PaginaGestionali from '../sezioni/PaginaGestionali.astro';
+import ComeLavoriamo from '../sezioni/ComeLavoriamo.astro';
+import Chiusura from '../sezioni/Chiusura.astro';
+import { offerta } from '../dati/servizi';
+import { domandeGestionali } from '../dati/metodo';
+import { sito } from '../dati/sito';
+
+const gestionali = offerta.find((o) => o.id === 'gestionali');
+
+const datiStrutturati = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: gestionali?.nome,
+    serviceType: 'Gestionale web su misura',
+    description: gestionali?.frase,
+    url: new URL('/gestionali', Astro.site).href,
+    provider: { '@type': 'ProfessionalService', name: sito.nome, url: sito.url },
+    areaServed: [
+      { '@type': 'City', name: sito.comune },
+      { '@type': 'AdministrativeArea', name: `Provincia di ${sito.provincia}` },
+      { '@type': 'Country', name: 'Italia' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: domandeGestionali.map((d) => ({
+      '@type': 'Question',
+      name: d.domanda,
+      acceptedAnswer: { '@type': 'Answer', text: d.risposta },
+    })),
+  },
+];
 ---
 
-<PaginaSegnaposto titolo="Gestionali" />
+<Base
+  titolo="Gestionali e web app su misura"
+  descrizione="Prenotazioni, squadra, ordini e magazzino in un'app sola, dal telefono e dal computer. Gestionali su misura per le attività della provincia di Ragusa."
+>
+  <PaginaGestionali />
+  <ComeLavoriamo />
+  <Chiusura />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(datiStrutturati)} />
+</Base>

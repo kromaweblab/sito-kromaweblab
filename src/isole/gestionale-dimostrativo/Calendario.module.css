@@ -1,0 +1,192 @@
+/*
+ * Il calendario del mese, dentro lo schermo dell'app (chiaro, angoli
+ * tondi). I colori vengono dalla prova, che li calcola dal colore scelto dal
+ * visitatore: --tema (fondi), --tema-su (testo sopra --tema), --tema-testo
+ * (scritte e contorni sul fondo chiaro). Vedi GestionaleDimostrativo.tsx.
+ */
+
+.calendario {
+  container: calendario / inline-size;
+  display: grid;
+  gap: var(--kroma-spazio-1);
+}
+
+/* I nomi dei giorni: "Lun" quando c'è posto, "L" quando il calendario è stretto. */
+.nomeCorto {
+  display: none;
+}
+
+@container calendario (width < 20rem) {
+  .nomeLungo {
+    display: none;
+  }
+
+  .nomeCorto {
+    display: inline;
+  }
+}
+
+/* ‹ Ottobre 2026 › */
+.testa {
+  display: grid;
+  grid-template-columns: var(--kroma-spazio-5) minmax(0, 1fr) var(--kroma-spazio-5);
+  align-items: center;
+}
+
+.titolo {
+  margin: 0;
+  text-align: center;
+  font-weight: 700;
+}
+
+.mese {
+  height: var(--kroma-spazio-5);
+  border: var(--kroma-linea-sottile) solid var(--kroma-app-linea);
+  border-radius: calc(var(--kroma-app-raggio) / 2);
+  background: var(--kroma-app-superficie);
+  color: var(--kroma-app-testo);
+  font-size: var(--kroma-testo-m);
+  cursor: pointer;
+}
+
+.mese:disabled {
+  color: var(--kroma-app-linea);
+  cursor: not-allowed;
+}
+
+.griglia {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: calc(var(--kroma-spazio-1) / 2);
+  table-layout: fixed;
+}
+
+.griglia th {
+  padding-bottom: calc(var(--kroma-spazio-1) / 2);
+  color: var(--kroma-app-tenue);
+  font-weight: 600;
+  text-align: center;
+}
+
+.griglia td {
+  padding: 0;
+}
+
+/* Un giorno: il numero, e sotto (sul computer) quante prenotazioni ha. */
+.giorno {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1;
+  min-height: var(--kroma-spazio-5);
+  padding: 0;
+  border: var(--kroma-linea-sottile) solid transparent;
+  border-radius: calc(var(--kroma-app-raggio) / 2);
+  background: transparent;
+  color: var(--kroma-app-testo);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: background-color var(--kroma-durata) var(--kroma-curva);
+}
+
+/* Libero: il giorno si tocca, ed è colorato appena. */
+.giorno[data-tipo='libero'],
+.giorno[data-tipo='conta'] {
+  background: color-mix(in srgb, var(--tema) 10%, var(--kroma-app-superficie));
+  font-weight: 600;
+}
+
+.giorno[data-tipo='libero']:hover,
+.giorno[data-tipo='conta']:hover {
+  background: color-mix(in srgb, var(--tema) 20%, var(--kroma-app-superficie));
+}
+
+/* Pieno: il numero barrato. La parola "pieno" la legge il lettore di schermo. */
+.giorno[data-tipo='pieno'] {
+  color: var(--kroma-app-tenue);
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+/* Chiuso, passato o troppo avanti: spento. */
+.giorno[data-tipo='spento'] {
+  color: var(--kroma-app-tenue);
+  cursor: not-allowed;
+}
+
+/* Oggi: un filo sotto il numero. */
+.giorno[aria-current='date'] .numero {
+  text-decoration: underline;
+  text-decoration-thickness: var(--kroma-linea-spessa);
+  text-underline-offset: 0.25em;
+}
+
+/* Il giorno scelto: pieno del colore dell'app, con il testo che ci si legge sopra. */
+td[aria-selected='true'] .giorno {
+  background: var(--tema);
+  color: var(--tema-su);
+}
+
+.giorno:focus-visible {
+  outline: var(--kroma-linea-spessa) solid var(--tema-testo);
+  outline-offset: var(--kroma-linea-sottile);
+}
+
+/* Le prenotazioni del giorno, in un tondino in alto a destra. */
+.conta {
+  position: absolute;
+  top: calc(var(--kroma-spazio-1) / -2);
+  right: calc(var(--kroma-spazio-1) / -2);
+  min-width: calc(var(--kroma-spazio-2) + var(--kroma-spazio-1) / 2);
+  padding: 0 calc(var(--kroma-spazio-1) / 2);
+  border-radius: var(--kroma-app-raggio);
+  background: var(--tema);
+  color: var(--tema-su);
+  font-size: var(--kroma-testo-s);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+td[aria-selected='true'] .conta {
+  background: var(--kroma-app-testo);
+}
+
+/* --------------------------------------------------------------- legenda */
+
+.legenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kroma-spazio-1) var(--kroma-spazio-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--kroma-app-tenue);
+}
+
+.legenda li {
+  display: flex;
+  align-items: center;
+  gap: var(--kroma-spazio-1);
+}
+
+.campione {
+  display: grid;
+  place-items: center;
+  width: var(--kroma-spazio-3);
+  height: var(--kroma-spazio-3);
+  border-radius: calc(var(--kroma-app-raggio) / 4);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Ogni campione è un giorno in miniatura, con l'aspetto dei giorni veri. */
+.campione[data-tipo='libero'],
+.campione[data-tipo='conta'] {
+  background: color-mix(in srgb, var(--tema) 10%, var(--kroma-app-superficie));
+  color: var(--kroma-app-testo);
+  font-weight: 600;
+}
+
+.campione[data-tipo='pieno'] {
+  text-decoration: line-through;
+}

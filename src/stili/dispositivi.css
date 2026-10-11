@@ -1,0 +1,180 @@
+/*
+ * Le sagome dei dispositivi, uguali in tutto il sito (11/10/2026, Andrea):
+ * un iPhone 17 per i telefoni, un MacBook Air per i computer. Le usano le
+ * schermate vere (Schermata.astro), i riquadri dei lavori e le due prove.
+ * Sono classi globali perché servono sia nei .astro sia nelle isole React.
+ *
+ * Gli angoli tondi sono un'eccezione voluta agli angoli vivi del sito, come
+ * dentro le app di esempio: disegnano un oggetto vero.
+ *
+ * iPhone:
+ *   <div class="iphone">
+ *     <div class="iphone-schermo">
+ *       <div class="iphone-contenuto">…</div>
+ *     </div>
+ *   </div>
+ * La barra di stato prende il colore da --iphone-stato (e il testo da
+ * --iphone-stato-testo): chi usa la sagoma lo intona con la sua app.
+ *
+ * MacBook:
+ *   <div class="macbook">
+ *     <div class="macbook-schermo">
+ *       (una barra della finestra, se serve)
+ *       <div class="macbook-contenuto">…</div>   o direttamente un'<img>
+ *     </div>
+ *   </div>
+ */
+
+/* --------------------------------------------------------------- iPhone */
+
+.iphone {
+  position: relative;
+  width: 100%;
+  /* Le proporzioni dell'iPhone 17: 71,5 × 149,6 mm. */
+  aspect-ratio: 71.5 / 149.6;
+  padding: var(--kroma-spazio-1);
+  border: var(--kroma-linea-spessa) solid var(--kroma-bordo);
+  /* Angoli in proporzione, come sul telefono vero: 14% della larghezza
+     (6,7% dell'altezza), qualunque sia la grandezza della sagoma. */
+  border-radius: 14% / 6.7%;
+  background: var(--kroma-nero);
+}
+
+.iphone-schermo {
+  position: relative;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  height: 100%;
+  /* Lo spazio della barra di stato, con la Dynamic Island. */
+  padding-top: var(--kroma-spazio-5);
+  overflow: hidden;
+  border-radius: 11% / 5.4%;
+  background: var(--iphone-stato, var(--kroma-app-fondo));
+}
+
+/* La Dynamic Island. */
+.iphone-schermo::before {
+  content: '';
+  position: absolute;
+  top: var(--kroma-spazio-1);
+  left: 50%;
+  width: 32%;
+  height: var(--kroma-spazio-3);
+  border-radius: var(--kroma-spazio-2);
+  background: var(--kroma-nero);
+  translate: -50% 0;
+}
+
+/* L'ora, come nelle foto dei telefoni. Dopo la barra: niente da leggere. */
+.iphone-schermo::after {
+  content: '9:41' / '';
+  position: absolute;
+  top: var(--kroma-spazio-1);
+  left: var(--kroma-spazio-3);
+  font-size: var(--kroma-testo-s);
+  font-weight: 600;
+  line-height: var(--kroma-spazio-3);
+  color: var(--iphone-stato-testo, var(--kroma-app-testo));
+}
+
+/* Il contenuto scorre dentro lo schermo, come su un telefono vero. */
+.iphone-contenuto {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+/* L'app riempie sempre lo schermo, anche quando ha poco da mostrare. */
+.iphone-contenuto > * {
+  min-height: 100%;
+}
+
+/* Una schermata vera riempie lo schermo, partendo dall'alto. */
+.iphone-contenuto > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* -------------------------------------------------------------- MacBook */
+
+.macbook {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  width: 100%;
+}
+
+/* Lo schermo del MacBook Air, 16:10. Se il contenuto è più alto scorre
+   dentro (.macbook-contenuto), come su un portatile vero. */
+.macbook-schermo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 92%;
+  aspect-ratio: 16 / 10;
+  padding: var(--kroma-spazio-1);
+  border: var(--kroma-linea-spessa) solid var(--kroma-bordo);
+  border-bottom: 0;
+  border-radius: var(--kroma-spazio-2) var(--kroma-spazio-2) 0 0;
+  background: var(--kroma-nero);
+}
+
+.macbook-contenuto {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+/* Con una schermata vera lo schermo prende le sue proporzioni: si vede intera. */
+.macbook-schermo:has(> img) {
+  aspect-ratio: auto;
+}
+
+.macbook-schermo > img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Il notch della fotocamera, in alto al centro. */
+.macbook-schermo::before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  top: var(--kroma-spazio-1);
+  left: 50%;
+  width: 14%;
+  height: var(--kroma-spazio-2);
+  border-radius: 0 0 var(--kroma-spazio-1) var(--kroma-spazio-1);
+  background: var(--kroma-nero);
+  translate: -50% 0;
+}
+
+/* La base, un po' più larga dello schermo. */
+.macbook::after {
+  content: '';
+  width: 100%;
+  height: var(--kroma-spazio-2);
+  border-radius: 0 0 var(--kroma-spazio-2) var(--kroma-spazio-2);
+  background: var(--kroma-chiaro-tenue);
+}
+
+/* L'incavo per aprirlo, al centro della base. */
+.macbook::before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  bottom: var(--kroma-spazio-1);
+  left: 50%;
+  width: 14%;
+  height: var(--kroma-spazio-1);
+  border-radius: 0 0 var(--kroma-spazio-1) var(--kroma-spazio-1);
+  background: var(--kroma-bordo);
+  translate: -50% 0;
+}

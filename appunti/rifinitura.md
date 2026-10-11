@@ -40,18 +40,16 @@ punto lo cancella da qui nella stessa PR.
 - [ ] `src/componenti/Pulsante.astro`: l'opzione `freccia` non la usa più
       nessuno, e il commento d'esempio dice "Raccontaci la tua attività".
 - [ ] `src/componenti/PaginaSegnaposto.astro`: da togliere quando non ci
-      sono più pagine provvisorie.
+      sono più pagine provvisorie (dall'11/10/2026 la usa solo `/privacy`).
 - [ ] Classe `.parliamone` nel configuratore (solo il nome, non si vede):
       rinominare in qualcosa come `.recapitiFinali` (Andrea).
 
 ## Per Andrea
 
-- [ ] Lavagna dimostrativa (`src/isole/gestionale-dimostrativo/`): fuori
-      dalla home; decidere se riusarla (es. `/gestionali`) e, se sì, colori
-      scuri (usa `--kroma-arancione-testo`, `--kroma-carta*`).
-- [ ] `src/dati/metodo.ts`: `fattiGestionale` e `domandeGestionali` danno del
-      tu, e "Il server lo acquisti tu, insieme al dominio" è una promessa non
-      ancora decisa (su `/siti` è `[DA DEFINIRE]`).
 - [ ] Token `--kroma-vivai-*` in `tokens.css`: dall'08/10/2026 non li usa
       più nessuno (la ricostruzione di Vivai è stata sostituita dalle
       schermate vere). Toglierli, o tenerli se torna una ricostruzione.
+- [ ] Prova "dal campo all'ufficio" (Giovanni): in `Telefono.tsx` e
+      `Ufficio.tsx` si usano le classi `cosa`, `quando` ed `etichettaBarra`,
+      che nel CSS non ci sono (c'era già prima dell'11/10/2026, non rompe
+      niente): aggiungerle o togliere i riferimenti.

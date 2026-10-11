@@ -1,8 +1,8 @@
-// Le sei attività del gestionale dimostrativo: parole e dati di esempio.
-// Le etichette seguono la tabella in CLAUDE.md. I dati di esempio sono
-// finti ma plausibili: il componente mostra sempre "Dati di esempio".
-
-import type { Prenotazione } from './logica';
+// Le sei attività della prova "dal cliente all'attività": servizi, orari,
+// giorni di chiusura, posti, e le prenotazioni di esempio. Dati finti ma
+// plausibili: la prova mostra sempre "Dati di esempio".
+//
+// Solo nomi di battesimo: niente cognomi, nemmeno inventati (CLAUDE.md).
 
 export type IdAttivita =
   | 'ristorante'
@@ -12,20 +12,32 @@ export type IdAttivita =
   | 'studio-medico'
   | 'studio-professionale';
 
-/** Un campo a scelta del modulo (tavolo, servizio, notti…). */
-export interface CampoAScelta {
-  /** Etichetta del campo nel modulo: "Tavolo", "Estetista". */
-  etichetta: string;
-  /** Per il messaggio d'errore: "Scegli il tavolo." */
-  conArticolo: string;
-  scelte: string[];
-  /** Parola davanti al valore nella lavagna: "con Giulia". */
-  prefisso?: string;
+export type Stato = 'richiesta' | 'confermata' | 'completata';
+
+/** Un servizio che il cliente può prenotare, con gli orari in cui si fa. */
+export interface Servizio {
+  nome: string;
+  /** "19:30", in ordine. */
+  orari: string[];
+}
+
+/**
+ * Una prenotazione di esempio. Non ha una data: "aperto" è il numero del
+ * giorno di apertura a partire da oggi (0 = il primo giorno aperto), così
+ * gli esempi non cadono mai in un giorno di chiusura, qualunque sia oggi.
+ */
+export interface Esempio {
+  aperto: number;
+  ora: string;
+  nome: string;
+  servizio: string;
+  persone?: number;
+  stato: Stato;
 }
 
 export interface Attivita {
   id: IdAttivita;
-  /** Nome nel selettore: "Ristorante". */
+  /** Nome nel selettore, e nome dell'app finché il visitatore non ne scrive uno. */
   nome: string;
   /** Per le frasi: "un ristorante", "uno studio medico". */
   conArticolo: string;
@@ -33,15 +45,48 @@ export interface Attivita {
   chi: string;
   /** Come si chiama una prenotazione in questa attività, per le frasi. */
   evento: { singolare: string; plurale: string; articolo: string; femminile: boolean };
+  /** La domanda sul servizio, sul telefono del cliente. */
+  domandaServizio: string;
+  servizi: Servizio[];
   /** Numero di persone, se conta: "4 coperti". */
-  quanti?: { singolare: string; plurale: string; massimo: number };
-  dove?: CampoAScelta;
-  cosa?: CampoAScelta;
-  esempi: Prenotazione[];
+  persone?: { singolare: string; plurale: string; massimo: number };
+  /** Quante prenotazioni ci stanno nello stesso orario (tavoli, poltrone). */
+  posti: number;
+  /** Giorni della settimana di chiusura: 0 = domenica, 1 = lunedì… */
+  chiuso: number[];
+  esempi: Esempio[];
+  /** Il giorno aperto da riempire tutto, per far vedere "pieno" al cliente. */
+  giornoPieno: number;
 }
 
-const numerati = (parola: string, quanti: number) =>
-  Array.from({ length: quanti }, (_, i) => `${parola} ${i + 1}`);
+/** I nomi delle prenotazioni di esempio. */
+export const nomiDiEsempio = [
+  'Rosa',
+  'Marco',
+  'Lucia',
+  'Paolo',
+  'Elena',
+  'Teresa',
+  'Luca',
+  'Anna',
+  'Giorgio',
+  'Pietro',
+  'Chiara',
+  'Davide',
+  'Irene',
+  'Matteo',
+  'Sofia',
+  'Franco',
+];
+
+const orariParrucchiere = ['09:00', '10:00', '11:00', '12:00', '15:00', '16:00', '17:00', '18:00'];
+const orariEstetica = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00'];
+const orariMedico = ['08:30', '09:30', '10:30', '11:30', '15:00', '16:00', '17:00', '18:00'];
+const orariStudio = ['09:00', '10:00', '11:00', '12:00', '15:00', '16:00', '17:00'];
+
+/** Più servizi con gli stessi orari: "Taglio", "Piega"… */
+const conOrari = (orari: string[], ...nomi: string[]): Servizio[] =>
+  nomi.map((nome) => ({ nome, orari }));
 
 export const attivita: Record<IdAttivita, Attivita> = {
   ristorante: {
@@ -55,73 +100,31 @@ export const attivita: Record<IdAttivita, Attivita> = {
       articolo: 'la ',
       femminile: true,
     },
-    quanti: { singolare: 'coperto', plurale: 'coperti', massimo: 20 },
-    dove: { etichetta: 'Tavolo', conArticolo: 'il tavolo', scelte: numerati('Tavolo', 12) },
+    domandaServizio: 'Pranzo o cena?',
+    servizi: [
+      { nome: 'Pranzo', orari: ['12:30', '13:30'] },
+      { nome: 'Cena', orari: ['19:30', '20:30', '21:30'] },
+    ],
+    persone: { singolare: 'coperto', plurale: 'coperti', massimo: 12 },
+    posti: 2,
+    chiuso: [1],
     esempi: [
       {
-        id: 'e1',
-        giorno: 0,
-        ora: '13:00',
-        nome: 'Russo',
-        quanti: 2,
-        dove: 'Tavolo 3',
+        aperto: 0,
+        ora: '13:30',
+        nome: 'Rosa',
+        servizio: 'Pranzo',
+        persone: 2,
         stato: 'completata',
       },
-      {
-        id: 'e2',
-        giorno: 0,
-        ora: '20:00',
-        nome: 'Greco',
-        quanti: 6,
-        dove: 'Tavolo 9',
-        stato: 'confermata',
-      },
-      {
-        id: 'e3',
-        giorno: 0,
-        ora: '20:30',
-        nome: 'Bianchi',
-        quanti: 4,
-        dove: 'Tavolo 7',
-        stato: 'confermata',
-      },
-      {
-        id: 'e4',
-        giorno: 0,
-        ora: '21:15',
-        nome: 'Caruso',
-        quanti: 2,
-        dove: 'Tavolo 2',
-        stato: 'richiesta',
-      },
-      {
-        id: 'e5',
-        giorno: 1,
-        ora: '13:30',
-        nome: 'Lombardo',
-        quanti: 8,
-        dove: 'Tavolo 10',
-        stato: 'confermata',
-      },
-      {
-        id: 'e6',
-        giorno: 1,
-        ora: '20:30',
-        nome: 'Marino',
-        quanti: 3,
-        dove: 'Tavolo 5',
-        stato: 'richiesta',
-      },
-      {
-        id: 'e7',
-        giorno: 2,
-        ora: '21:00',
-        nome: 'Rizzo',
-        quanti: 5,
-        dove: 'Tavolo 8',
-        stato: 'richiesta',
-      },
+      { aperto: 0, ora: '19:30', nome: 'Marco', servizio: 'Cena', persone: 6, stato: 'confermata' },
+      { aperto: 0, ora: '20:30', nome: 'Lucia', servizio: 'Cena', persone: 4, stato: 'confermata' },
+      { aperto: 0, ora: '21:30', nome: 'Paolo', servizio: 'Cena', persone: 2, stato: 'richiesta' },
+      { aperto: 1, ora: '20:30', nome: 'Elena', servizio: 'Cena', persone: 8, stato: 'confermata' },
+      { aperto: 1, ora: '19:30', nome: 'Teresa', servizio: 'Cena', persone: 3, stato: 'richiesta' },
+      { aperto: 2, ora: '12:30', nome: 'Luca', servizio: 'Pranzo', persone: 5, stato: 'richiesta' },
     ],
+    giornoPieno: 4,
   },
 
   parrucchiere: {
@@ -135,72 +138,19 @@ export const attivita: Record<IdAttivita, Attivita> = {
       articolo: "l'",
       femminile: false,
     },
-    dove: {
-      etichetta: 'Postazione',
-      conArticolo: 'la postazione',
-      scelte: numerati('Postazione', 4),
-    },
-    cosa: {
-      etichetta: 'Servizio',
-      conArticolo: 'il servizio',
-      scelte: ['Taglio', 'Piega', 'Taglio e piega', 'Colore', 'Barba'],
-    },
+    domandaServizio: 'Che servizio?',
+    servizi: conOrari(orariParrucchiere, 'Taglio', 'Piega', 'Taglio e piega', 'Colore', 'Barba'),
+    posti: 1,
+    chiuso: [0, 1],
     esempi: [
-      {
-        id: 'e1',
-        giorno: 0,
-        ora: '09:00',
-        nome: 'Gallo',
-        dove: 'Postazione 1',
-        cosa: 'Taglio',
-        stato: 'completata',
-      },
-      {
-        id: 'e2',
-        giorno: 0,
-        ora: '10:30',
-        nome: 'Ferrara',
-        dove: 'Postazione 2',
-        cosa: 'Colore',
-        stato: 'confermata',
-      },
-      {
-        id: 'e3',
-        giorno: 0,
-        ora: '16:00',
-        nome: 'Bruno',
-        dove: 'Postazione 1',
-        cosa: 'Taglio e piega',
-        stato: 'richiesta',
-      },
-      {
-        id: 'e4',
-        giorno: 1,
-        ora: '09:30',
-        nome: 'Costa',
-        dove: 'Postazione 3',
-        cosa: 'Barba',
-        stato: 'confermata',
-      },
-      {
-        id: 'e5',
-        giorno: 1,
-        ora: '11:00',
-        nome: 'Messina',
-        dove: 'Postazione 1',
-        cosa: 'Piega',
-        stato: 'richiesta',
-      },
-      {
-        id: 'e6',
-        giorno: 2,
-        ora: '15:30',
-        nome: 'Leone',
-        dove: 'Postazione 2',
-        cosa: 'Taglio',
-        stato: 'richiesta',
-      },
+      { aperto: 0, ora: '09:00', nome: 'Anna', servizio: 'Taglio', stato: 'completata' },
+      { aperto: 0, ora: '11:00', nome: 'Giorgio', servizio: 'Barba', stato: 'confermata' },
+      { aperto: 0, ora: '16:00', nome: 'Chiara', servizio: 'Colore', stato: 'richiesta' },
+      { aperto: 1, ora: '10:00', nome: 'Pietro', servizio: 'Taglio', stato: 'confermata' },
+      { aperto: 1, ora: '17:00', nome: 'Davide', servizio: 'Taglio e piega', stato: 'richiesta' },
+      { aperto: 2, ora: '15:00', nome: 'Irene', servizio: 'Piega', stato: 'confermata' },
     ],
+    giornoPieno: 3,
   },
 
   'centro-estetico': {
@@ -214,73 +164,25 @@ export const attivita: Record<IdAttivita, Attivita> = {
       articolo: "l'",
       femminile: false,
     },
-    dove: {
-      etichetta: 'Estetista',
-      conArticolo: "l'estetista",
-      scelte: ['Giulia', 'Sara', 'Marta'],
-      prefisso: 'con',
-    },
-    cosa: {
-      etichetta: 'Trattamento',
-      conArticolo: 'il trattamento',
-      scelte: ['Pulizia del viso', 'Manicure', 'Pedicure', 'Ceretta', 'Massaggio'],
-    },
+    domandaServizio: 'Che trattamento?',
+    servizi: conOrari(
+      orariEstetica,
+      'Pulizia del viso',
+      'Manicure',
+      'Pedicure',
+      'Ceretta',
+      'Massaggio',
+    ),
+    posti: 1,
+    chiuso: [0],
     esempi: [
-      {
-        id: 'e1',
-        giorno: 0,
-        ora: '10:00',
-        nome: 'Rizzo',
-        dove: 'Giulia',
-        cosa: 'Manicure',
-        stato: 'completata',
-      },
-      {
-        id: 'e2',
-        giorno: 0,
-        ora: '15:00',
-        nome: 'Marino',
-        dove: 'Sara',
-        cosa: 'Pulizia del viso',
-        stato: 'confermata',
-      },
-      {
-        id: 'e3',
-        giorno: 0,
-        ora: '17:30',
-        nome: 'Greco',
-        dove: 'Giulia',
-        cosa: 'Massaggio',
-        stato: 'richiesta',
-      },
-      {
-        id: 'e4',
-        giorno: 1,
-        ora: '11:00',
-        nome: 'Caruso',
-        dove: 'Marta',
-        cosa: 'Ceretta',
-        stato: 'confermata',
-      },
-      {
-        id: 'e5',
-        giorno: 2,
-        ora: '09:30',
-        nome: 'Bianchi',
-        dove: 'Sara',
-        cosa: 'Pedicure',
-        stato: 'richiesta',
-      },
-      {
-        id: 'e6',
-        giorno: 2,
-        ora: '16:30',
-        nome: 'Russo',
-        dove: 'Giulia',
-        cosa: 'Manicure',
-        stato: 'richiesta',
-      },
+      { aperto: 0, ora: '09:00', nome: 'Rosa', servizio: 'Pulizia del viso', stato: 'completata' },
+      { aperto: 0, ora: '11:00', nome: 'Teresa', servizio: 'Manicure', stato: 'confermata' },
+      { aperto: 0, ora: '16:00', nome: 'Elena', servizio: 'Massaggio', stato: 'richiesta' },
+      { aperto: 1, ora: '10:00', nome: 'Sofia', servizio: 'Ceretta', stato: 'confermata' },
+      { aperto: 1, ora: '15:00', nome: 'Chiara', servizio: 'Pedicure', stato: 'richiesta' },
     ],
+    giornoPieno: 3,
   },
 
   agriturismo: {
@@ -294,59 +196,51 @@ export const attivita: Record<IdAttivita, Attivita> = {
       articolo: 'la ',
       femminile: true,
     },
-    quanti: { singolare: 'persona', plurale: 'persone', massimo: 8 },
-    dove: {
-      etichetta: 'Camera',
-      conArticolo: 'la camera',
-      scelte: ['Camera Carrubo', 'Camera Ulivo', 'Camera Mandorlo', 'Camera Fico'],
-    },
-    cosa: {
-      etichetta: 'Notti',
-      conArticolo: 'quante notti',
-      scelte: ['1 notte', '2 notti', '3 notti', '4 notti', '5 notti', '6 notti', '7 notti'],
-    },
+    domandaServizio: 'Cosa vuoi prenotare?',
+    servizi: [
+      { nome: 'Pranzo', orari: ['12:30', '13:30'] },
+      { nome: 'Degustazione', orari: ['17:00'] },
+      { nome: 'Cena', orari: ['19:30', '20:30'] },
+    ],
+    persone: { singolare: 'persona', plurale: 'persone', massimo: 10 },
+    posti: 2,
+    chiuso: [2],
     esempi: [
       {
-        id: 'e1',
-        giorno: 0,
-        ora: '15:00',
-        nome: 'Lombardo',
-        quanti: 2,
-        dove: 'Camera Ulivo',
-        cosa: '3 notti',
+        aperto: 0,
+        ora: '12:30',
+        nome: 'Luca',
+        servizio: 'Pranzo',
+        persone: 4,
+        stato: 'completata',
+      },
+      {
+        aperto: 0,
+        ora: '17:00',
+        nome: 'Anna',
+        servizio: 'Degustazione',
+        persone: 6,
+        stato: 'confermata',
+      },
+      { aperto: 0, ora: '20:30', nome: 'Marco', servizio: 'Cena', persone: 2, stato: 'richiesta' },
+      {
+        aperto: 1,
+        ora: '19:30',
+        nome: 'Franco',
+        servizio: 'Cena',
+        persone: 5,
         stato: 'confermata',
       },
       {
-        id: 'e2',
-        giorno: 0,
-        ora: '18:00',
-        nome: 'Costa',
-        quanti: 4,
-        dove: 'Camera Carrubo',
-        cosa: '2 notti',
-        stato: 'richiesta',
-      },
-      {
-        id: 'e3',
-        giorno: 1,
-        ora: '16:00',
-        nome: 'Ferrara',
-        quanti: 2,
-        dove: 'Camera Fico',
-        cosa: '1 notte',
-        stato: 'confermata',
-      },
-      {
-        id: 'e4',
-        giorno: 2,
-        ora: '14:30',
-        nome: 'Gallo',
-        quanti: 3,
-        dove: 'Camera Mandorlo',
-        cosa: '4 notti',
+        aperto: 1,
+        ora: '12:30',
+        nome: 'Irene',
+        servizio: 'Pranzo',
+        persone: 3,
         stato: 'richiesta',
       },
     ],
+    giornoPieno: 4,
   },
 
   'studio-medico': {
@@ -355,47 +249,31 @@ export const attivita: Record<IdAttivita, Attivita> = {
     conArticolo: 'uno studio medico',
     chi: 'paziente',
     evento: { singolare: 'visita', plurale: 'visite', articolo: 'la ', femminile: true },
-    cosa: {
-      etichetta: 'Visita',
-      conArticolo: 'il tipo di visita',
-      scelte: ['Prima visita', 'Controllo', 'Pulizia dei denti', 'Certificato', 'Medicazione'],
-    },
+    domandaServizio: 'Che visita?',
+    servizi: conOrari(
+      orariMedico,
+      'Prima visita',
+      'Controllo',
+      'Pulizia dei denti',
+      'Certificato',
+      'Medicazione',
+    ),
+    posti: 1,
+    chiuso: [0, 6],
     esempi: [
-      { id: 'e1', giorno: 0, ora: '09:00', nome: 'Bruno', cosa: 'Controllo', stato: 'completata' },
+      { aperto: 0, ora: '08:30', nome: 'Pietro', servizio: 'Controllo', stato: 'completata' },
       {
-        id: 'e2',
-        giorno: 0,
-        ora: '09:30',
-        nome: 'Messina',
-        cosa: 'Pulizia dei denti',
-        stato: 'completata',
-      },
-      {
-        id: 'e3',
-        giorno: 0,
-        ora: '11:00',
-        nome: 'Leone',
-        cosa: 'Prima visita',
+        aperto: 0,
+        ora: '10:30',
+        nome: 'Davide',
+        servizio: 'Pulizia dei denti',
         stato: 'confermata',
       },
-      { id: 'e4', giorno: 0, ora: '17:00', nome: 'Greco', cosa: 'Medicazione', stato: 'richiesta' },
-      {
-        id: 'e5',
-        giorno: 1,
-        ora: '10:00',
-        nome: 'Caruso',
-        cosa: 'Certificato',
-        stato: 'confermata',
-      },
-      {
-        id: 'e6',
-        giorno: 2,
-        ora: '16:00',
-        nome: 'Rizzo',
-        cosa: 'Prima visita',
-        stato: 'richiesta',
-      },
+      { aperto: 0, ora: '17:00', nome: 'Marco', servizio: 'Medicazione', stato: 'richiesta' },
+      { aperto: 1, ora: '09:30', nome: 'Paolo', servizio: 'Certificato', stato: 'confermata' },
+      { aperto: 1, ora: '16:00', nome: 'Luca', servizio: 'Prima visita', stato: 'richiesta' },
     ],
+    giornoPieno: 3,
   },
 
   'studio-professionale': {
@@ -409,62 +287,45 @@ export const attivita: Record<IdAttivita, Attivita> = {
       articolo: "l'",
       femminile: false,
     },
-    cosa: {
-      etichetta: 'Appuntamento',
-      conArticolo: 'il tipo di appuntamento',
-      scelte: [
-        'Prima consulenza',
-        'Dichiarazione dei redditi',
-        'Firma documenti',
-        'Aggiornamento pratica',
-      ],
-    },
+    domandaServizio: 'Per cosa?',
+    servizi: conOrari(
+      orariStudio,
+      'Prima consulenza',
+      'Dichiarazione dei redditi',
+      'Firma documenti',
+      'Aggiornamento pratica',
+    ),
+    posti: 1,
+    chiuso: [0, 6],
     esempi: [
       {
-        id: 'e1',
-        giorno: 0,
-        ora: '09:30',
-        nome: 'Ferrara',
-        cosa: 'Firma documenti',
+        aperto: 0,
+        ora: '09:00',
+        nome: 'Giorgio',
+        servizio: 'Firma documenti',
         stato: 'completata',
       },
       {
-        id: 'e2',
-        giorno: 0,
+        aperto: 0,
         ora: '11:00',
-        nome: 'Marino',
-        cosa: 'Dichiarazione dei redditi',
+        nome: 'Chiara',
+        servizio: 'Dichiarazione dei redditi',
         stato: 'confermata',
       },
+      { aperto: 0, ora: '16:00', nome: 'Matteo', servizio: 'Prima consulenza', stato: 'richiesta' },
       {
-        id: 'e3',
-        giorno: 0,
-        ora: '16:30',
-        nome: 'Costa',
-        cosa: 'Prima consulenza',
-        stato: 'richiesta',
-      },
-      {
-        id: 'e4',
-        giorno: 1,
+        aperto: 1,
         ora: '10:00',
-        nome: 'Gallo',
-        cosa: 'Aggiornamento pratica',
+        nome: 'Lucia',
+        servizio: 'Aggiornamento pratica',
         stato: 'confermata',
       },
-      {
-        id: 'e5',
-        giorno: 2,
-        ora: '15:00',
-        nome: 'Lombardo',
-        cosa: 'Prima consulenza',
-        stato: 'richiesta',
-      },
+      { aperto: 1, ora: '15:00', nome: 'Elena', servizio: 'Prima consulenza', stato: 'richiesta' },
     ],
+    giornoPieno: 3,
   },
 };
 
-/** L'ordine in cui compaiono nel selettore. */
 export const ordineAttivita: IdAttivita[] = [
   'ristorante',
   'parrucchiere',

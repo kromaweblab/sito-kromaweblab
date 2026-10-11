@@ -1,278 +1,460 @@
 import { describe, expect, it } from 'vitest';
-import { attivita, ordineAttivita } from './attivita';
+// ?raw: Vite legge il file come testo (niente fs di Node, niente tipi in più).
+import testoToken from '../../stili/tokens.css?raw';
+import { attivita, nomiDiEsempio, ordineAttivita } from './attivita';
 import {
-  aggiornaLavagna,
-  controllaNuova,
-  descriviDove,
-  descriviQuanti,
-  etichettaData,
+  aggiorna,
+  colorePredefinito,
+  coloreLeggibile,
+  contrasto,
+  contaDelGiorno,
+  controllaAggiunta,
+  controllaRichiesta,
+  dataEstesa,
+  descriviDettagli,
+  esempiIniziali,
+  etichettaGiorno,
+  etichettaStato,
+  giornoChiuso,
+  infoGiornoCliente,
+  lunghezzaMassimaNome,
+  mese,
+  mesiDopo,
+  nomeMostrato,
+  orariLiberi,
   prenotazioniDelGiorno,
   statoIniziale,
-  statoSuccessivo,
+  statoRichiesta,
   testoPulsanteAvanza,
-  type DatiNuova,
+  testoSuColore,
+  ultimoGiornoPrenotabile,
+  type DatiAggiunta,
+  type Prenotazione,
+  type StatoProva,
 } from './logica';
 
+// Domenica 11 ottobre 2026: il giorno 1 è lunedì 12, il 2 martedì 13…
+const oggi = new Date(2026, 9, 11);
 const ristorante = attivita.ristorante;
+const parrucchiere = attivita.parrucchiere;
 
-const nuovaAlRistorante: DatiNuova = {
-  giorno: 1,
-  ora: '20:30',
-  nome: '  Esposito ',
-  quanti: 4,
-  dove: 'Tavolo 7',
-};
+const pren = (valori: Partial<Prenotazione>): Prenotazione => ({
+  id: 'x',
+  giorno: 2,
+  ora: '19:30',
+  nome: 'Rosa',
+  servizio: 'Cena',
+  persone: 2,
+  stato: 'confermata',
+  ...valori,
+});
 
-describe('dati di esempio', () => {
-  // Un errore di battitura nei dati si vedrebbe solo nella demo pubblicata:
-  // qui si controlla che ogni esempio sia valido come una prenotazione vera.
-  it.each(ordineAttivita)('%s: ogni esempio passa i controlli del modulo', (id) => {
+/** Lo stato della prova con prenotazioni scelte, per provare una cosa sola. */
+const con = (prenotazioni: Prenotazione[], id = 'ristorante' as const): StatoProva => ({
+  ...statoIniziale(id, oggi),
+  prenotazioni,
+});
+
+/** Il cliente compila tutto e invia. */
+const inviaRichiesta = (stato: StatoProva, dati: Partial<StatoProva['cliente']>): StatoProva =>
+  aggiorna({ ...stato, cliente: { ...stato.cliente, ...dati } }, { tipo: 'invia' });
+
+// ---------------------------------------------------------------------------
+
+describe('le attività', () => {
+  it.each(ordineAttivita)('%s: servizi con orari in ordine, posti, giorni di chiusura', (id) => {
     const a = attivita[id];
-    for (const esempio of a.esempi) {
-      expect(controllaNuova(esempio, a), `${id} ${esempio.id}`).toEqual({});
+    expect(a.servizi.length).toBeGreaterThan(0);
+    for (const s of a.servizi) {
+      expect(s.orari.length).toBeGreaterThan(0);
+      for (const ora of s.orari) expect(ora).toMatch(/^\d\d:\d\d$/);
+      expect([...s.orari].sort()).toEqual(s.orari);
+    }
+    expect(a.posti).toBeGreaterThan(0);
+    expect(a.chiuso.length).toBeLessThan(7);
+    for (const g of a.chiuso) expect(g).toBeGreaterThanOrEqual(0);
+  });
+
+  it('il ristorante è chiuso il lunedì', () => {
+    expect(giornoChiuso(ristorante, oggi, 1)).toBe(true); // lunedì 12
+    expect(giornoChiuso(ristorante, oggi, 2)).toBe(false); // martedì 13
+  });
+});
+
+describe('date', () => {
+  it('per esteso, anche a cavallo di mese e di anno', () => {
+    expect(dataEstesa(oggi, 0)).toBe('Domenica 11 ottobre 2026');
+    expect(dataEstesa(oggi, 21)).toBe('Domenica 1 novembre 2026');
+    expect(dataEstesa(new Date(2026, 11, 31), 1)).toBe('Venerdì 1 gennaio 2027');
+  });
+});
+
+describe('il mese del calendario', () => {
+  it('settimane da lunedì a domenica, con oggi al suo posto', () => {
+    const ottobre = mese(oggi, 0);
+    expect(ottobre.titolo).toBe('Ottobre 2026');
+    const celle = ottobre.settimane.flat();
+    expect(ottobre.settimane.every((s) => s.length === 7)).toBe(true);
+    // Il 1° ottobre 2026 è giovedì: tre caselle vuote prima.
+    expect(celle.slice(0, 3)).toEqual([null, null, null]);
+    expect(celle[3]).toEqual({ numero: 1, giorno: -10 });
+    expect(celle.find((c) => c?.numero === 11)?.giorno).toBe(0);
+    expect(celle.filter((c) => c !== null)).toHaveLength(31);
+  });
+
+  it('quanti mesi dopo cade un giorno', () => {
+    expect(mesiDopo(oggi, 0)).toBe(0);
+    expect(mesiDopo(oggi, 20)).toBe(0); // 31 ottobre
+    expect(mesiDopo(oggi, 21)).toBe(1); // 1° novembre
+    expect(mesiDopo(new Date(2026, 11, 20), 15)).toBe(1); // gennaio dell'anno dopo
+  });
+
+  it('il mese dopo', () => {
+    const novembre = mese(oggi, 1);
+    expect(novembre.titolo).toBe('Novembre 2026');
+    // Il 1° novembre 2026 è domenica: sei caselle vuote prima.
+    expect(novembre.settimane[0]!.slice(0, 6)).toEqual([null, null, null, null, null, null]);
+    expect(novembre.settimane[0]![6]).toEqual({ numero: 1, giorno: 21 });
+  });
+});
+
+describe('orari liberi', () => {
+  it('un orario è pieno quando le prenotazioni arrivano ai posti', () => {
+    // Il ristorante ha due prenotazioni per orario.
+    expect(ristorante.posti).toBe(2);
+    const due = [pren({ id: 'a' }), pren({ id: 'b' })];
+    expect(orariLiberi(ristorante, due, 2, 'Cena')).not.toContain('19:30');
+    expect(orariLiberi(ristorante, [pren({})], 2, 'Cena')).toContain('19:30');
+  });
+
+  it('i posti valgono per tutti i servizi: una poltrona sola dal parrucchiere', () => {
+    const taglio = pren({ servizio: 'Taglio', ora: '10:00', persone: undefined });
+    expect(orariLiberi(parrucchiere, [taglio], 2, 'Colore')).not.toContain('10:00');
+  });
+
+  it('solo gli orari del servizio scelto', () => {
+    expect(orariLiberi(ristorante, [], 2, 'Pranzo')).toEqual(['12:30', '13:30']);
+  });
+});
+
+describe('il giorno, visto dal cliente', () => {
+  it('passato, oggi, chiuso, oltre le quattro settimane', () => {
+    expect(infoGiornoCliente(ristorante, [], oggi, -1, 'Cena').stato).toBe('passato');
+    expect(infoGiornoCliente(ristorante, [], oggi, 0, 'Cena').stato).toBe('oggi');
+    expect(infoGiornoCliente(ristorante, [], oggi, 1, 'Cena').stato).toBe('chiuso');
+    expect(infoGiornoCliente(ristorante, [], oggi, ultimoGiornoPrenotabile + 1, 'Cena').stato).toBe(
+      'fuori',
+    );
+  });
+
+  it('libero, con il numero degli orari; pieno quando non ne resta nessuno', () => {
+    expect(infoGiornoCliente(ristorante, [], oggi, 2, 'Cena')).toEqual({
+      stato: 'libero',
+      liberi: 3,
+    });
+    const tutto = ['19:30', '20:30', '21:30'].flatMap((ora) => [
+      pren({ id: `${ora}a`, ora }),
+      pren({ id: `${ora}b`, ora }),
+    ]);
+    expect(infoGiornoCliente(ristorante, tutto, oggi, 2, 'Cena').stato).toBe('pieno');
+  });
+
+  it('senza servizio scelto conta gli orari di tutti i servizi', () => {
+    expect(infoGiornoCliente(ristorante, [], oggi, 2, null).liberi).toBe(5);
+  });
+
+  it('un’etichetta che si legge per intero, anche senza vedere i colori', () => {
+    expect(etichettaGiorno(oggi, 2, { stato: 'libero', liberi: 3 })).toBe(
+      'Martedì 13 ottobre, 3 orari liberi',
+    );
+    expect(etichettaGiorno(oggi, 2, { stato: 'libero', liberi: 1 })).toBe(
+      'Martedì 13 ottobre, 1 orario libero',
+    );
+    expect(etichettaGiorno(oggi, 1, { stato: 'chiuso', liberi: 0 })).toBe(
+      'Lunedì 12 ottobre, chiuso',
+    );
+    expect(etichettaGiorno(oggi, 2, { stato: 'pieno', liberi: 0 })).toBe(
+      'Martedì 13 ottobre, pieno',
+    );
+    expect(etichettaGiorno(oggi, 0, { stato: 'oggi', liberi: 0 })).toBe(
+      'Domenica 11 ottobre, oggi: per oggi telefonate',
+    );
+  });
+});
+
+describe('le prenotazioni di esempio', () => {
+  it.each(ordineAttivita)('%s: mai in un giorno di chiusura, mai oltre un orario pieno', (id) => {
+    const a = attivita[id];
+    const esempi = esempiIniziali(a, oggi);
+    expect(esempi.length).toBeGreaterThan(0);
+    for (const p of esempi) {
+      expect(giornoChiuso(a, oggi, p.giorno)).toBe(false);
+      const stessoOrario = esempi.filter((q) => q.giorno === p.giorno && q.ora === p.ora);
+      expect(stessoOrario.length).toBeLessThanOrEqual(a.posti);
+      expect(a.servizi.map((s) => s.nome)).toContain(p.servizio);
     }
   });
 
-  it.each(ordineAttivita)('%s: id diversi e almeno una richiesta oggi', (id) => {
-    const esempi = attivita[id].esempi;
-    expect(new Set(esempi.map((e) => e.id)).size).toBe(esempi.length);
-    expect(esempi.some((e) => e.giorno === 0 && e.stato === 'richiesta')).toBe(true);
-  });
-
-  it("l'ordine del selettore contiene tutte le attività, una volta", () => {
-    expect([...ordineAttivita].sort()).toEqual(Object.keys(attivita).sort());
-  });
-});
-
-describe('stati', () => {
-  it('vanno solo avanti: richiesta → confermata → completata', () => {
-    expect(statoSuccessivo('richiesta')).toBe('confermata');
-    expect(statoSuccessivo('confermata')).toBe('completata');
-    expect(statoSuccessivo('completata')).toBeNull();
-  });
-
-  it('avanza cambia solo la prenotazione scelta', () => {
-    const prima = statoIniziale('ristorante');
-    const dopo = aggiornaLavagna(prima, { tipo: 'avanza', id: 'e4' });
-    expect(dopo.prenotazioni.find((p) => p.id === 'e4')?.stato).toBe('confermata');
-    expect(dopo.prenotazioni.filter((p) => p.id !== 'e4')).toEqual(
-      prima.prenotazioni.filter((p) => p.id !== 'e4'),
+  it.each(ordineAttivita)('%s: c’è un giorno pieno da far vedere al cliente', (id) => {
+    const a = attivita[id];
+    const esempi = esempiIniziali(a, oggi);
+    const pieni = Array.from({ length: ultimoGiornoPrenotabile }, (_, i) => i + 1).filter(
+      (g) => infoGiornoCliente(a, esempi, oggi, g, null).stato === 'pieno',
     );
+    expect(pieni.length).toBeGreaterThan(0);
   });
 
-  it('una prenotazione completata resta completata, e la lavagna non cambia', () => {
-    const prima = statoIniziale('ristorante');
-    expect(aggiornaLavagna(prima, { tipo: 'avanza', id: 'e1' })).toBe(prima);
-  });
-
-  it('non modifica lo stato di partenza (immutabilità, come vuole React)', () => {
-    const prima = statoIniziale('ristorante');
-    const copia = structuredClone(prima);
-    aggiornaLavagna(prima, { tipo: 'avanza', id: 'e4' });
-    aggiornaLavagna(prima, { tipo: 'elimina', id: 'e4' });
-    expect(prima).toEqual(copia);
+  it.each(ordineAttivita)('%s: solo nomi di battesimo, nessun cognome', (id) => {
+    // CLAUDE.md: niente cognomi, nemmeno inventati. Greco, Colombo e Russo
+    // sono anche dipendenti veri di un nostro cliente.
+    const cognomiVietati = ['Greco', 'Colombo', 'Russo', 'Bianchi', 'Caruso', 'Rizzo'];
+    for (const p of esempiIniziali(attivita[id], oggi)) {
+      expect(nomiDiEsempio).toContain(p.nome);
+      expect(cognomiVietati).not.toContain(p.nome);
+    }
   });
 });
 
-describe('eliminare', () => {
-  it('toglie solo quella prenotazione', () => {
-    const dopo = aggiornaLavagna(statoIniziale('ristorante'), { tipo: 'elimina', id: 'e3' });
-    expect(dopo.prenotazioni.map((p) => p.id)).not.toContain('e3');
-    expect(dopo.prenotazioni).toHaveLength(ristorante.esempi.length - 1);
+describe('il cliente prenota', () => {
+  it('controlla un passo alla volta, dando del tu al cliente', () => {
+    const s = statoIniziale('ristorante', oggi);
+    expect(controllaRichiesta(s)).toBe('Scegli un servizio.');
+    const conServizio = { ...s, cliente: { ...s.cliente, servizio: 'Cena' } };
+    expect(controllaRichiesta(conServizio)).toBe('Scegli un giorno nel calendario.');
+    const conGiorno = { ...conServizio, cliente: { ...conServizio.cliente, giorno: 2 } };
+    expect(controllaRichiesta(conGiorno)).toBe('Scegli un orario.');
+    const conOra = { ...conGiorno, cliente: { ...conGiorno.cliente, ora: '20:30' } };
+    expect(controllaRichiesta(conOra)).toBe('Scrivi il tuo nome.');
   });
 
-  it('un id che non esiste non cambia niente', () => {
-    const prima = statoIniziale('ristorante');
-    expect(aggiornaLavagna(prima, { tipo: 'elimina', id: 'nessuno' })).toBe(prima);
-  });
-});
-
-describe('aggiungere', () => {
-  it('crea una richiesta, con il nome ripulito, e passa al suo giorno', () => {
-    const dopo = aggiornaLavagna(statoIniziale('ristorante'), {
-      tipo: 'aggiungi',
-      dati: nuovaAlRistorante,
-    });
-    const nuova = dopo.prenotazioni.at(-1);
-    expect(nuova).toEqual({
-      id: 'n1',
-      giorno: 1,
+  it('la richiesta arriva all’attività, da confermare e segnata come nuova', () => {
+    const dopo = inviaRichiesta(con([]), {
+      servizio: 'Cena',
+      giorno: 2,
       ora: '20:30',
-      nome: 'Esposito',
-      quanti: 4,
-      dove: 'Tavolo 7',
+      persone: 4,
+      nome: ' Giada ',
+    });
+    const nuova = dopo.prenotazioni.find((p) => p.id === dopo.cliente.inviata);
+    expect(nuova).toMatchObject({
+      giorno: 2,
+      ora: '20:30',
+      nome: 'Giada',
+      servizio: 'Cena',
+      persone: 4,
       stato: 'richiesta',
+      daCliente: true,
     });
-    expect(dopo.giorno).toBe(1);
+    expect(dopo.ufficio.giorno).toBe(2);
+    expect(dopo.ufficio.nuova).toBe(nuova!.id);
+    expect(dopo.novita.ufficio).toBe(1);
+    expect(statoRichiesta(dopo)).toBe('attesa');
+    expect(dopo.spiegazione).toContain('Giada');
   });
 
-  it('dà id sempre nuovi, anche dopo un cambio di attività', () => {
-    let stato = aggiornaLavagna(statoIniziale('ristorante'), {
-      tipo: 'aggiungi',
-      dati: nuovaAlRistorante,
-    });
-    stato = aggiornaLavagna(stato, { tipo: 'scegliAttivita', attivita: 'ristorante' });
-    stato = aggiornaLavagna(stato, { tipo: 'aggiungi', dati: nuovaAlRistorante });
-    expect(stato.prenotazioni.at(-1)?.id).toBe('n2');
-  });
-
-  it("scarta i campi che l'attività non usa", () => {
-    const dati: DatiNuova = {
-      giorno: 0,
-      ora: '09:00',
-      nome: 'Neri',
-      cosa: 'Controllo',
-      quanti: 3,
-      dove: 'Tavolo 1',
+  it('un orario preso nel frattempo non si può prenotare', () => {
+    const pieno = con([pren({ id: 'a', ora: '20:30' }), pren({ id: 'b', ora: '20:30' })]);
+    const s = {
+      ...pieno,
+      cliente: { ...pieno.cliente, servizio: 'Cena', giorno: 2, ora: '20:30', nome: 'Giada' },
     };
-    const dopo = aggiornaLavagna(statoIniziale('studio-medico'), { tipo: 'aggiungi', dati });
-    const nuova = dopo.prenotazioni.at(-1);
-    expect(nuova).not.toHaveProperty('quanti');
-    expect(nuova).not.toHaveProperty('dove');
+    expect(controllaRichiesta(s)).toBe('Questo orario è appena stato preso: scegline un altro.');
+    expect(aggiorna(s, { tipo: 'invia' }).prenotazioni).toHaveLength(2);
   });
 
-  it('ignora dati non validi', () => {
-    const prima = statoIniziale('ristorante');
-    const dopo = aggiornaLavagna(prima, {
-      tipo: 'aggiungi',
-      dati: { ...nuovaAlRistorante, nome: '   ' },
+  it('cambiando servizio o giorno, l’orario scelto si toglie', () => {
+    let s = statoIniziale('ristorante', oggi);
+    s = aggiorna(s, { tipo: 'cliente', campo: 'servizio', valore: 'Cena' });
+    s = aggiorna(s, { tipo: 'cliente', campo: 'giorno', valore: 2 });
+    s = aggiorna(s, { tipo: 'cliente', campo: 'ora', valore: '20:30' });
+    expect(aggiorna(s, { tipo: 'cliente', campo: 'giorno', valore: 3 }).cliente.ora).toBeNull();
+    expect(
+      aggiorna(s, { tipo: 'cliente', campo: 'servizio', valore: 'Pranzo' }).cliente.ora,
+    ).toBeNull();
+  });
+
+  it('dopo l’invio, una nuova richiesta riparte da capo', () => {
+    const inviata = inviaRichiesta(con([]), {
+      servizio: 'Cena',
+      giorno: 2,
+      ora: '20:30',
+      nome: 'Giada',
     });
-    expect(dopo).toBe(prima);
+    const nuova = aggiorna(inviata, { tipo: 'nuovaRichiesta' });
+    expect(nuova.cliente.inviata).toBeNull();
+    expect(nuova.cliente.ora).toBeNull();
+    expect(nuova.prenotazioni).toEqual(inviata.prenotazioni);
   });
 });
 
-describe('controlli del modulo', () => {
-  it('dati giusti: nessun errore', () => {
-    expect(controllaNuova(nuovaAlRistorante, ristorante)).toEqual({});
+describe('l’attività risponde', () => {
+  const inviata = () =>
+    inviaRichiesta(con([]), { servizio: 'Cena', giorno: 2, ora: '20:30', nome: 'Giada' });
+
+  it('conferma: il cliente lo vede sul telefono', () => {
+    const s = inviata();
+    const dopo = aggiorna(s, { tipo: 'avanza', id: s.cliente.inviata! });
+    expect(statoRichiesta(dopo)).toBe('confermata');
+    expect(dopo.novita.cliente).toBe(1);
+    expect(dopo.spiegazione).toContain('telefono');
   });
 
-  it("segnala ogni campo sbagliato, con le parole dell'attività", () => {
-    const errori = controllaNuova(
-      { giorno: 0, ora: '25:00', nome: '', quanti: 0, dove: 'Tavolo 99' },
-      ristorante,
-    );
-    expect(errori).toEqual({
-      nome: 'Scrivi il nome del cliente.',
-      ora: 'Scegli un orario.',
-      quanti: 'Da 1 a 20 coperti.',
-      dove: 'Scegli il tavolo.',
+  it('elimina: per il cliente la richiesta non è stata accettata', () => {
+    const s = inviata();
+    const dopo = aggiorna(s, { tipo: 'elimina', id: s.cliente.inviata! });
+    expect(statoRichiesta(dopo)).toBe('annullata');
+    expect(dopo.novita.cliente).toBe(1);
+  });
+
+  it('guardare uno schermo spegne le sue novità', () => {
+    const s = inviata();
+    expect(aggiorna(s, { tipo: 'guarda', vista: 'ufficio' }).novita.ufficio).toBe(0);
+  });
+
+  it('aggiunge a mano chi telefona: già confermata', () => {
+    const dati: DatiAggiunta = {
+      giorno: 3,
+      ora: '19:30',
+      nome: 'Marco',
+      servizio: 'Cena',
+      persone: 2,
+    };
+    const dopo = aggiorna(con([]), { tipo: 'aggiungi', dati });
+    expect(dopo.prenotazioni.at(-1)).toMatchObject({ ...dati, stato: 'confermata' });
+    expect(dopo.ufficio.giorno).toBe(3);
+  });
+
+  it('il modulo dell’attività controlla nome, orario libero e persone', () => {
+    const vuoti: DatiAggiunta = { giorno: 3, ora: '', nome: '', servizio: 'Cena', persone: 0 };
+    expect(controllaAggiunta(con([]), vuoti)).toEqual({
+      nome: 'Scrivete il nome del cliente.',
+      ora: 'Scegliete un orario libero.',
+      persone: 'Da 1 a 12 coperti.',
     });
+    const chiuso: DatiAggiunta = {
+      giorno: 1,
+      ora: '19:30',
+      nome: 'Marco',
+      servizio: 'Cena',
+      persone: 2,
+    };
+    expect(controllaAggiunta(con([]), chiuso)).toEqual({ giorno: 'Quel giorno siete chiusi.' });
   });
 
-  it('nome troppo lungo', () => {
-    const errori = controllaNuova({ ...nuovaAlRistorante, nome: 'x'.repeat(41) }, ristorante);
-    expect(errori.nome).toBe('Al massimo 40 caratteri.');
-  });
-
-  it('numero di persone non intero', () => {
-    expect(controllaNuova({ ...nuovaAlRistorante, quanti: 2.5 }, ristorante).quanti).toBeDefined();
+  it('confermata, poi completata: i passi dell’attività', () => {
+    let s = con([pren({ id: 'a', stato: 'richiesta' })]);
+    s = aggiorna(s, { tipo: 'avanza', id: 'a' });
+    expect(s.prenotazioni[0]!.stato).toBe('confermata');
+    s = aggiorna(s, { tipo: 'avanza', id: 'a' });
+    expect(s.prenotazioni[0]!.stato).toBe('completata');
+    // Completata è l'ultimo passo: un altro "avanza" non cambia niente.
+    expect(aggiorna(s, { tipo: 'avanza', id: 'a' })).toEqual(s);
   });
 });
 
-describe('filtro per giorno', () => {
-  it('mostra solo quel giorno, in ordine di orario', () => {
-    const { prenotazioni } = statoIniziale('ristorante');
-    const oggi = prenotazioniDelGiorno(prenotazioni, 0);
-    expect(oggi.every((p) => p.giorno === 0)).toBe(true);
-    expect(oggi.map((p) => p.ora)).toEqual(['13:00', '20:00', '20:30', '21:15']);
+describe('il colore dell’app, scelto liberamente', () => {
+  const bianco = '#ffffff';
+
+  it('il colore di partenza è quello del token --kroma-app-tema', () => {
+    const riga = testoToken.match(/--kroma-app-tema:\s*(#[0-9a-f]{6})/i);
+    expect(riga).not.toBeNull();
+    expect(riga![1]!.toLowerCase()).toBe(colorePredefinito);
   });
 
-  it('riordina anche prenotazioni inserite in disordine', () => {
-    // Gli esempi sono già scritti in ordine: senza questo test, un
-    // ordinamento rotto passerebbe inosservato.
-    const base = { giorno: 0, nome: 'X', stato: 'richiesta' } as const;
-    const disordinate = [
-      { ...base, id: 'a', ora: '21:00' },
-      { ...base, id: 'b', ora: '09:30' },
-      { ...base, id: 'c', ora: '13:00' },
-    ];
-    expect(prenotazioniDelGiorno(disordinate, 0).map((p) => p.ora)).toEqual([
-      '09:30',
-      '13:00',
-      '21:00',
-    ]);
+  it('sopra il colore: testo chiaro sui colori scuri, scuro sui colori chiari', () => {
+    expect(testoSuColore('#1d4ed8')).toBe('chiaro');
+    expect(testoSuColore('#ffeb3b')).toBe('scuro');
+    expect(testoSuColore('#000000')).toBe('chiaro');
+    expect(testoSuColore('#ffffff')).toBe('scuro');
   });
 
-  it("non riordina l'elenco originale", () => {
-    const { prenotazioni } = statoIniziale('ristorante');
-    const copia = [...prenotazioni];
-    prenotazioniDelGiorno(prenotazioni, 0);
-    expect(prenotazioni).toEqual(copia);
+  it('per le scritte colorate sul fondo chiaro, il colore si scurisce finché si legge', () => {
+    for (const colore of ['#ffeb3b', '#00ffff', '#ff8800', '#ffffff', '#1d4ed8']) {
+      expect(contrasto(coloreLeggibile(colore), bianco)).toBeGreaterThanOrEqual(5.6);
+    }
+    // Un colore già scuro resta com'è.
+    expect(coloreLeggibile('#1d4ed8')).toBe('#1d4ed8');
   });
 
-  it('cambiare attività riporta agli esempi di oggi', () => {
-    let stato = aggiornaLavagna(statoIniziale('ristorante'), { tipo: 'scegliGiorno', giorno: 2 });
-    stato = aggiornaLavagna(stato, { tipo: 'scegliAttivita', attivita: 'parrucchiere' });
-    expect(stato.giorno).toBe(0);
-    expect(stato.prenotazioni).toEqual(attivita.parrucchiere.esempi);
+  it('accetta solo colori #rrggbb, e li scrive in minuscolo', () => {
+    const s = statoIniziale('ristorante', oggi);
+    expect(aggiorna(s, { tipo: 'tema', tema: '#AA00CC' }).tema).toBe('#aa00cc');
+    expect(aggiorna(s, { tipo: 'tema', tema: 'rosso' }).tema).toBe(colorePredefinito);
+  });
+});
+
+describe('il logo dell’attività', () => {
+  it('si mette e si toglie', () => {
+    let s = statoIniziale('ristorante', oggi);
+    expect(s.logo).toBeNull();
+    s = aggiorna(s, { tipo: 'logo', url: 'blob:logo-1' });
+    expect(s.logo).toBe('blob:logo-1');
+    expect(aggiorna(s, { tipo: 'logo', url: null }).logo).toBeNull();
+  });
+
+  it('resta quando si cambia tipo di attività o arriva la data vera', () => {
+    let s = aggiorna(statoIniziale('ristorante', new Date(2026, 0, 1)), {
+      tipo: 'logo',
+      url: 'blob:logo-1',
+    });
+    s = aggiorna(s, { tipo: 'scegliAttivita', attivita: 'parrucchiere' });
+    expect(s.logo).toBe('blob:logo-1');
+    s = aggiorna(s, { tipo: 'oggi', oggi: oggi.getTime() });
+    expect(s.logo).toBe('blob:logo-1');
+  });
+});
+
+describe('personalizzazione', () => {
+  it('nome dell’attività: al massimo 30 caratteri, vuoto vale il nome del tipo', () => {
+    let s = statoIniziale('parrucchiere', oggi);
+    expect(nomeMostrato(s)).toBe('Parrucchiere');
+    s = aggiorna(s, { tipo: 'nomeAttivita', valore: 'Salone Rosa' });
+    expect(nomeMostrato(s)).toBe('Salone Rosa');
+    s = aggiorna(s, { tipo: 'nomeAttivita', valore: 'x'.repeat(40) });
+    expect(s.nome).toHaveLength(lunghezzaMassimaNome);
+    s = aggiorna(s, { tipo: 'nomeAttivita', valore: '   ' });
+    expect(nomeMostrato(s)).toBe('Parrucchiere');
+  });
+
+  it('cambiando tipo di attività si riparte da capo, ma il colore resta', () => {
+    let s = aggiorna(statoIniziale('ristorante', oggi), { tipo: 'tema', tema: '#6d28d9' });
+    s = aggiorna(s, { tipo: 'nomeAttivita', valore: 'Da Rosa' });
+    s = aggiorna(s, { tipo: 'scegliAttivita', attivita: 'parrucchiere' });
+    expect(s.attivita).toBe('parrucchiere');
+    expect(s.tema).toBe('#6d28d9');
+    expect(nomeMostrato(s)).toBe('Parrucchiere');
+    expect(s.cliente.servizio).toBeNull();
+  });
+
+  it('quando arriva la data vera del browser, gli esempi si rifanno attorno a oggi', () => {
+    const allaBuild = statoIniziale('ristorante', new Date(2026, 0, 1));
+    const nelBrowser = aggiorna(allaBuild, { tipo: 'oggi', oggi: oggi.getTime() });
+    expect(nelBrowser.oggi).toBe(oggi.getTime());
+    expect(nelBrowser.prenotazioni).toEqual(esempiIniziali(ristorante, oggi));
   });
 });
 
 describe('come si mostra', () => {
-  it('singolare e plurale', () => {
-    expect(descriviQuanti(1, ristorante)).toBe('1 coperto');
-    expect(descriviQuanti(4, ristorante)).toBe('4 coperti');
-  });
-
-  it('pulsante: accorda il genere di "completato"', () => {
-    expect(testoPulsanteAvanza('richiesta', ristorante)).toBe('Conferma');
-    expect(testoPulsanteAvanza('confermata', ristorante)).toBe('Segna come completata');
-    expect(testoPulsanteAvanza('confermata', attivita.parrucchiere)).toBe('Segna come completato');
-  });
-
-  it('"con" davanti all\'estetista, niente davanti al tavolo', () => {
-    expect(descriviDove('Giulia', attivita['centro-estetico'])).toBe('con Giulia');
-    expect(descriviDove('Tavolo 7', ristorante)).toBe('Tavolo 7');
-  });
-});
-
-describe('riga di spiegazione', () => {
-  it("accorda il genere: la prenotazione è confermata, l'appuntamento è confermato", () => {
-    const r = aggiornaLavagna(statoIniziale('ristorante'), { tipo: 'avanza', id: 'e4' });
-    expect(r.spiegazione).toMatch(/^La prenotazione di Caruso è confermata/);
-
-    const p = aggiornaLavagna(statoIniziale('parrucchiere'), { tipo: 'avanza', id: 'e3' });
-    expect(p.spiegazione).toMatch(/^L'appuntamento di Bruno è confermato/);
-  });
-
-  it('conta le richieste del giorno scelto', () => {
-    const stato = aggiornaLavagna(statoIniziale('ristorante'), { tipo: 'scegliGiorno', giorno: 1 });
-    expect(stato.spiegazione).toBe('Domani: 2 prenotazioni, 1 richiesta da confermare.');
-  });
-
-  it('giorno vuoto', () => {
-    let stato = statoIniziale('agriturismo');
-    stato = aggiornaLavagna(stato, { tipo: 'elimina', id: 'e4' });
-    stato = aggiornaLavagna(stato, { tipo: 'scegliGiorno', giorno: 2 });
-    expect(stato.spiegazione).toBe("Dopodomani non c'è ancora niente in lista.");
-  });
-
-  it('nuovo appuntamento: pronome al maschile', () => {
-    const dati: DatiNuova = { giorno: 2, ora: '10:00', nome: 'Neri', cosa: 'Prima consulenza' };
-    const stato = aggiornaLavagna(statoIniziale('studio-professionale'), {
-      tipo: 'aggiungi',
-      dati,
-    });
-    expect(stato.spiegazione).toBe(
-      'Nuovo appuntamento per dopodomani alle 10:00: Neri. Resta una richiesta finché non lo confermi.',
+  it('stato, dettagli e pulsanti', () => {
+    expect(etichettaStato('richiesta', ristorante)).toBe('Da confermare');
+    expect(etichettaStato('confermata', parrucchiere)).toBe('Confermato');
+    expect(descriviDettagli(pren({ servizio: 'Cena', persone: 4 }), ristorante)).toBe(
+      'Cena, 4 coperti',
     );
+    expect(descriviDettagli(pren({ servizio: 'Taglio', persone: undefined }), parrucchiere)).toBe(
+      'Taglio',
+    );
+    expect(testoPulsanteAvanza('richiesta')).toBe('Conferma');
+    expect(testoPulsanteAvanza('confermata')).toBe('Completa');
   });
 
-  it.each(ordineAttivita)("%s: la frase iniziale nomina l'attività", (id) => {
-    expect(statoIniziale(id).spiegazione).toContain(attivita[id].conArticolo);
-  });
-});
-
-describe('data vera accanto al giorno', () => {
-  it('oggi, domani, dopodomani', () => {
-    const domenica = new Date(2026, 8, 27, 18, 30);
-    expect(etichettaData(domenica, 0)).toBe('dom 27/9');
-    expect(etichettaData(domenica, 1)).toBe('lun 28/9');
-    expect(etichettaData(domenica, 2)).toBe('mar 29/9');
-  });
-
-  it('cambio di mese e di anno', () => {
-    expect(etichettaData(new Date(2026, 8, 30), 2)).toBe('ven 2/10');
-    expect(etichettaData(new Date(2026, 11, 31), 1)).toBe('ven 1/1');
+  it('il giorno dell’attività: in ordine di orario, e quante sono', () => {
+    const elenco = [
+      pren({ id: 'b', ora: '21:30' }),
+      pren({ id: 'a', ora: '19:30' }),
+      pren({ id: 'c', giorno: 3 }),
+    ];
+    expect(prenotazioniDelGiorno(elenco, 2).map((p) => p.id)).toEqual(['a', 'b']);
+    expect(contaDelGiorno(elenco, 2)).toBe(2);
   });
 });

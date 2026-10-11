@@ -920,3 +920,48 @@ di dipendenti e di mezzi dell'azienda (Giovanni, 07/10/2026).
 dei file), mostrate con `componenti/Schermata.astro`. Lighthouse in locale:
 pagina del caso e home 100 in tutte e quattro le voci; la pagina del caso
 pesa 170 KB con tutte le immagini.
+
+## 2026-10-11 — /gestionali: la prova "dal cliente all'attività", due modi, sagome dei dispositivi
+
+**Pagina /gestionali (Andrea).** Apertura, "Cosa fanno" (i quattro punti di
+`offerta` spiegati con fatti veri di Vivai), "Cosa possono tenere in
+ordine", la prova, "Due modi di averlo", il riquadro di Vivai Cintoli,
+domande frequenti (al voi, con [DA DEFINIRE] su chi acquista server e
+dominio), poi "Come lavoriamo" e la chiusura. Dati per Google: Service e
+FAQPage dagli stessi testi. Tolto l'interruttore "Oggi / Con un gestionale"
+della vecchia #26: la giornata vera sta già nella pagina di Vivai.
+
+**La prova.** La vecchia lavagna di prenotazioni è diventata un ponte tra il
+cliente e l'attività: telefono del cliente che prenota, computer
+dell'attività che conferma (dettagli in CLAUDE.md, Isola 3). Scartate, per
+scelta di Andrea: lo stile identico all'app di Vivai (la prova deve avere
+un aspetto suo e personalizzabile) e la lista a tre giorni (al suo posto un
+calendario del mese, più accessibile). Via i cognomi dagli esempi (Greco e
+Russo sono anche dipendenti veri di un cliente).
+
+**Due modi di averlo.** L'app di prenotazione pronta, con nome, colori, logo,
+servizi e orari del cliente; oppure, come servizio in più, un gestionale
+costruito da capo. Nessun prezzo.
+
+**Sagome dei dispositivi.** Tutti i telefoni del sito sono un iPhone 17, tutti
+i computer un MacBook Air (`stili/dispositivi.css`), anche nelle parti di
+Giovanni: schermate vere, riquadri dei lavori, prova in home. Gli schermi
+hanno le proporzioni vere e il contenuto scorre dentro. Nella prova di
+Giovanni abbassata da 40 a 36rem la soglia delle due colonne dell'ufficio,
+perché nel MacBook lo schermo è più stretto.
+
+**Tecnica.** `vitest.config.ts` fa leggere a Vitest `tokens.css`, così un
+test controlla che il colore di partenza nel codice sia uguale al token.
+Lighthouse sulla pagina (build locale, telefono simulato): 100 in tutte e
+quattro le voci.
+
+**Ritocchi dello stesso giorno (Andrea).** Il pulsante "Personalizza: nome,
+colore e logo" è giallo come il punto del marchio (testo nero, 12:1): è
+l'unico invito della prova, e il giallo segna le cose da notare. Il
+visitatore può caricare il suo logo, che resta nel suo browser. I riquadri
+dei lavori e le pagine dei siti usano l'iPhone anche per i siti: il MacBook
+non serviva. Nella pagina di Vivai, "Il giorno prima: il programma" non si
+capiva (una striscia larghissima in un MacBook): ora è un dettaglio
+ritagliato e ingrandito della colonna "Dipendenti" (`programma-dipendenti.png`,
+dalla schermata di Giovanni) e il PDF, ognuno con una didascalia e il
+collegamento all'immagine intera.
