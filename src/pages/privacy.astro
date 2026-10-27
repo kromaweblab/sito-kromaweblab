@@ -1,8 +1,17 @@
 ---
-// Informativa privacy: DA SCRIVERE prima del lancio (strada scelta: C,
-// scritta da Giovanni e Andrea partendo da un modello). Senza il testo vero
-// il modulo del configuratore non si può pubblicare.
-import PaginaSegnaposto from '../componenti/PaginaSegnaposto.astro';
+// Informativa privacy: bozza sul modello del Garante (27/10/2026). Titolare,
+// indirizzo e Partita IVA restano [DA SCRIVERE] finché non c'è la forma
+// fiscale; alcune scelte restano [DA DEFINIRE]. Senza il testo completo il
+// modulo del configuratore non si può pubblicare.
+import Base from '../layout/Base.astro';
+import PaginaPrivacy from '../sezioni/PaginaPrivacy.astro';
+import Chiusura from '../sezioni/Chiusura.astro';
 ---
 
-<PaginaSegnaposto titolo="Informativa privacy" />
+<Base
+  titolo="Informativa privacy"
+  descrizione="Quali dati raccoglie il sito di Kroma Web Lab, perché, chi li vede, per quanto li teniamo e come chiederci di vederli o cancellarli. Niente cookie."
+>
+  <PaginaPrivacy />
+  <Chiusura />
+</Base>

@@ -284,7 +284,7 @@ lo si dice nella pull request.
 /manutenzione            NUOVA: cosa comprende il contratto
 /chi-siamo               Giovanni e Andrea, foto vere e storia
 /contatti                Configuratore (Andrea) + contatti diretti
-/privacy                 Informativa privacy (DA SCRIVERE prima del lancio)
+/privacy                 Informativa privacy (bozza: da completare prima del lancio)
 ```
 
 ## Isola 1 — Prova "dal campo all'ufficio" (05/10/2026)
@@ -438,9 +438,13 @@ primo incontro di persona o in videochiamata, sceglie il cliente
 
 ## Prima del lancio
 
-- [ ] **Informativa privacy** in `/privacy`: la scrivono Giovanni e Andrea
-      partendo da un modello (es. Garante). Senza, il modulo non si pubblica.
-      Titolare del trattamento: dipende dalla forma fiscale (voce sotto).
+- [ ] **Informativa privacy** in `/privacy`: **bozza pronta** dal 27/10/2026
+      (`sezioni/PaginaPrivacy.astro`, sul modello del Garante). Da rileggere
+      e completare: titolare, indirizzo e P.IVA (`sito.titolare`,
+      `sito.indirizzo`, `sito.partitaIva`, dipendono dalla forma fiscale);
+      per quanto si tengono i messaggi; su che base Netlify riceve i dati
+      fuori dall'UE; su che email arrivano gli avvisi dei moduli; data
+      dell'ultimo aggiornamento. Senza, il modulo non si pubblica.
 - [ ] **Forma fiscale, col commercialista.** La prestazione occasionale non
       regge per un'agenzia con sito pubblico e clienti continuativi: serve
       quasi certamente la Partita IVA (probabilmente forfettaria). Domande:

@@ -4,6 +4,8 @@
 // si mostra [DA SCRIVERE], nei dati per Google (JSON-LD) si omette.
 
 export const DA_SCRIVERE = '[DA SCRIVERE]';
+/** Per ciò che va ancora deciso (es. per quanto tempo si tengono i dati). */
+export const DA_DEFINIRE = '[DA DEFINIRE]';
 
 export interface NumeroWhatsapp {
   /** Chi risponde a questo numero. */
@@ -37,6 +39,10 @@ export const sito = {
   /** Partita IVA: va mostrata sul sito quando c'è (piè di pagina). Non
    * inventarne una: finché manca resta [DA SCRIVERE]. */
   partitaIva: null as string | null,
+  /** Chi è il titolare del trattamento dei dati (informativa privacy): una
+   * persona o una società, dipende dalla forma fiscale. Finché non c'è resta
+   * [DA SCRIVERE]. */
+  titolare: null as string | null,
   /** Entro quanto ricontattiamo chi ci scrive. */
   tempoRisposta: '24 ore',
   /** Com'è il primo incontro. Senza "come preferisci/preferite": il tu o

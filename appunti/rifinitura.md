@@ -17,7 +17,5 @@ punto lo cancella da qui nella stessa PR.
 
 ## Pulizia del codice
 
-- [ ] `src/componenti/PaginaSegnaposto.astro`: da togliere quando non ci
-      sono più pagine provvisorie (dall'11/10/2026 la usa solo `/privacy`).
 - [ ] Classe `.parliamone` nel configuratore (solo il nome, non si vede):
       rinominare in qualcosa come `.recapitiFinali` (Andrea).

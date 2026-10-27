@@ -1015,3 +1015,26 @@ Lighthouse invariati.
   token `--kroma-vivai-*` non più usati; aggiunte nel CSS della prova "dal
   campo all'ufficio" le tre classi che mancavano (`quando`, `cosa`,
   `etichettaBarra`, segnalate da Andrea).
+
+## 2026-10-27 — Informativa privacy: la bozza
+
+**Scelta:** `/privacy` non è più una pagina provvisoria: c'è una bozza
+completa sul modello del Garante (art. 13 GDPR), in italiano semplice e al
+voi (`sezioni/PaginaPrivacy.astro`). Voci: chi tratta i dati, quali
+(modulo, WhatsApp ed email, dati tecnici del server), perché (risposta alla
+richiesta, art. 6.1.b; sicurezza del sito, art. 6.1.f), cosa è obbligatorio,
+chi li vede (Netlify, il servizio email, WhatsApp se lo sceglie il
+visitatore), per quanto, cookie, diritti e reclamo al Garante, aggiornamenti.
+
+**Fatti verificati sul sito:** nessun cookie e nessuna archiviazione nel
+browser; nessun servizio esterno caricato nelle pagine (caratteri ospitati
+sul sito; gli unici collegamenti esterni sono quelli a WhatsApp); le prove
+interattive tengono tutto nella pagina, compreso il logo caricato. L'elenco
+dei campi del modulo viene dallo stesso `campiModulo` del configuratore.
+
+**Resta da completare** (segnaposto visibili): titolare, indirizzo e Partita
+IVA (`sito.titolare`, nuovo campo); per quanto si tengono i messaggi; la base
+del trasferimento dei dati verso Netlify (Stati Uniti); il servizio email
+degli avvisi; la data dell'ultimo aggiornamento. **È una bozza da rileggere,
+non un parere legale.** Tolto `PaginaSegnaposto.astro`: non lo usa più
+nessuna pagina.

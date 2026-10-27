@@ -1,0 +1,258 @@
+---
+// Pagina /privacy: l'informativa sul trattamento dei dati (art. 13 GDPR),
+// sul modello del Garante, in italiano semplice e al voi.
+//
+// BOZZA (27/10/2026): i fatti tecnici sono veri e verificati sul sito
+// (nessun cookie, nessun servizio esterno caricato nelle pagine, modulo
+// ricevuto da Netlify). Titolare, indirizzo e Partita IVA dipendono dalla
+// forma fiscale e restano [DA SCRIVERE]; tempi di conservazione, notifiche
+// via email e base del trasferimento verso Netlify restano [DA DEFINIRE].
+// Va riletta da Giovanni e Andrea prima del lancio: non è un parere legale.
+
+import { campiModulo } from '../isole/configuratore/logica';
+import { sito, numeriWhatsapp, oSegnaposto, DA_DEFINIRE, DA_SCRIVERE } from '../dati/sito';
+
+const titolare = oSegnaposto(sito.titolare);
+const indirizzo = oSegnaposto(sito.indirizzo);
+const partitaIva = oSegnaposto(sito.partitaIva);
+const email = sito.email ?? DA_SCRIVERE;
+
+// I campi del modulo, come li vede chi lo compila. Stesso elenco di
+// logica.ts: se nel modulo cambia un campo, TypeScript segnala che qui
+// manca la sua descrizione.
+const nomiCampi: Record<(typeof campiModulo)[number], string> = {
+  attivita: 'che attività avete',
+  servizio: 'di cosa avete bisogno',
+  sito_attuale: 'se avete già un sito',
+  tempo_perso: 'quanto tempo perdete oggi in quel lavoro',
+  nome: 'il nome',
+  telefono: 'il numero di telefono',
+  email: "l'indirizzo email",
+  come_sentirci: 'come preferite essere ricontattati',
+  messaggio: 'un messaggio libero',
+};
+const facoltative = campiModulo
+  .filter((c) => ['attivita', 'servizio', 'sito_attuale', 'tempo_perso', 'messaggio'].includes(c))
+  .map((c) => nomiCampi[c]);
+---
+
+<article class="privacy">
+  <header class="testa">
+    <h1>Informativa privacy</h1>
+    <p>
+      Cosa succede ai dati che ci lasciate su questo sito: quali sono, perché li usiamo, chi li
+      vede, per quanto li teniamo e come potete chiederci di vederli o cancellarli.
+    </p>
+  </header>
+
+  <section aria-labelledby="chi">
+    <h2 id="chi">Chi tratta i vostri dati</h2>
+    <p>
+      Il titolare del trattamento è {titolare}, {indirizzo}, Partita IVA {partitaIva}. Kroma Web Lab
+      siamo Giovanni e Andrea, a Scicli (RG).
+    </p>
+    <p>
+      Per qualsiasi domanda sui vostri dati scriveteci a <a href={`mailto:${email}`}>{email}</a>.
+    </p>
+  </section>
+
+  <section aria-labelledby="quali">
+    <h2 id="quali">Quali dati raccogliamo</h2>
+    <h3>Se ci scrivete dal modulo in /contatti</h3>
+    <p>
+      Il nome e almeno un recapito, telefono o email, insieme a come preferite essere ricontattati.
+      In più, solo se volete rispondere: {facoltative.join(', ')}.
+    </p>
+    <h3>Se ci contattate su WhatsApp o per email</h3>
+    <p>
+      I dati che ci mandate voi: il vostro numero o indirizzo, il nome e quello che ci scrivete.
+    </p>
+    <h3>Mentre visitate il sito</h3>
+    <p>
+      Il servizio che ospita il sito registra, come tutti i server, alcuni dati tecnici: indirizzo
+      IP, pagina richiesta, data e ora, tipo di browser. Servono a farlo funzionare e a proteggerlo,
+      non a riconoscervi.
+    </p>
+  </section>
+
+  <section aria-labelledby="perche">
+    <h2 id="perche">Perché li usiamo</h2>
+    <ul>
+      <li>
+        <strong>Per rispondervi e fissare il primo incontro</strong> che ci avete chiesto. È una
+        richiesta vostra prima di un eventuale lavoro (art. 6, par. 1, lett. b del GDPR).
+      </li>
+      <li>
+        <strong>Per far funzionare il sito e proteggerlo</strong>, con i dati tecnici del server
+        (interesse legittimo, art. 6, par. 1, lett. f).
+      </li>
+    </ul>
+    <p>
+      Non mandiamo newsletter, non facciamo pubblicità e non vendiamo né cediamo i vostri dati a
+      nessuno.
+    </p>
+  </section>
+
+  <section aria-labelledby="obbligo">
+    <h2 id="obbligo">Cosa è obbligatorio</h2>
+    <p>
+      Nel modulo servono solo il nome e un recapito: senza, non sapremmo come rispondervi. Tutto il
+      resto è facoltativo.
+    </p>
+  </section>
+
+  <section aria-labelledby="chi-vede">
+    <h2 id="chi-vede">Chi li vede</h2>
+    <p>Solo noi due, Giovanni e Andrea. Per farlo usiamo alcuni servizi esterni:</p>
+    <ul>
+      <li>
+        <strong>Netlify, Inc.</strong> (Stati Uniti), che ospita il sito e riceve i messaggi del
+        modulo. Il trasferimento dei dati fuori dall'Unione europea avviene sulla base di:{' '}
+        {DA_DEFINIRE}.
+      </li>
+      <li>
+        <strong>Il servizio email</strong> su cui ci arrivano gli avvisi dei nuovi messaggi:{' '}
+        {DA_DEFINIRE}.
+      </li>
+      <li>
+        <strong>WhatsApp</strong> (Meta), solo se scegliete voi di scriverci lì: in quel caso
+        valgono anche le regole di WhatsApp.
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="quanto">
+    <h2 id="quanto">Per quanto li teniamo</h2>
+    <p>
+      I messaggi e i recapiti di chi ci contatta: {DA_DEFINIRE}. Se poi lavoriamo insieme, i dati
+      servono per il lavoro e per gli obblighi di legge, e li teniamo per il tempo che questi
+      richiedono.
+    </p>
+  </section>
+
+  <section aria-labelledby="cookie">
+    <h2 id="cookie">Cookie</h2>
+    <p>
+      Il sito non usa cookie: niente statistiche, niente pubblicità, nessun servizio esterno
+      caricato nelle pagine. Anche i caratteri sono ospitati sul sito stesso. Per questo non vi
+      chiediamo il consenso all'ingresso.
+    </p>
+    <p>
+      Le prove interattive (in home e in /gestionali) tengono tutto nella pagina: quello che
+      inserite, compreso un eventuale logo, non lascia il vostro browser e sparisce quando la
+      chiudete.
+    </p>
+  </section>
+
+  <section aria-labelledby="diritti">
+    <h2 id="diritti">I vostri diritti</h2>
+    <p>
+      Potete chiederci in ogni momento di vedere i dati che abbiamo su di voi, correggerli,
+      cancellarli, limitarne l'uso, opporvi al loro uso o riceverne una copia (articoli da 15 a 22
+      del GDPR). Basta scriverci a <a href={`mailto:${email}`}>{email}</a>
+      {numeriWhatsapp[0] && (
+        <>
+          {' '}
+          o su WhatsApp al <span class="numero">{numeriWhatsapp[0].visibile}</span>
+        </>
+      )}
+      . Rispondiamo entro un mese.
+    </p>
+    <p>
+      Se pensate che trattiamo i vostri dati in modo scorretto, potete fare reclamo al Garante per
+      la protezione dei dati personali (
+      <a href="https://www.garanteprivacy.it">garanteprivacy.it</a>).
+    </p>
+  </section>
+
+  <section aria-labelledby="aggiornamenti">
+    <h2 id="aggiornamenti">Aggiornamenti</h2>
+    <p>Se cambia qualcosa, aggiorniamo questa pagina. Ultimo aggiornamento: {DA_SCRIVERE}.</p>
+  </section>
+</article>
+
+<style>
+  .privacy {
+    display: grid;
+    gap: var(--kroma-spazio-6);
+    max-width: var(--kroma-larghezza);
+    margin: 0 auto;
+    padding: var(--kroma-spazio-6) var(--kroma-spazio-2) var(--kroma-spazio-10);
+  }
+
+  h1 {
+    margin: 0;
+    font-size: var(--kroma-testo-xxl);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 0.98;
+  }
+
+  .testa p {
+    max-width: 52ch;
+    margin: var(--kroma-spazio-3) 0 0;
+    font-size: var(--kroma-testo-m);
+    color: var(--kroma-testo-tenue);
+  }
+
+  /* Un testo da leggere: colonna stretta, una sezione sotto l'altra. */
+  section {
+    display: grid;
+    gap: var(--kroma-spazio-2);
+    max-width: var(--kroma-larghezza-testo);
+    padding-top: var(--kroma-spazio-4);
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  h2 {
+    margin: 0;
+    font-size: var(--kroma-testo-l);
+  }
+
+  h3 {
+    margin: var(--kroma-spazio-1) 0 0;
+    font-size: var(--kroma-testo-m);
+  }
+
+  p,
+  li {
+    margin: 0;
+    color: var(--kroma-testo-tenue);
+  }
+
+  strong {
+    color: var(--kroma-testo);
+    font-weight: 600;
+  }
+
+  ul {
+    display: grid;
+    gap: var(--kroma-spazio-2);
+    margin: 0;
+    padding-left: var(--kroma-spazio-3);
+  }
+
+  a {
+    color: var(--kroma-testo);
+    text-decoration-color: var(--kroma-arancione);
+    text-decoration-thickness: var(--kroma-linea-spessa);
+    text-underline-offset: 0.25em;
+    transition: color var(--kroma-durata) var(--kroma-curva);
+  }
+
+  a:hover {
+    color: var(--kroma-link);
+  }
+
+  .numero {
+    font-family: var(--kroma-font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (min-width: 960px) {
+    .privacy {
+      gap: var(--kroma-spazio-8);
+      padding: var(--kroma-spazio-10) var(--kroma-spazio-4) var(--kroma-spazio-12);
+    }
+  }
+</style>
