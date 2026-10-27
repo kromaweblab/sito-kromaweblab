@@ -285,6 +285,24 @@
   font-weight: 600;
 }
 
+/* Data e ora nella barra in alto: un gradino meno evidenti del nome. */
+.quando {
+  opacity: 0.8;
+}
+
+/* Lavoro e cantiere, uno sotto l'altro: possono andare a capo, senza
+   spingere fuori i pulsanti accanto. */
+.cosa {
+  display: grid;
+  min-width: 0;
+}
+
+/* Il nome del cantiere accanto alla barra: se è lungo va a capo. */
+.etichettaBarra {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 .blocco {
   display: grid;
   align-content: start;

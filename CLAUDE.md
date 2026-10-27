@@ -451,7 +451,7 @@ primo incontro di persona o in videochiamata, sceglie il cliente
   3. Quanto costa **il commercialista** all'anno, e **da quando** serve la
      Partita IVA rispetto al lancio del sito?
 - [ ] Dominio `kromaweblab.it`.
-- [ ] Descrizione per Google della home (`[DA SCRIVERE]`).
+- [x] Descrizione per Google della home (27/10/2026).
 - [ ] Indirizzi dei siti di Casale Allibrio ed Estrò Atelier.
 - [x] Lighthouse 95+ su mobile, misurato sul sito pubblicato (29/09/2026,
       mediana di 3, `npx lighthouse@13.5.0 <url>`, telefono simulato):

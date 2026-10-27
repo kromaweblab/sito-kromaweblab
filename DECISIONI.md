@@ -997,3 +997,21 @@ dell'audit, tutti negli strumenti di costruzione (il sito pubblicato è
 statico e non era esposto). TypeScript 7 (versione maggiore) **non** è
 stato aggiornato: si valuta dopo il lancio. Controlli, collegamenti e
 Lighthouse invariati.
+
+## 2026-10-27 — Giro di rifinitura
+
+- **Movimento ridotto:** il passaggio morbido tra le pagine (View
+  Transitions) ora parte solo se il movimento non è ridotto nel sistema.
+- **"Salta al contenuto"** sposta davvero il fuoco sul contenuto
+  (`tabindex="-1"` su `<main>`).
+- **Descrizione per Google della home:** "Gestionali e web app per chi lavora
+  con una squadra o riceve clienti, siti e manutenzione. Giovanni e Andrea,
+  Scicli (RG): di persona o in videochiamata."
+- **Manutenzione** in "Cosa facciamo" e su `/servizi`: una frase sola
+  (tolto "Si aggiunge a un gestionale o a un sito").
+- **Logo di Casale Allibrio** ritagliato sul disegno: a parità di altezza
+  sembra più grande, come gli altri.
+- **Pulizia:** tolti `Problema.astro`, l'opzione `freccia` del pulsante e i
+  token `--kroma-vivai-*` non più usati; aggiunte nel CSS della prova "dal
+  campo all'ufficio" le tre classi che mancavano (`quando`, `cosa`,
+  `etichettaBarra`, segnalate da Andrea).
