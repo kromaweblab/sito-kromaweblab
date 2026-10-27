@@ -981,6 +981,9 @@ all'attività"). Sulle tre questioni aperte Giovanni ha deciso:
    all'attività" per chi riceve clienti su prenotazione. Sotto la frase
    d'apertura di ognuna, una riga rimanda all'altra.
 
-**Da fare dopo:** controllare che home e `/servizi` parlino anche dell'app
-pronta, oggi nominata solo su `/gestionali` (proposte a Giovanni prima di
-cambiare i testi).
+**Aggiunta dello stesso giorno:** l'app pronta ora compare anche fuori da
+`/gestionali`. In home ("Cosa facciamo", Gestionali) un punto in più: "anche
+come app di prenotazione pronta, con il vostro nome e i vostri colori"
+(lo stesso elenco si vede in `/servizi`). Il sottotitolo di `/servizi`
+nomina "le prenotazioni dei clienti con un'app pronta con il vostro nome".
+Il titolo della home resta "Software per chi lavora con una squadra".

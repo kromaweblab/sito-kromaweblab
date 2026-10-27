@@ -65,6 +65,7 @@ export const offerta: Offerta[] = [
       'può funzionare anche senza rete, sul campo',
       'ognuno vede solo quello che gli serve',
       'la prima formazione è compresa',
+      'anche come app di prenotazione pronta, con il vostro nome e i vostri colori',
     ],
     invito: 'Come funzionano i gestionali',
     nota: {
