@@ -987,3 +987,13 @@ come app di prenotazione pronta, con il vostro nome e i vostri colori"
 (lo stesso elenco si vede in `/servizi`). Il sottotitolo di `/servizi`
 nomina "le prenotazioni dei clienti con un'app pronta con il vostro nome".
 Il titolo della home resta "Software per chi lavora con una squadra".
+
+## 2026-10-27 — Dipendenze aggiornate prima del lancio
+
+`npm update` e `npm audit fix` dentro gli intervalli già scritti in
+`package.json` (cambia solo `package-lock.json`): Astro 7.4.2, React 19.3.1,
+sharp 0.35.5, Vitest 5.0.5 e gli altri minori. Spariti i 6 avvisi "high"
+dell'audit, tutti negli strumenti di costruzione (il sito pubblicato è
+statico e non era esposto). TypeScript 7 (versione maggiore) **non** è
+stato aggiornato: si valuta dopo il lancio. Controlli, collegamenti e
+Lighthouse invariati.
