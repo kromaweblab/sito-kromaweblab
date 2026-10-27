@@ -28,9 +28,13 @@ Cosa vendiamo, in ordine di come ci fa lavorare oggi:
 
 1. **Web app e gestionali su misura** per chi lavora con una squadra:
    rapporti, programma, turni, ordini, magazzino. La prova è Vivai Cintoli.
-   Due modi (11/10/2026, Andrea): l'**app di prenotazione pronta**, con nome,
-   colori, logo, servizi e orari del cliente; oppure, come servizio in più,
-   un **gestionale tutto su misura**. Nessun prezzo sul sito.
+   Due modi (11/10/2026, Andrea; confermato da Giovanni il 27/10/2026):
+   l'**app di prenotazione pronta**, in primo piano su `/gestionali`, con
+   nome, colori, logo, servizi e orari del cliente; oppure, come servizio in
+   più, un **gestionale tutto su misura**. Nessun prezzo sul sito.
+   **Due prove, due tipi di attività**: in home "dal campo all'ufficio" (chi
+   lavora con una squadra), su `/gestionali` "dal cliente all'attività" (chi
+   riceve clienti su prenotazione); ognuna rimanda all'altra con una riga.
 2. **Siti web**, che fanno guadagnare prima.
 3. **Manutenzione** con contratto: aggiornamenti, modifiche, assistenza.
    Entrata continua, da mettere in evidenza.
