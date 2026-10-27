@@ -44,10 +44,20 @@ body {
 /*
  * Passaggio morbido da una pagina all'altra, senza JavaScript: lo fa il
  * browser (View Transitions tra documenti). Dove non è supportato, la
- * pagina cambia normalmente.
+ * pagina cambia normalmente. Solo se il movimento non è stato ridotto nel
+ * sistema: la regola generale più sotto non arriva agli pseudo-elementi
+ * del passaggio, quindi va spento qui.
  */
-@view-transition {
-  navigation: auto;
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
+/* Il contenuto principale riceve il fuoco da "Salta al contenuto": non
+   serve il contorno, il salto si vede già. */
+main:focus {
+  outline: none;
 }
 
 ::selection {

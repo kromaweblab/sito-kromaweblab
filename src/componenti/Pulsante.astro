@@ -2,23 +2,20 @@
 // Pulsante del sito. È sempre un link (<a>): porta a un'altra pagina.
 // Per le azioni dentro la pagina (es. inviare un modulo) si usa <button>.
 //
-//   <Pulsante href="/contatti">Raccontaci la tua attività</Pulsante>
-//   <Pulsante href="/siti" variante="secondario" freccia>Scopri i siti</Pulsante>
+//   <Pulsante href="/contatti">Fissa un primo incontro</Pulsante>
+//   <Pulsante href="/siti" variante="secondario">Come facciamo i siti</Pulsante>
 
 interface Props {
   href: string;
-  /** primario = arancione, per l'azione principale; secondario = bordo nero. */
+  /** primario = arancione, per l'azione principale; secondario = solo il bordo. */
   variante?: 'primario' | 'secondario';
-  /** Aggiunge "→" dopo il testo (gli screen reader non la leggono). */
-  freccia?: boolean;
 }
 
-const { href, variante = 'primario', freccia = false } = Astro.props;
+const { href, variante = 'primario' } = Astro.props;
 ---
 
 <a href={href} class:list={['pulsante', variante]}>
   <slot />
-  {freccia && <span aria-hidden="true">→</span>}
 </a>
 
 <style>
@@ -58,15 +55,6 @@ const { href, variante = 'primario', freccia = false } = Astro.props;
   .secondario:hover {
     background: var(--kroma-testo);
     color: var(--kroma-nero);
-  }
-
-  /* Al passaggio del mouse la freccia si sposta di un passo. */
-  span {
-    transition: transform var(--kroma-durata) var(--kroma-curva);
-  }
-
-  .pulsante:hover span {
-    transform: translateX(4px);
   }
 
   /* Al clic il pulsante "scende" di un pixel, come un tasto. */

@@ -99,7 +99,7 @@ export const offerta: Offerta[] = [
     breve: 'Manutenzione',
     href: '/manutenzione',
     frase:
-      'Dopo la consegna restiamo noi: aggiornamenti, modifiche e assistenza, con un contratto chiaro. Si aggiunge a un gestionale o a un sito.',
+      'Dopo la consegna restiamo noi: aggiornamenti, modifiche e assistenza, con un contratto chiaro.',
     punti: [
       'aggiornamenti e controlli',
       'piccole modifiche a testi, foto e orari',
