@@ -1,7 +1,9 @@
 ---
-// Una schermata vera nella sua cornice: telefono, computer o documento
-// (un PDF). La cornice dice cosa si sta guardando; l'immagine si vede
-// intera, senza tagli. Astro la rimpicciolisce per ogni schermo.
+// Una schermata vera nella sua cornice: telefono (iPhone), computer
+// (MacBook), dettaglio (un pezzo di schermo ingrandito) o documento (un
+// PDF). La cornice dice cosa si sta guardando; la didascalia, se c'è, dice
+// cosa notare.
+// Astro rimpicciolisce l'immagine per ogni schermo.
 
 import { Image } from 'astro:assets';
 import type { Schermata } from '../dati/lavori';
@@ -13,54 +15,108 @@ interface Props {
 const { schermata } = Astro.props;
 // Larghezze di partenza: Astro crea le versioni più piccole da queste.
 const larghezza = schermata.cornice === 'telefono' ? 360 : 1100;
+// Dettagli e documenti hanno scritte piccole: si possono aprire interi.
+const ingrandibile = schermata.cornice === 'dettaglio' || schermata.cornice === 'documento';
 ---
 
 <figure class:list={['schermata', schermata.cornice]}>
-  <Image
-    src={schermata.src}
-    alt={schermata.alt}
-    width={larghezza}
-    densities={[1, 2]}
-    loading="lazy"
-  />
+  {schermata.cornice === 'telefono' ? (
+    <div class="iphone">
+      <div class="iphone-schermo">
+        <div class="iphone-contenuto">
+          <Image
+            src={schermata.src}
+            alt={schermata.alt}
+            width={larghezza}
+            densities={[1, 2]}
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  ) : schermata.cornice === 'computer' ? (
+    <div class="macbook">
+      <div class="macbook-schermo">
+        <Image
+          src={schermata.src}
+          alt={schermata.alt}
+          width={larghezza}
+          densities={[1, 2]}
+          loading="lazy"
+        />
+      </div>
+    </div>
+  ) : (
+    <div class="foglio">
+      <Image
+        src={schermata.src}
+        alt={schermata.alt}
+        width={larghezza}
+        densities={[1, 2]}
+        loading="lazy"
+      />
+    </div>
+  )}
+  {(schermata.didascalia || ingrandibile) && (
+    <figcaption>
+      {schermata.didascalia}
+      {ingrandibile && (
+        <a href={schermata.src.src} class="ingrandisci">
+          Apri l'immagine a tutta grandezza
+        </a>
+      )}
+    </figcaption>
+  )}
 </figure>
 
 <style>
+  /* Telefono e computer: le sagome di iPhone e MacBook (stili/dispositivi.css). */
   .schermata {
     margin: 0;
-    border: var(--kroma-linea-spessa) solid var(--kroma-bordo);
-    background: var(--kroma-nero);
   }
 
-  .schermata :global(img) {
+  .telefono {
+    width: 100%;
+    max-width: calc(45 * var(--kroma-spazio-1));
+  }
+
+  /* Dettaglio e documento: un foglio chiaro con un margine bianco, perché
+     le scritte piccole si leggano bene. */
+  .foglio {
+    padding: var(--kroma-spazio-1);
+    border: var(--kroma-linea-spessa) solid var(--kroma-linea);
+    background: var(--kroma-bianco);
+  }
+
+  /* Il dettaglio è un pezzo di schermo ingrandito: angoli tondi come gli
+     schermi, e il bordo del colore del testo, perché salti all'occhio. */
+  .dettaglio .foglio {
+    border-color: var(--kroma-testo-tenue);
+    border-radius: var(--kroma-app-raggio);
+  }
+
+  .foglio :global(img) {
     display: block;
     width: 100%;
     height: auto;
   }
 
-  /* Telefono: bordo spesso e l'altoparlante in alto, come nei riquadri. */
-  .telefono {
-    padding: var(--kroma-spazio-3) var(--kroma-spazio-1) var(--kroma-spazio-1);
+  figcaption {
+    display: grid;
+    gap: var(--kroma-spazio-1);
+    max-width: 60ch;
+    margin-top: var(--kroma-spazio-2);
+    color: var(--kroma-testo-tenue);
   }
 
-  .telefono::before {
-    content: '';
-    display: block;
-    width: var(--kroma-spazio-5);
-    height: var(--kroma-linea-spessa);
-    margin: 0 auto var(--kroma-spazio-2);
-    background: var(--kroma-bordo);
+  .ingrandisci {
+    justify-self: start;
+    color: var(--kroma-testo);
+    text-decoration-color: var(--kroma-arancione);
+    text-underline-offset: 0.2em;
   }
 
-  /* Computer: una barra sottile in alto, niente pallini finti. */
-  .computer {
-    padding: var(--kroma-spazio-2) var(--kroma-linea-spessa) var(--kroma-linea-spessa);
-  }
-
-  /* Documento: il foglio del PDF, chiaro, con un margine bianco. */
-  .documento {
-    padding: var(--kroma-spazio-1);
-    background: var(--kroma-bianco);
-    border-color: var(--kroma-linea);
+  .ingrandisci:hover {
+    color: var(--kroma-link);
   }
 </style>

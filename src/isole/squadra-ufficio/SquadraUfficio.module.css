@@ -231,30 +231,14 @@
 
 /* ---------------------------------------------------------- cornici */
 
-.cornice {
-  border: var(--kroma-linea-spessa) solid var(--kroma-bordo);
-  background: var(--kroma-nero);
-}
-
+/* Le sagome di iPhone e MacBook sono comuni a tutto il sito
+   (stili/dispositivi.css); qui solo misure e colori della barra di stato. */
 .corniceTelefono {
   justify-self: center;
-  width: 100%;
   max-width: calc(46 * var(--kroma-spazio-1));
-  padding: var(--kroma-spazio-3) var(--kroma-spazio-1) var(--kroma-spazio-2);
-}
-
-/* L'altoparlante in alto: basta questo a dire "telefono". */
-.corniceTelefono::before {
-  content: '';
-  display: block;
-  width: var(--kroma-spazio-5);
-  height: var(--kroma-linea-spessa);
-  margin: 0 auto var(--kroma-spazio-2);
-  background: var(--kroma-bordo);
-}
-
-.corniceUfficio {
-  padding: 0 var(--kroma-spazio-1) var(--kroma-spazio-1);
+  /* La barra di stato del telefono, scura come la barra dell'app. */
+  --iphone-stato: var(--kroma-app-testo);
+  --iphone-stato-testo: var(--kroma-app-superficie);
 }
 
 .barraFinestra {
@@ -534,7 +518,7 @@
   gap: var(--kroma-spazio-1);
 }
 
-@container schermo (min-width: 40rem) {
+@container schermo (min-width: 36rem) {
   .cruscotto {
     grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
     align-items: start;

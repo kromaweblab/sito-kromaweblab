@@ -36,10 +36,12 @@ export const passi: Passo[] = [
 /** Cosa sappiamo dire, con certezza, su come funziona un nostro gestionale. */
 export const fattiGestionale = {
   installazione:
-    "Non va installato niente: si apre dal browser, come un sito. Se vuoi, lo aggiungi alla schermata del telefono o al computer e si apre come un'app.",
-  dati: 'I dati stanno in un database, su un server sicuro, e si entra con nome utente e password. Il server lo acquisti tu, insieme al dominio: i dati restano tuoi.',
+    "Non va installato niente: si apre dal browser, come un sito. Se volete, lo aggiungete alla schermata del telefono o al computer e si apre come un'app.",
+  // Chi acquista server e dominio non è ancora deciso (Andrea, 11/10/2026):
+  // lo stesso punto su /siti è [DA DEFINIRE].
+  dati: 'I dati stanno in un database su un server sicuro, e si entra con nome utente e password. [DA DEFINIRE] chi acquista server e dominio, e a nome di chi.',
   formazione: 'Una prima formazione a chi lo userà è compresa.',
-  dopo: 'Dopo la consegna facciamo assistenza e modifiche, a pagamento.',
+  dopo: 'Dopo la consegna facciamo assistenza e modifiche, a pagamento: è la manutenzione.',
 };
 
 export interface Domanda {
@@ -48,17 +50,26 @@ export interface Domanda {
 }
 
 /**
- * Le domande frequenti di /gestionali. Stesso testo nella pagina e nei dati
- * strutturati per Google (FAQPage), così le due cose non possono divergere.
+ * Le domande frequenti di /gestionali, al voi. Stesso testo nella pagina e
+ * nei dati strutturati per Google (FAQPage), così le due cose non possono
+ * divergere.
  */
 export const domandeGestionali: Domanda[] = [
-  { domanda: 'Devo installare qualcosa?', risposta: fattiGestionale.installazione },
-  { domanda: 'Dove stanno i miei dati?', risposta: fattiGestionale.dati },
-  { domanda: 'Chi lo userà deve imparare da solo?', risposta: `No. ${fattiGestionale.formazione}` },
+  { domanda: 'Bisogna installare qualcosa?', risposta: fattiGestionale.installazione },
+  { domanda: 'Dove stanno i dati?', risposta: fattiGestionale.dati },
+  {
+    domanda: 'Chi lo userà deve imparare da solo?',
+    risposta: `No. ${fattiGestionale.formazione}`,
+  },
+  {
+    domanda: "Che differenza c'è tra l'app pronta e il gestionale su misura?",
+    risposta:
+      "L'app di prenotazione è quella che potete provare qui, preparata con il vostro nome, i vostri colori, il vostro logo, i vostri servizi e orari. Il gestionale su misura lo costruiamo da capo per la vostra attività, come servizio in più: le schermate, le regole e i collegamenti che vi servono.",
+  },
   { domanda: 'E dopo la consegna?', risposta: fattiGestionale.dopo },
   {
     domanda: 'Quanto costa?',
     risposta:
-      "Dipende da cosa ti serve: ogni gestionale è fatto per un'attività diversa. Te lo diciamo nella proposta, dopo il primo incontro.",
+      'Dipende da cosa vi serve: ogni attività è diversa. Ve lo diciamo nella proposta, dopo il primo incontro.',
   },
 ];

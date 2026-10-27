@@ -1,0 +1,332 @@
+---
+// Pagina /gestionali, il servizio principale (Andrea, 11/10/2026). In ordine:
+// apertura, cosa fanno, cosa possono tenere in ordine, la prova "dal
+// cliente all'attività", i due modi di averlo, il caso vero di Vivai
+// Cintoli, le domande frequenti. "Come lavoriamo" e la chiusura le
+// aggiunge la pagina, come in /siti.
+//
+// I testi di fatto vengono da src/dati (servizi, lavori, metodo); qui ci
+// sono l'impaginazione e le frasi di questa pagina sola.
+
+import Pulsante from '../componenti/Pulsante.astro';
+import RiquadroLavoro from '../componenti/RiquadroLavoro.astro';
+import { GestionaleDimostrativo } from '../isole/gestionale-dimostrativo/GestionaleDimostrativo';
+import { lavori as casi } from '../dati/lavori';
+import { domandeGestionali } from '../dati/metodo';
+import { lavori, offerta } from '../dati/servizi';
+
+const gestionali = offerta.find((o) => o.id === 'gestionali');
+const esempi = lavori.filter((l) => l.servizio !== 'siti');
+const vivai = casi.find((c) => c.id === 'vivai-cintoli');
+
+// I quattro punti di "offerta", spiegati. Fatti veri: le prime tre cose le
+// fa già l'app di Vivai Cintoli (appunti/vivai-schermate.md).
+const cosaFanno = [
+  {
+    titolo: "Si usa come un'app",
+    testo:
+      "Non va installato niente: si apre dal browser. Se volete, lo aggiungete alla schermata del telefono o al computer e si apre come un'app.",
+  },
+  {
+    titolo: 'Funziona anche senza rete',
+    testo:
+      'Sul campo la rete non sempre c’è: quello che si scrive resta sul telefono e parte da solo quando torna la connessione.',
+  },
+  {
+    titolo: 'Ognuno vede quello che gli serve',
+    testo:
+      "Chi lavora fuori vede i suoi lavori, l'ufficio vede tutto. Lo decidete voi, persona per persona.",
+  },
+  {
+    titolo: 'La prima formazione è compresa',
+    testo:
+      'Alla consegna mostriamo come si usa a chi lo userà, sul suo telefono e sul suo computer.',
+  },
+];
+---
+
+<div class="gestionali">
+  <header class="testa">
+    <h1>Gestionali e web app su misura</h1>
+    {gestionali && <p>{gestionali.frase}</p>}
+    <div class="azioni">
+      <Pulsante href="/contatti">Fissa un primo incontro</Pulsante>
+      <Pulsante href="#prova-titolo" variante="secondario">
+        Provatene uno
+      </Pulsante>
+    </div>
+  </header>
+
+  <section class="fanno" aria-labelledby="fanno-titolo">
+    <h2 id="fanno-titolo">Cosa fanno</h2>
+    <dl>
+      {cosaFanno.map((voce) => (
+        <div>
+          <dt>{voce.titolo}</dt>
+          <dd>{voce.testo}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <section class="ordine" aria-labelledby="ordine-titolo">
+    <h2 id="ordine-titolo">Cosa possono tenere in ordine</h2>
+    <ul>
+      {esempi.map((l) => (
+        <li>
+          <strong>{l.lavoro}</strong>
+          <span>{l.dettaglio}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="prova" aria-labelledby="prova-titolo">
+    <div class="testa-prova">
+      <h2 id="prova-titolo">Provatelo: dal cliente all'attività</h2>
+      <p>
+        Fate il cliente: prenotate dal telefono e guardate la richiesta arrivare al gestionale
+        dell'attività. Poi, dall'attività, confermatela.
+      </p>
+    </div>
+    {/* La data della build: la prova parte da lì, e nel browser passa a oggi. */}
+    <GestionaleDimostrativo client:visible oggi={Date.now()} />
+  </section>
+
+  <section class="modi" aria-labelledby="modi-titolo">
+    <h2 id="modi-titolo">Due modi di averlo</h2>
+    <div class="corpo-modi">
+      <ul>
+        <li>
+          <h3>Pronto, con il vostro nome</h3>
+          <p>
+            L'app di prenotazione che avete appena provato, con il vostro nome, i vostri colori e il
+            vostro logo, impostata con i vostri servizi e i vostri orari.
+          </p>
+        </li>
+        <li>
+          <h3>Tutto su misura</h3>
+          <p>
+            Come servizio in più, un gestionale costruito da capo per la vostra attività: le
+            schermate, le regole e i collegamenti che vi servono. È quello che abbiamo fatto per
+            Vivai Cintoli.
+          </p>
+        </li>
+      </ul>
+      <div>
+        <Pulsante href="/contatti">Fissa un primo incontro</Pulsante>
+      </div>
+    </div>
+  </section>
+
+  {vivai && (
+    <section class="caso" aria-labelledby="caso-titolo">
+      <h2 id="caso-titolo">Un gestionale vero</h2>
+      <RiquadroLavoro lavoro={vivai} disposizione="larga" />
+    </section>
+  )}
+
+  <section class="domande" aria-labelledby="domande-titolo">
+    <h2 id="domande-titolo">Domande frequenti</h2>
+    <div class="corpo-domande">
+      <dl>
+        {domandeGestionali.map((d) => (
+          <div>
+            <dt>{d.domanda}</dt>
+            <dd>{d.risposta}</dd>
+          </div>
+        ))}
+      </dl>
+      <div>
+        <Pulsante href="/manutenzione" variante="secondario">
+          Come funziona la manutenzione
+        </Pulsante>
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+  .gestionali {
+    display: grid;
+    gap: var(--kroma-spazio-10);
+    max-width: var(--kroma-larghezza);
+    margin: 0 auto;
+    padding: var(--kroma-spazio-6) var(--kroma-spazio-2) var(--kroma-spazio-8);
+  }
+
+  /* ---------- Apertura, come le pagine sorelle ---------- */
+
+  h1 {
+    max-width: 14ch;
+    margin: 0;
+    font-size: var(--kroma-testo-xxl);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 0.98;
+  }
+
+  .testa > p {
+    max-width: 50ch;
+    margin: var(--kroma-spazio-3) 0 0;
+    font-size: var(--kroma-testo-m);
+    color: var(--kroma-testo-tenue);
+  }
+
+  .azioni {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kroma-spazio-2);
+    margin-top: var(--kroma-spazio-4);
+  }
+
+  /* ---------- Sezioni: titolo a sinistra, contenuto a destra da computer ---------- */
+
+  section {
+    display: grid;
+    gap: var(--kroma-spazio-3);
+    padding-top: var(--kroma-spazio-4);
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  h2 {
+    margin: 0;
+    font-size: var(--kroma-testo-xl);
+  }
+
+  /* ---------- Cosa fanno ---------- */
+
+  .fanno dl {
+    display: grid;
+    gap: var(--kroma-spazio-4);
+    margin: 0;
+  }
+
+  .fanno dt,
+  .modi h3 {
+    margin: 0;
+    font-size: var(--kroma-testo-l);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .fanno dd,
+  .modi p {
+    max-width: 44ch;
+    margin: var(--kroma-spazio-1) 0 0;
+    color: var(--kroma-testo-tenue);
+  }
+
+  /* ---------- Cosa possono tenere in ordine ---------- */
+
+  .ordine ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .ordine li {
+    display: grid;
+    gap: var(--kroma-spazio-1);
+    padding: var(--kroma-spazio-2) 0;
+    border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .ordine strong {
+    font-size: var(--kroma-testo-l);
+    line-height: 1.2;
+  }
+
+  .ordine span {
+    color: var(--kroma-testo-tenue);
+  }
+
+  /* ---------- La prova: a tutta larghezza ---------- */
+
+  .testa-prova p {
+    max-width: 52ch;
+    margin: var(--kroma-spazio-2) 0 0;
+    font-size: var(--kroma-testo-m);
+    color: var(--kroma-testo-tenue);
+  }
+
+  /* ---------- Due modi ---------- */
+
+  .corpo-modi,
+  .corpo-domande {
+    display: grid;
+    gap: var(--kroma-spazio-4);
+  }
+
+  .modi ul {
+    display: grid;
+    gap: var(--kroma-spazio-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .modi li {
+    padding-top: var(--kroma-spazio-2);
+    border-top: var(--kroma-linea-spessa) solid var(--kroma-arancione);
+  }
+
+  /* ---------- Domande frequenti ---------- */
+
+  .domande dl {
+    display: grid;
+    margin: 0;
+    border-top: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .domande dl > div {
+    padding: var(--kroma-spazio-3) 0;
+    border-bottom: var(--kroma-linea-sottile) solid var(--kroma-linea);
+  }
+
+  .domande dt {
+    font-size: var(--kroma-testo-m);
+    font-weight: 600;
+  }
+
+  .domande dd {
+    max-width: 60ch;
+    margin: var(--kroma-spazio-1) 0 0;
+    color: var(--kroma-testo-tenue);
+  }
+
+  @media (min-width: 960px) {
+    .gestionali {
+      gap: var(--kroma-spazio-12);
+      padding: var(--kroma-spazio-10) var(--kroma-spazio-4) var(--kroma-spazio-10);
+    }
+
+    .fanno,
+    .ordine,
+    .modi,
+    .domande {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+      gap: var(--kroma-spazio-8);
+    }
+
+    .fanno dl {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--kroma-spazio-5) var(--kroma-spazio-6);
+    }
+
+    .ordine li {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+      align-items: baseline;
+    }
+
+    .modi ul {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--kroma-spazio-6);
+    }
+
+    .prova {
+      gap: var(--kroma-spazio-5);
+    }
+  }
+</style>

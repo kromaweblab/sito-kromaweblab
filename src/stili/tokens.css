@@ -66,6 +66,16 @@
   --kroma-app-raggio: 8px;
 
   /*
+   * Il colore di partenza dell'app della prova "dal cliente all'attività"
+   * su /gestionali (11/10/2026, Andrea): il visitatore poi ne sceglie uno
+   * qualsiasi, e il testo sopra e le scritte colorate si calcolano da soli
+   * perché restino leggibili (logica.ts). Testo bianco sopra: 6,7:1.
+   * Lo stesso valore sta in logica.ts (colorePredefinito): un test controlla
+   * che siano uguali.
+   */
+  --kroma-app-tema: #1d4ed8;
+
+  /*
    * Officina (scelta del 03/10/2026): il sito è scuro. Contrasti sul fondo
    * --kroma-notte: testo 15:1, testo tenue 7,5:1, arancione 5,3:1,
    * verde 6,8:1, giallo 11:1.

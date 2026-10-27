@@ -1,6 +1,6 @@
 ---
-// Riquadro di un lavoro: la schermata nella sua cornice (telefono per le
-// app, browser per i siti), il logo, cosa è, una descrizione, i fatti veri e
+// Riquadro di un lavoro: la schermata in un iPhone 17 (per i siti con la
+// barra dell'indirizzo in cima), il logo, cosa è, una descrizione, i fatti veri e
 // il pulsante verso il caso completo. Lo usano la home e /lavori.
 //
 // Due disposizioni, perché i riquadri non devono sembrare tutti uguali:
@@ -27,20 +27,26 @@ const idTitolo = `lavoro-${lavoro.id}`;
 
 <article class:list={['riquadro', disposizione, lavoro.cornice]} aria-labelledby={idTitolo}>
   <div class="cornice" aria-hidden={lavoro.schermata ? undefined : 'true'}>
-    {lavoro.cornice === 'browser' && (
-      <p class="barra">{lavoro.indirizzo ?? `${DA_SCRIVERE} indirizzo`}</p>
-    )}
-    <div class="schermo">
-      {lavoro.schermata ? (
-        <Image
-          src={lavoro.schermata}
-          alt={`Schermata di ${lavoro.nome}`}
-          width={lavoro.cornice === 'telefono' ? 320 : 640}
-          densities={[1, 2]}
-        />
-      ) : (
-        <p class="segnaposto">{segnapostoSchermata(lavoro)}</p>
-      )}
+    {/* Sempre un iPhone 17 (scelta di Andrea, 11/10/2026): per i siti, la
+        barra dell'indirizzo sta in cima, come nel browser del telefono. */}
+    <div class="iphone">
+      <div class="iphone-schermo">
+        <div class="iphone-contenuto schermo">
+          {lavoro.cornice === 'browser' && (
+            <p class="barra">{lavoro.indirizzo ?? `${DA_SCRIVERE} indirizzo`}</p>
+          )}
+          {lavoro.schermata ? (
+            <Image
+              src={lavoro.schermata}
+              alt={`Schermata di ${lavoro.nome}`}
+              width={320}
+              densities={[1, 2]}
+            />
+          ) : (
+            <p class="segnaposto">{segnapostoSchermata(lavoro)}</p>
+          )}
+        </div>
+      </div>
     </div>
   </div>
 
@@ -79,54 +85,33 @@ const idTitolo = `lavoro-${lavoro.id}`;
 
   /* ---------- Le cornici ---------- */
 
+  /* La sagoma dell'iPhone sta in stili/dispositivi.css, uguale in tutto il
+     sito. Stretta e centrata, così da telefono non occupa tutto lo schermo. */
   .cornice {
     display: grid;
-    background: var(--kroma-fondo);
-    border: var(--kroma-linea-spessa) solid var(--kroma-bordo);
-  }
-
-  /* Telefono: in piedi, con l'altoparlante in alto. Stretto e centrato,
-     così da telefono non occupa tutto lo schermo. */
-  .telefono .cornice {
     justify-self: center;
-    /* Da telefono più stretto: altrimenti la cornice riempie lo schermo. */
     width: min(64%, calc(4 * var(--kroma-spazio-8)));
-    padding: var(--kroma-spazio-3) var(--kroma-spazio-1) var(--kroma-spazio-2);
   }
 
-  .telefono .cornice::before {
-    content: '';
-    justify-self: center;
-    width: var(--kroma-spazio-5);
-    height: var(--kroma-linea-spessa);
-    margin-bottom: var(--kroma-spazio-1);
-    background: var(--kroma-bordo);
+  /* Siti: la barra in cima, il sito sotto. */
+  .browser .schermo {
+    grid-template-rows: auto minmax(0, 1fr);
   }
 
-  .telefono .schermo {
-    aspect-ratio: 9 / 16;
-  }
-
-  /* Con la schermata vera il telefono prende le sue proporzioni: si vede
-     tutta, senza tagli. */
-  .telefono .schermo:has(img) {
-    aspect-ratio: auto;
-  }
-
-  /* Browser: la barra porta l'indirizzo vero del sito, non tre pallini. */
+  /* La barra porta l'indirizzo vero del sito, non tre pallini. */
   .barra {
+    align-self: start;
+    width: 100%;
     margin: 0;
     padding: var(--kroma-spazio-1) var(--kroma-spazio-2);
     border-bottom: var(--kroma-linea-sottile) solid var(--kroma-bordo);
+    background: var(--kroma-notte-superficie);
     font-size: var(--kroma-testo-s);
+    text-align: center;
     color: var(--kroma-testo-tenue);
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-  }
-
-  .browser .schermo {
-    aspect-ratio: 16 / 10;
   }
 
   .schermo {
@@ -143,7 +128,9 @@ const idTitolo = `lavoro-${lavoro.id}`;
     object-position: top;
   }
 
+  /* Il segnaposto sta al centro dello schermo: non si allunga come un'app. */
   .segnaposto {
+    min-height: auto;
     max-width: 24ch;
     margin: 0;
     padding: var(--kroma-spazio-2);
@@ -229,7 +216,7 @@ const idTitolo = `lavoro-${lavoro.id}`;
 
     /* Nella disposizione larga il telefono sta a sinistra, più alto del
        testo: è la cosa da guardare. */
-    .larga.telefono .cornice {
+    .larga .cornice {
       width: min(100%, calc(4 * var(--kroma-spazio-8)));
     }
 

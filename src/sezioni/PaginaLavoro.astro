@@ -5,8 +5,8 @@
 //   2. com'è nata, se c'è una storia da raccontare;
 //   3. com'era prima / cosa abbiamo fatto, affiancati da computer;
 //   4. come si usa oggi: se ci sono le schermate, una giornata con l'app
-//      momento per momento (Vivai); altrimenti la cornice del browser con
-//      la schermata del sito (segnaposto finché non c'è);
+//      momento per momento (Vivai); altrimenti il sito in un iPhone, con
+//      la barra dell'indirizzo (segnaposto finché non c'è);
 //   5. le scelte fatte per chi la usa, se ci sono;
 //   6. gli altri lavori, nei riquadri stretti della home.
 // La chiusura la aggiunge la pagina. I testi stanno in src/dati/lavori.ts
@@ -102,19 +102,25 @@ const disposizione = (schermate: { cornice: string }[]) =>
         ))}
       </ol>
     ) : (
+      // Il sito nel browser di un iPhone 17, come nei riquadri: l'indirizzo
+      // vero nella barra in cima.
       <div class="browser" aria-hidden={lavoro.schermata ? undefined : 'true'}>
-        <p class="barra">{lavoro.indirizzo ?? `${DA_SCRIVERE} indirizzo`}</p>
-        <div class="schermo">
-          {lavoro.schermata ? (
-            <Image
-              src={lavoro.schermata}
-              alt={`Il sito di ${lavoro.nome}`}
-              width={1100}
-              densities={[1, 2]}
-            />
-          ) : (
-            <p class="segnaposto">{segnapostoSchermata(lavoro)}</p>
-          )}
+        <div class="iphone">
+          <div class="iphone-schermo">
+            <div class="iphone-contenuto schermo">
+              <p class="barra">{lavoro.indirizzo ?? `${DA_SCRIVERE} indirizzo`}</p>
+              {lavoro.schermata ? (
+                <Image
+                  src={lavoro.schermata}
+                  alt={`Il sito di ${lavoro.nome}`}
+                  width={360}
+                  densities={[1, 2]}
+                />
+              ) : (
+                <p class="segnaposto">{segnapostoSchermata(lavoro)}</p>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     )}
@@ -286,24 +292,32 @@ const disposizione = (schermate: { cornice: string }[]) =>
     color: var(--kroma-testo-tenue);
   }
 
-  /* La cornice del browser, come nei riquadri: l'indirizzo vero nella barra. */
+  /* Il sito in un iPhone 17 (stili/dispositivi.css), come nei riquadri:
+     l'indirizzo vero nella barra in cima. */
   .browser {
-    border: var(--kroma-linea-spessa) solid var(--kroma-bordo);
-    background: var(--kroma-fondo);
+    justify-self: center;
+    width: min(100%, calc(45 * var(--kroma-spazio-1)));
+    margin-top: var(--kroma-spazio-3);
   }
 
   .barra {
+    width: 100%;
     margin: 0;
     padding: var(--kroma-spazio-1) var(--kroma-spazio-2);
     border-bottom: var(--kroma-linea-sottile) solid var(--kroma-bordo);
+    background: var(--kroma-notte-superficie);
     font-size: var(--kroma-testo-s);
+    text-align: center;
     color: var(--kroma-testo-tenue);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   .schermo {
     display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
     place-items: center;
-    aspect-ratio: 16 / 9;
     overflow: hidden;
     background: var(--kroma-superficie);
   }
@@ -315,7 +329,9 @@ const disposizione = (schermate: { cornice: string }[]) =>
     object-position: top;
   }
 
+  /* Il segnaposto sta al centro dello schermo: non si allunga come un'app. */
   .segnaposto {
+    min-height: auto;
     margin: 0;
     padding: var(--kroma-spazio-2);
     font-size: var(--kroma-testo-s);
