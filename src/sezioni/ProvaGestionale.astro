@@ -20,6 +20,10 @@ import TitoloSezione from '../componenti/TitoloSezione.astro';
       Fate l'operatore: mandate un rapporto dal telefono e guardate cosa succede in ufficio. Poi,
       dall'ufficio, mandate un lavoro al telefono.
     </p>
+    <p class="altra-prova">
+      È la prova per chi lavora con una squadra. Se ricevete clienti su prenotazione, provate{' '}
+      <a href="/gestionali#prova-titolo">dal cliente all'attività</a>.
+    </p>
   </div>
   <slot />
 </section>
@@ -34,6 +38,19 @@ import TitoloSezione from '../componenti/TitoloSezione.astro';
 
   .testa {
     margin-bottom: var(--kroma-spazio-5);
+  }
+
+  /* Il rimando all'altra prova: due prove, due tipi di attività. */
+  .altra-prova a {
+    color: var(--kroma-testo);
+    text-decoration-color: var(--kroma-arancione);
+    text-decoration-thickness: var(--kroma-linea-spessa);
+    text-underline-offset: 0.25em;
+    transition: color var(--kroma-durata) var(--kroma-curva);
+  }
+
+  .altra-prova a:hover {
+    color: var(--kroma-link);
   }
 
   .testa p {

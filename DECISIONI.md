@@ -965,3 +965,22 @@ capiva (una striscia larghissima in un MacBook): ora è un dettaglio
 ritagliato e ingrandito della colonna "Dipendenti" (`programma-dipendenti.png`,
 dalla schermata di Giovanni) e il PDF, ognuno con una didascalia e il
 collegamento all'immagine intera.
+
+## 2026-10-27 — /gestionali: le tre scelte di Giovanni sul lavoro di Andrea
+
+Unita la PR #50 di Andrea (`/gestionali` e la prova "dal cliente
+all'attività"). Sulle tre questioni aperte Giovanni ha deciso:
+
+1. **App di prenotazione pronta in primo piano**, il gestionale tutto su
+   misura come servizio in più: va bene come l'ha fatta Andrea.
+2. **Sagome iPhone 17 e MacBook Air su tutto il sito**, anche nelle parti di
+   Giovanni (riquadri dei lavori, schermate di Vivai, prova in home): si
+   tengono.
+3. **Tutte e due le prove, con i ruoli chiari**: in home "dal campo
+   all'ufficio" per chi lavora con una squadra, su `/gestionali` "dal cliente
+   all'attività" per chi riceve clienti su prenotazione. Sotto la frase
+   d'apertura di ognuna, una riga rimanda all'altra.
+
+**Da fare dopo:** controllare che home e `/servizi` parlino anche dell'app
+pronta, oggi nominata solo su `/gestionali` (proposte a Giovanni prima di
+cambiare i testi).

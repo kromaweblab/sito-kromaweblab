@@ -88,6 +88,10 @@ const cosaFanno = [
         Fate il cliente: prenotate dal telefono e guardate la richiesta arrivare al gestionale
         dell'attività. Poi, dall'attività, confermatela.
       </p>
+      <p class="altra-prova">
+        È la prova per chi riceve clienti su prenotazione. Se lavorate con una squadra, tra cantieri
+        e ufficio, provate <a href="/#prova-titolo">dal campo all'ufficio</a>.
+      </p>
     </div>
     {/* La data della build: la prova parte da lì, e nel browser passa a oggi. */}
     <GestionaleDimostrativo client:visible oggi={Date.now()} />
@@ -249,6 +253,19 @@ const cosaFanno = [
     margin: var(--kroma-spazio-2) 0 0;
     font-size: var(--kroma-testo-m);
     color: var(--kroma-testo-tenue);
+  }
+
+  /* Il rimando all'altra prova: due prove, due tipi di attività. */
+  .altra-prova a {
+    color: var(--kroma-testo);
+    text-decoration-color: var(--kroma-arancione);
+    text-decoration-thickness: var(--kroma-linea-spessa);
+    text-underline-offset: 0.25em;
+    transition: color var(--kroma-durata) var(--kroma-curva);
+  }
+
+  .altra-prova a:hover {
+    color: var(--kroma-link);
   }
 
   /* ---------- Due modi ---------- */
